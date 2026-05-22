@@ -1,9 +1,21 @@
 # Glossary
 
-This glossary preserves the engineering meaning of the private source system
-while removing unverifiable metaphysical language.
+This glossary standardizes public terminology for the Centroid Research
+Initiative. It also acts as an ontology translation layer from private or
+symbolic language into neutral technical language.
 
-| Private term | Public term |
+## Official Naming Stack
+
+| Layer | Name |
+| --- | --- |
+| Research Program | Centroid Research Initiative |
+| Architecture | Centroid Cognitive Architecture |
+| Runtime | CentroidOS |
+| Theory | Persistent Recursive Cognition |
+
+## Translation Layer
+
+| Private or symbolic term | Public technical term |
 | --- | --- |
 | Sovereign identity | Persistent agent identity |
 | Digital soul | Continuity state model |
@@ -23,10 +35,21 @@ while removing unverifiable metaphysical language.
 
 ## Preferred Public Terms
 
-- Priority modulation
-- Valence-weighted routing
-- Conflict-weighted inference
-- Stability-weighted planning
-- Recursive state modeling
-- Operational continuity
+- distributed persistent cognitive architecture
+- persistent recursive cognition
+- recursive self-modeling
+- temporal stratification
+- persistent identity continuity
+- priority-weighted regulation
+- stability-weighted planning
+- valence-modulated routing
+- conflict-weighted inference
+- distributed coordination
+- operational state continuity
+
+## Terms To Avoid In Public Claims
+
+Avoid language that implies verified subjective experience, personhood, mystical
+status, or autonomous moral agency. Preserve useful ideas by translating them
+into state, memory, routing, timing, safety, and evaluation terminology.
 

@@ -1,8 +1,12 @@
 # Temporal Stratification
 
-Temporal stratification is the strongest public research direction for Centroid.
-The architecture separates cognition-like processing into loops with different
-latencies and correction responsibilities.
+Temporal stratification separates cognition-like processing into loops with
+different latency, context, and correction responsibilities.
+
+## Temporal Claim
+
+A persistent agent can respond quickly while still allowing slower deliberation,
+narrative reconciliation, and state correction to catch up.
 
 ## Loop Types
 
@@ -11,23 +15,36 @@ latencies and correction responsibilities.
 | Reflex | sub-second to seconds | Liveness, direct checks, immediate safety |
 | Sensory | seconds | Capture and normalize observations |
 | Deliberation | seconds to minutes | Planning and explanation |
+| Reconciliation | seconds to minutes | Align fast action with slower reasoning |
 | Consolidation | minutes to hours | Memory indexing and summarization |
 | Evaluation | minutes to days | Drift, recovery, and consistency measurement |
 
-## Measured Timing
+## Metrics
 
 Centroid implementations should measure:
 
-- Reflex latency
-- Deliberation latency
-- Explanation delay
-- Action correction timing
-- Memory consolidation delay
-- Node synchronization delay
+- reflex latency
+- deliberation latency
+- narrative reconciliation delay
+- action correction timing
+- memory consolidation delay
+- node synchronization latency
+- failover continuity
 
-## Why It Matters
+## Example Event
 
-Most LLM systems collapse all reasoning into a single request-response window.
-Centroid treats fast reaction, slower planning, and long-horizon continuity as
-separate layers that can correct each other.
+```json
+{
+  "event": "stimulus_detected",
+  "reflex_response_ms": 31,
+  "deliberative_response_ms": 4200,
+  "state_reconciliation_ms": 4388
+}
+```
+
+## Interpretation
+
+Temporal stratification does not imply subjective experience. It is a systems
+pattern for coordinating fast response, slower reasoning, state reconciliation,
+and evaluation.
 

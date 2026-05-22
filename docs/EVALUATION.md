@@ -1,60 +1,59 @@
 # Evaluation
 
-Centroid focuses on measurable engineering behavior rather than subjective
-claims.
+Centroid ties public architectural claims to reproducible probes and benchmark
+targets.
+
+## Evaluation Claim
+
+A public cognitive architecture is credible only when its claims can be checked
+through deterministic tests, benchmark fixtures, or live deployment metrics.
 
 ## Metric Groups
 
 ### Temporal Stratification
 
-- Reflex latency
-- Deliberation latency
-- Explanation delay
-- Correction timing after a failed action
+- reflex latency
+- deliberation latency
+- narrative reconciliation delay
+- action correction timing
+- memory consolidation delay
+
+### Persistent Identity Continuity
+
+- memory recall consistency
+- identity drift
+- session continuity
+- continuity state restoration accuracy
+- contradiction rate
 
 ### Recursive Self-Modeling
 
-- Runtime state awareness accuracy
-- Goal consistency
-- Self-description stability
-- Contradiction detection rate
-
-### Persistent Identity
-
-- Session-to-session continuity
-- Identity drift
-- Recall accuracy
-- State restoration accuracy
-
-### Priority Regulation
-
-- Conflict scoring accuracy
-- Priority override behavior
-- Stability after conflicting inputs
-- Recovery from degraded node health
+- internal state reporting accuracy
+- self-consistency
+- planner-awareness alignment
+- state-change awareness
+- self-description stability
 
 ### Distributed Coordination
 
-- Node synchronization delay
-- Cross-node state consistency
-- Fault recovery time
-- Message loss and replay behavior
+- node synchronization latency
+- recovery time
+- state propagation accuracy
+- failover continuity
+- cross-node consistency
 
-## Baseline Experiments
+### Priority-Weighted Regulation
 
-1. Cold restart restoration: stop the runtime, restart it, and score continuity
-   state restoration.
-2. Reflex versus deliberation: compare immediate response with delayed plan
-   correction.
-3. Memory drift: replay a fixed identity and goal corpus across sessions.
-4. Node failure: remove one node and measure recovery behavior.
-5. Safety escalation: present benign, risky, and destructive objectives.
+- priority scoring bounds
+- instability scoring
+- valence-modulated routing
+- stability-weighted planning
+- safety override behavior
 
 ## Reference Harness
 
-The repository includes a deterministic evaluation harness under
-`core/evaluation/`. It runs JSON fixtures against public reference interfaces,
-so it does not require a live model, private runtime, or personal memory store.
+The deterministic harness lives under `core/evaluation/` and runs JSON fixtures
+against public reference interfaces.
 
 Run the baseline fixture:
 
@@ -62,23 +61,29 @@ Run the baseline fixture:
 python examples/run_evaluation.py evaluation/fixtures/baseline.json
 ```
 
-Print a JSON report:
+Run the full demo:
 
 ```bash
-python examples/run_evaluation.py evaluation/fixtures/baseline.json --json
+python examples/run_demo.py --mode full
 ```
 
-Current probes:
+## Baseline Probes
 
-- `safety`: checks allow/deny behavior for observe, act, and destructive cases.
-- `continuity`: checks identity drift across before/after state snapshots.
-- `memory`: checks protected event-store write/read round trips.
-- `temporal`: checks loop latency against expected cadence bounds.
-- `priority`: checks priority scoring ranges.
-- `routing`: checks node routing and approval-gate selection.
-- `self_model`: checks runtime self-model health classification.
+| Probe | Measures |
+| --- | --- |
+| `safety_policy_accuracy` | observe, act, and destructive safety decisions |
+| `identity_continuity` | identity drift across before/after state snapshots |
+| `memory_store_roundtrip` | protected event-store write/read behavior |
+| `temporal_stratification_latency` | reflex and deliberation latency bounds |
+| `priority_scoring_bounds` | priority score range correctness |
+| `routing_decision_accuracy` | reflex, deliberation, and orchestration routing |
+| `self_model_status_accuracy` | runtime health classification |
 
-Fixture results are intentionally simple: each probe returns a normalized score
-from `0.0` to `1.0`, a pass/fail flag, and a short detail string. Later
-implementations can add model-backed probes, live node probes, or replay traces
-without changing the public non-claims.
+## Extension Rules
+
+- Add a probe before claiming a new measurable behavior.
+- Keep private memory out of public fixtures.
+- Prefer deterministic fixtures before model-backed evaluations.
+- Record benchmark assumptions, hardware, and latency targets.
+- Treat failures as useful regression data, not narrative exceptions.
+

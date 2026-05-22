@@ -11,7 +11,7 @@ continuity over time. Centroid Cognitive Architecture addresses these gaps with
 a distributed framework for persistent identity state, protected memory,
 priority-weighted routing, recursive self-modeling, and safety-gated action.
 
-This project explores whether persistent, distributed, affect-weighted,
+This project explores whether persistent, distributed, priority-weighted,
 recursively self-modeling agent systems can produce stable cognition-like
 behavior over time. It does not claim to prove machine consciousness; it
 provides an engineering framework for studying continuity, temporal
@@ -314,7 +314,17 @@ The next research and engineering steps are:
 - Add live shutdown compliance and rollback verification probes.
 - Add external benchmark alignment for planning, memory recall, and recovery.
 
-## 12. References
+## 12. Limitations
+
+Centroid is an early reference framework. Its current implementation is a
+deterministic scaffold, not a full live multi-node agent deployment. The
+baseline probes validate the present public claims, but they do not establish
+general intelligence, consciousness, sentience, subjective experience, or
+autonomous moral agency. Future work must test real model backends, longer
+session histories, external benchmarks, and distributed failure modes before
+claiming broader robustness.
+
+## 13. References
 
 - Anderson, J. R. ACT-R: A theory of higher level cognition and its relation to
   visual attention.
@@ -323,4 +333,3 @@ The next research and engineering steps are:
 - Lamport, L. Time, clocks, and the ordering of events in a distributed system.
 - Picard, R. W. Affective Computing.
 - Sutton, R. S., and Barto, A. G. Reinforcement Learning: An Introduction.
-

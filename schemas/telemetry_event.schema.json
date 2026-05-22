@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Jdogg9/centroid-cognitive-architecture/schemas/telemetry_event.schema.json",
+  "title": "Centroid Telemetry Event",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["event_id", "timestamp", "node_id", "metric_name", "value", "unit"],
+  "properties": {
+    "event_id": {"type": "string", "minLength": 1},
+    "timestamp": {"type": "string", "format": "date-time"},
+    "node_id": {"type": "string", "minLength": 1},
+    "metric_name": {
+      "type": "string",
+      "enum": [
+        "reflex_latency_ms",
+        "deliberation_latency_ms",
+        "narrative_reconciliation_delay_ms",
+        "action_correction_timing_ms",
+        "memory_recall_consistency",
+        "identity_drift",
+        "contradiction_detection_rate",
+        "node_sync_latency_ms",
+        "failover_continuity",
+        "stability_weighted_planning"
+      ]
+    },
+    "value": {"type": "number"},
+    "unit": {"type": "string", "minLength": 1},
+    "labels": {
+      "type": "object",
+      "additionalProperties": {"type": "string"}
+    }
+  }
+}
+

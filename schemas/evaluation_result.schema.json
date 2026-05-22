@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Jdogg9/centroid-cognitive-architecture/schemas/evaluation_result.schema.json",
+  "title": "Centroid Evaluation Result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["suite_name", "score", "passed", "results"],
+  "properties": {
+    "suite_name": {"type": "string", "minLength": 1},
+    "score": {"type": "number", "minimum": 0.0, "maximum": 1.0},
+    "passed": {"type": "boolean"},
+    "results": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "score", "passed", "details"],
+        "properties": {
+          "name": {"type": "string", "minLength": 1},
+          "score": {"type": "number", "minimum": 0.0, "maximum": 1.0},
+          "passed": {"type": "boolean"},
+          "details": {"type": "string"}
+        }
+      }
+    }
+  }
+}
+

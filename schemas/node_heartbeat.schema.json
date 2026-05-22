@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Jdogg9/centroid-cognitive-architecture/schemas/node_heartbeat.schema.json",
+  "title": "Centroid Node Heartbeat",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["node_id", "timestamp", "node_role", "status", "sequence"],
+  "properties": {
+    "node_id": {"type": "string", "minLength": 1},
+    "timestamp": {"type": "string", "format": "date-time"},
+    "node_role": {
+      "type": "string",
+      "enum": [
+        "reflex_node",
+        "deliberation_node",
+        "memory_node",
+        "sensory_node",
+        "orchestration_node",
+        "telemetry_node"
+      ]
+    },
+    "status": {"type": "string", "enum": ["healthy", "degraded", "critical"]},
+    "sequence": {"type": "integer", "minimum": 0},
+    "latency_ms": {"type": "number", "minimum": 0},
+    "capabilities": {
+      "type": "array",
+      "items": {"type": "string"}
+    }
+  }
+}
+

@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Jdogg9/centroid-cognitive-architecture/schemas/message_event.schema.json",
+  "title": "Centroid Message Event",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "message_id",
+    "timestamp",
+    "source_node",
+    "intent",
+    "priority",
+    "state_refs",
+    "requires_approval",
+    "audit_reason"
+  ],
+  "properties": {
+    "message_id": {"type": "string", "minLength": 1},
+    "timestamp": {"type": "string", "format": "date-time"},
+    "source_node": {"type": "string", "minLength": 1},
+    "target_node": {"type": "string"},
+    "intent": {"type": "string", "minLength": 1},
+    "priority": {"type": "number", "minimum": 0.0, "maximum": 1.0},
+    "state_refs": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "requires_approval": {"type": "boolean"},
+    "audit_reason": {"type": "string", "minLength": 1},
+    "payload": {"type": "object"}
+  }
+}
+

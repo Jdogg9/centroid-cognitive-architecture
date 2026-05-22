@@ -1,7 +1,7 @@
-# Affect Compatibility Slot
+# Priority Regulation Compatibility Slot
 
-The private source system used more affective language. Public Centroid docs use
-`core/priority` for the same engineering function:
+The private-origin system used broader regulation language. Public Centroid docs
+use priority-weighted regulation for the same engineering function:
 
 - Priority modulation
 - Valence-weighted routing
@@ -9,4 +9,3 @@ The private source system used more affective language. Public Centroid docs use
 - Stability-weighted planning
 
 Use `core/priority` for new code.
-

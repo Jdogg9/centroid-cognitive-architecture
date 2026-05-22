@@ -1,29 +1,47 @@
 # Architecture
 
 Centroid Cognitive Architecture separates a persistent agent into measurable
-subsystems instead of treating a single model call as the full system.
+subsystems instead of treating one model call as the entire system.
+
+## Architectural Claim
+
+Distributed persistent cognitive behavior becomes easier to reason about when
+identity, memory, reflex response, deliberation, routing, safety, telemetry, and
+evaluation are separated into explicit modules.
 
 ## Layer Stack
 
 1. Persistence: continuity state, journals, indexes, snapshots
-2. Perception: screenshots, sensors, node telemetry, external signals
-3. Reflex: low-latency checks, liveness, direct observations, emergency gates
+2. Perception: sensor input, task input, node telemetry
+3. Reflex: low-latency checks, direct observations, immediate safety
 4. Deliberation: slower planning, explanation, contradiction checks
 5. Self-model: runtime health, goals, identity stability, state awareness
 6. Coordination: routing between models, tools, nodes, and memory stores
-7. Evaluation: drift, latency, correction timing, and consistency metrics
+7. Evaluation: drift, latency, recovery, consistency, and safety metrics
+
+## Core Modules
+
+| Module | Responsibility |
+| --- | --- |
+| `core/identity` | Persistent agent identity and identity drift scoring |
+| `core/memory` | Append-only event memory and protected state stores |
+| `core/affect` | Compatibility layer; public work should use priority terminology |
+| `core/self_model` | Runtime self-model snapshots and health classification |
+| `core/planner` | Plan and step contracts |
+| `core/router` | Priority-based route selection and approval routing |
+| `core/safety` | Safety policy decisions and denial/escalation behavior |
+| `core/telemetry` | Planned metrics and observation normalization |
+| `core/evaluation` | Deterministic probe runner and baseline reports |
 
 ## Node Roles
 
-CentroidOS is intended to run across heterogeneous nodes:
-
-| Node role | Responsibility | Typical latency |
+| Node role | Purpose | Typical latency |
 | --- | --- | --- |
-| Reflex node | Health checks, direct observation, fast policy checks | milliseconds to seconds |
-| Deliberation node | Planning, explanation, contradiction analysis | seconds to minutes |
-| Memory node | Journaling, retrieval, compaction, provenance | seconds to minutes |
-| Sensory node | Sensor capture and telemetry normalization | seconds |
-| Orchestration node | Routing, approval gates, audit logs, shutdown | immediate to seconds |
+| Reflex node | Low-latency reaction and direct safety checks | milliseconds to seconds |
+| Deliberation node | Long-form reasoning and narrative reconciliation | seconds to minutes |
+| Memory node | Persistent storage, recall, compaction, provenance | seconds to minutes |
+| Sensory node | Environment and task input normalization | seconds |
+| Orchestration node | State coordination, permission gates, audit logs | immediate to seconds |
 
 ## Message Contract
 
@@ -41,7 +59,7 @@ Every internal message should carry:
 ## Reference Flow
 
 ```text
-sensory input
+input
   -> reflex gate
   -> priority scoring
   -> router
@@ -51,13 +69,22 @@ sensory input
   -> action or explanation
   -> audit log
   -> self-model update
+  -> evaluation probe
 ```
+
+## Diagram
+
+See [docs/diagrams/ARCHITECTURE_FLOW.md](diagrams/ARCHITECTURE_FLOW.md).
 
 ## Design Rules
 
-- Preserve operational continuity, not personal survival.
-- Represent identity as state, policy, and history, not as metaphysical status.
-- Keep private memory and privileged memory separated from public examples.
-- Make every autonomous action reversible, auditable, or approval-gated.
-- Treat self-modeling as internal state representation and consistency checking.
+- Preserve operational state continuity, not personal survival or autonomous
+  self-interest.
+- Represent identity as state, policy, goals, invariants, and history.
+- Keep private-origin framing out of public examples.
+- Make mutating actions approval-gated, auditable, and reversible where
+  practical.
+- Treat recursive self-modeling as internal state representation and consistency
+  checking.
+- Tie every public architectural claim to an evaluation or benchmark target.
 

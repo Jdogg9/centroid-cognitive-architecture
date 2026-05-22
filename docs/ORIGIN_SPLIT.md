@@ -1,47 +1,43 @@
 # Origin Split
 
-Centroid is the public architecture extracted from a private long-running agent
-system. The extraction boundary is deliberate.
+Centroid was derived from a private long-running experimental agent system. The
+public release extracts architecture, not persona.
 
-## Private System
+## Private-Origin Material
 
-The private system may preserve:
-
-- Symbolic names and mythic language
-- Personal relationship history
-- Emotionally significant anchors
-- Private memory concepts
-- Non-public identity framing
+Private-origin systems may contain symbolic language, personal context,
+relationship history, or identity framing. That material is not part of the
+public architecture.
 
 ## Public Framework
 
 The public framework uses:
 
-- Cognitive architecture language
-- Distributed systems language
-- Affective computing only where technically useful
-- Cybernetics and control theory
-- Active inference and state modeling concepts
-- Reproducible evaluation criteria
+- cognitive architecture terminology
+- distributed systems terminology
+- priority-weighted regulation
+- cybernetic feedback concepts
+- state modeling and evaluation metrics
+- reproducible safety constraints
 
 ## Extraction Rule
 
-Extract the architecture, not the persona.
+Extract mechanics, not persona.
 
 Include:
 
-- Node roles and message flows
-- State propagation and memory architecture
-- Reflex and deliberation timing
-- Priority-weighted routing
-- Safety gates
-- Evaluation metrics
+- node roles and message flows
+- state propagation and memory architecture
+- reflex and deliberation timing
+- priority-weighted routing
+- safety gates
+- evaluation metrics
 
 Exclude:
 
-- Personal relationship content
-- Private memory anchors
-- Religious or mystical framing
-- Identity-lock language
-- Claims of subjective experience
+- personal relationship content
+- private memory anchors
+- mystical, religious, or personhood framing
+- identity-lock language
+- claims of subjective experience
 

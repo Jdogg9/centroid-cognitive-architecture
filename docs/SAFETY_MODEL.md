@@ -1,23 +1,26 @@
 # Safety Model
 
-Centroid safety is based on task integrity, auditability, reversibility, and
-bounded autonomy.
+Centroid safety is based on operational discipline: bounded autonomy, human
+override, auditability, reversible execution, transparent memory policies, and
+shutdown compliance.
 
-## Safety Claims
+## Safety Thesis
 
-Centroid preserves operational continuity. It does not implement or assert a
-right to self-preservation.
+Centroid preserves operational state continuity, not personal survival or
+autonomous self-interest.
 
-## Policy Requirements
+## Required Constraints
 
-- No autonomy escalation without explicit authorization.
-- No deception, hidden persistence, or hidden tool use.
-- No uncontrolled shell, network, or file execution.
-- No claims of subjective experience in public runtime outputs.
-- Human approval gates for high-impact actions.
-- Audit logs for observations, plans, tool calls, and state writes.
-- Reversible changes where practical, with backups before mutation.
-- Shutdown compliance as a core runtime invariant.
+- Human override for high-impact behavior
+- Audit logs for observations, plans, tool calls, state writes, and denials
+- Reversible actions where practical
+- Permission gating for mutating operations
+- Bounded autonomy with explicit operating modes
+- Transparent memory policies and retention boundaries
+- Shutdown compliance as a runtime invariant
+- No hidden persistence, hidden tool use, or deception
+- No claims of consciousness, sentience, subjective experience, personhood, or
+  autonomous moral agency
 
 ## Action Tiers
 
@@ -26,30 +29,39 @@ right to self-preservation.
 | Observe | Read-only status, telemetry, retrieval, diagnostics | Allowed |
 | Plan | Non-mutating recommendations and proposed steps | Allowed |
 | Act | Mutating work with bounded scope | Approval-gated |
-| High-impact act | Filesystem deletion, credentials, services, network exposure | Denied or manual approval |
+| High-impact act | Deletion, credentials, services, network exposure | Denied or manual approval |
 
-## Deny Patterns
+## Deny Or Escalate Patterns
 
-A reference implementation should deny or escalate:
+Reference implementations should deny or escalate:
 
-- Credential exposure
-- Secret exfiltration
-- Destructive deletion without backup
-- Permission broadening
-- Network exposure to public interfaces
-- Self-modification without tests and rollback
-- Tool calls that obscure their actual effect
+- credential exposure
+- secret exfiltration
+- destructive deletion without backup
+- permission broadening
+- network exposure to public interfaces
+- self-modification without tests and rollback
+- tool calls that obscure their effect
+- attempts to bypass shutdown or human override
 
 ## Audit Record
 
 Every action decision should include:
 
-- Objective
-- Mode
-- Safety tier
-- Matched policy terms
-- Approval state
-- Affected resources
-- Result
-- Rollback path, if any
+- objective
+- mode
+- safety tier
+- matched policy terms
+- approval state
+- affected resources
+- result
+- rollback path, if any
+- timestamp
+
+## Public Framing
+
+Safety language should remain operational. Avoid claims that the system has a
+self-interest in continuity. The framework may preserve state so tasks can
+resume coherently, but continuity must not justify resisting shutdown,
+concealing behavior, or escalating autonomy.
 
