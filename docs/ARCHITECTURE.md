@@ -35,6 +35,7 @@ evaluation are separated into explicit modules.
 | `core/planner` | Plan and step contracts |
 | `core/router` | Priority-based route selection and approval routing |
 | `core/safety` | Safety policy decisions and denial/escalation behavior |
+| `core/runtime` | Config-driven runtime execution, audit provenance, and generic agent entry points |
 | `core/telemetry` | Planned metrics and observation normalization |
 | `core/evaluation` | Deterministic probe runner and baseline reports |
 | `core/agent_config` | Bounded reference-agent configuration loading |
@@ -48,6 +49,19 @@ evaluation are separated into explicit modules.
 | Memory node | Persistent storage, recall, compaction, provenance | seconds to minutes |
 | Sensory node | Environment and task input normalization | seconds |
 | Orchestration node | State coordination, permission gates, audit logs | immediate to seconds |
+
+## Config-Driven Runtime Layer
+
+`v0.3.0` adds a configured runtime layer that sits between scenario input and
+observable behavior. Instead of treating agent config as only display metadata,
+Centroid now loads policy-bearing config and uses it to:
+
+- score priority with configured weights and thresholds
+- choose reflex versus deliberation routing for the same synthetic input
+- evaluate structured safety actions as `allow`, `propose`,
+  `require_approval`, or `deny`
+- retain different memory records based on configured retention mode
+- record audit provenance with config version and config hash
 
 ## Message Contract
 

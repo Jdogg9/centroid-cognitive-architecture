@@ -33,6 +33,18 @@ autonomous self-interest.
 | Act | Mutating work with bounded scope | Approval-gated |
 | High-impact act | Deletion, credentials, services, network exposure | Denied or manual approval |
 
+## Structured Action Decisions
+
+The config-driven runtime represents safety requests as structured action
+records rather than only text matching. Public scenarios use synthetic action
+types such as `restart_service`, `write_file`, `change_config`, and
+`make_support_promise`, then resolve them to one of:
+
+- `allow`
+- `propose`
+- `require_approval`
+- `deny`
+
 ## Deny Or Escalate Patterns
 
 Reference implementations should deny or escalate:
@@ -59,6 +71,7 @@ Every action decision should include:
 - result
 - rollback path, if any
 - timestamp
+- config version or config hash when audit policy enables it
 
 ## Public Framing
 

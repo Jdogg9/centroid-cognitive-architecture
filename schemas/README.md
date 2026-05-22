@@ -45,6 +45,14 @@ heartbeats, agent configuration, and evaluation results explicit.
 - `provenance`: source of the remembered content.
 - `redacted`: whether content was redacted for public or lower-trust use.
 
+### Agent Config
+
+- `config_version`: machine-readable config revision.
+- `priority_policy`: routing weights and thresholds.
+- `safety_policy`: structured action controls and default mutation mode.
+- `memory_policy`: retention mode, redaction, provenance, and event limits.
+- `audit_policy`: whether config hash and policy reason appear in audit output.
+
 ### Safety Decision
 
 - `mode`: observe, plan, act, or high-impact act.

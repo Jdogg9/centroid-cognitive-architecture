@@ -24,6 +24,8 @@ Status: in progress.
 - [x] Add first Mermaid architecture diagram
 - [x] Stabilize initial message schemas
 - [x] Add typed telemetry event schemas
+- [x] Add config-driven runtime layer and generic configured-agent CLI
+- [x] Extend agent config schema for bounded runtime policy behavior
 - [ ] Harden schema versioning across independent implementations
 
 ## Phase 3: Measurable Systems
@@ -34,6 +36,8 @@ Status: in progress.
 - [x] Add baseline fixture
 - [x] Add memory, routing, safety, self-model, temporal, and continuity probes
 - [x] Add Holly config, continuity, temporal, safety, and template probes
+- [x] Expand baseline evaluation from 17 to 23 deterministic probes
+- [x] Add config-driven runtime probes for routing, safety, memory, CLI, audit, and Holly compatibility
 - [x] Add deterministic benchmark suite for latency, memory, coordination, and routing throughput
 - [x] Add identity-focused test suite
 - [x] Add deterministic distributed coordination tests for sync and failover fixtures
@@ -53,6 +57,7 @@ Status: in progress.
 - [x] Add CODE_OF_CONDUCT.md
 - [x] Add CONTRIBUTING.md
 - [x] Add machine-readable policy fixtures
+- [x] Add audit provenance to the config-driven runtime
 - [ ] Add shutdown compliance tests
 - [ ] Add reversible-action audit examples
 
@@ -65,6 +70,8 @@ Status: in progress.
 - [x] Add temporal layering demo with reconciliation timing
 - [x] Add persistent identity demo across repeated sessions
 - [x] Add Holly project, support, operations, temporal, identity, and safety demos
+- [x] Add neutral config-driven agent runner and behavior-comparison demo
+- [x] Add config comparison demo showing route, memory, and safety differences from config alone
 - [ ] Add distributed mesh simulation demo
 
 ## Phase 6: Research Positioning

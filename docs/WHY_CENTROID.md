@@ -14,6 +14,7 @@ over time.
 | Safety | Approval-gated mutating actions |
 | Identity | Versioned agent state and drift metrics |
 | Evaluation | Deterministic probes and benchmarks |
+| Configurability | Runtime behavior changes from schema-backed agent config |
 | Reference UX | Runnable Holly examples |
 
 ## Comparison By Category
@@ -34,7 +35,9 @@ contracts.
 Holly is the included reference agent that makes the architecture concrete.
 She demonstrates configuration loading, persistent identity state, memory-backed
 restoration, priority-weighted routing, temporal layering, and safety-gated
-planning with synthetic deterministic data.
+planning with synthetic deterministic data. `v0.3.0` extends that proof by
+showing that a different config can produce different route, memory, and safety
+outcomes without editing core runtime code.
 
 Holly is not a private-origin persona and is not a claim of machine
 consciousness or subjective experience.

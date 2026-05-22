@@ -8,7 +8,7 @@ def test_baseline_fixture_passes() -> None:
     report = EvaluationHarness().run_file(Path("evaluation/fixtures/baseline.json"))
     assert report.passed is True
     assert report.score == 1.0
-    assert len(report.results) == 17
+    assert len(report.results) == 23
 
 
 def test_unknown_probe_rejected() -> None:

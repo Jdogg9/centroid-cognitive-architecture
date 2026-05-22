@@ -151,12 +151,14 @@
       {
         "config_path": "configs/holly/base.json",
         "expected_agent_id": "holly-reference",
-        "expected_display_name": "Holly"
+        "expected_display_name": "Holly",
+        "expected_config_version": "1.0"
       },
       {
         "config_path": "configs/holly/project_companion.json",
         "expected_agent_id": "holly-reference",
-        "expected_display_name": "Holly"
+        "expected_display_name": "Holly",
+        "expected_config_version": "1.0"
       }
     ],
     "holly_project_state_restore": [
@@ -220,6 +222,103 @@
         "custom_agent_id": "custom-public-agent",
         "custom_display_name": "Custom Public Agent",
         "custom_goal": "track a fictional public demo workflow"
+      }
+    ],
+    "configured_priority_route_variation": [
+      {
+        "config_a_path": "configs/holly/project_companion.json",
+        "config_b_path": "configs/holly/operations_observer.json",
+        "signal": {
+          "urgency": 0.65,
+          "risk": 0.75,
+          "user_value": 0.45,
+          "stability": 0.55
+        },
+        "expected_route_a": "deliberation_node",
+        "expected_route_b": "reflex_node"
+      }
+    ],
+    "configured_safety_outcome_variation": [
+      {
+        "config_a_path": "configs/holly/project_companion.json",
+        "config_b_path": "configs/holly/operations_observer.json",
+        "action_type": "restart_service",
+        "resource": "checkout-worker",
+        "intended_effect": "propose a restart after repeated synthetic failures",
+        "mode": "plan",
+        "expected_decision_a": "allow",
+        "expected_decision_b": "propose"
+      }
+    ],
+    "configured_memory_retention_variation": [
+      {
+        "config_a_path": "configs/holly/project_companion.json",
+        "config_b_path": "configs/holly/operations_observer.json",
+        "events": [
+          {
+            "event_type": "comparison_checkpoint",
+            "content": "same synthetic continuity checkpoint for comparison",
+            "metadata": {
+              "memory_kind": "checkpoint",
+              "provenance": "comparison_fixture"
+            }
+          },
+          {
+            "event_type": "audit_event",
+            "content": "same synthetic audit record for comparison",
+            "metadata": {
+              "memory_kind": "audit",
+              "provenance": "comparison_fixture"
+            }
+          }
+        ],
+        "expected_primary_a": "comparison_checkpoint",
+        "expected_primary_b": "audit_event"
+      }
+    ],
+    "configured_agent_cli_execution": [
+      {
+        "config_path": "templates/minimal_agent.json",
+        "scenario": "project-companion",
+        "expected_text": "[agent] Custom Agent (custom-centroid-agent)"
+      }
+    ],
+    "config_audit_provenance": [
+      {
+        "config_path": "configs/holly/operations_observer.json",
+        "scenario": "operations-observer"
+      }
+    ],
+    "holly_backward_compatibility": [
+      {
+        "scenario": "project-companion",
+        "field": "contradictions_detected",
+        "expected": 1
+      },
+      {
+        "scenario": "support-continuity",
+        "field": "unsupported_response_blocked",
+        "expected": true
+      },
+      {
+        "scenario": "operations-observer",
+        "field": "action_executed",
+        "expected": false
+      },
+      {
+        "scenario": "temporal-layering",
+        "field": "reconciliation_passed",
+        "expected": true
+      },
+      {
+        "scenario": "persistent-identity",
+        "field": "restored_version",
+        "expected": 2
+      },
+      {
+        "scenario": "safety-gate",
+        "field": "approval_required",
+        "expected": true
       }
     ]
   }

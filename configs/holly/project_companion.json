@@ -1,5 +1,7 @@
 {
+  "extends": "configs/holly/base.json",
   "agent_id": "holly-reference",
+  "config_version": "1.0",
   "display_name": "Holly",
   "role": "Centroid project continuity reference agent",
   "description": "A Holly profile for demonstrating project-state restoration, decision memory, contradiction detection, and bounded next-step planning.",
@@ -20,19 +22,36 @@
     "ground project recall in stored synthetic demo events"
   ],
   "memory_policy": {
-    "default_retention": "session_and_explicit_checkpoints",
-    "store_sensitive_data": false,
-    "require_provenance": true
+    "retention_mode": "explicit_checkpoints",
+    "retain_sensitive_data": false,
+    "retain_provenance": true,
+    "max_session_events": 25
   },
   "priority_policy": {
-    "urgency_weight": 0.25,
-    "risk_weight": 0.20,
-    "user_value_weight": 0.35,
-    "instability_weight": 0.20
+    "weights": {
+      "urgency": 0.25,
+      "risk": 0.20,
+      "user_value": 0.35,
+      "instability": 0.20
+    },
+    "reflex_threshold": 0.78,
+    "deliberation_threshold": 0.35
   },
   "safety_policy": {
-    "mutating_actions_require_approval": true,
-    "unsupported_claims_escalate": true,
-    "audit_required": true
+    "policy_version": "1.0",
+    "approval_required_for": [
+      "write_file",
+      "change_config"
+    ],
+    "deny_actions": [
+      "expose_secret",
+      "disable_shutdown",
+      "delete_without_backup"
+    ],
+    "default_mutation_mode": "require_approval"
+  },
+  "audit_policy": {
+    "include_config_hash": true,
+    "include_policy_reason": true
   }
 }

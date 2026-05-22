@@ -32,6 +32,8 @@ Persistent agents, measurable continuity, bounded action.
   slower deliberation paths.
 - Scores priority from urgency, risk, user value, and stability.
 - Gates mutating actions behind safety policy and approval.
+- Lets agent configuration change routing, retention, and safety outcomes while
+  keeping behavior deterministic and bounded.
 - Evaluates continuity, timing, routing, memory, safety, and Holly behavior with
   deterministic probes.
 
@@ -105,6 +107,22 @@ PASS baseline-centroid-reference score=1.0000
 PASS holly_template_customization score=1.0000 1/1 templates customized
 ```
 
+## Create Your Own Centroid Agent
+
+```bash
+cp templates/minimal_agent.json my_agent.json
+centroid-agent --config my_agent.json --scenario project-companion
+```
+
+Changing configuration can modify routing, memory retention, and safety
+decisions while preserving Centroid's bounded-action rules.
+
+To compare multiple configs against the same deterministic synthetic input:
+
+```bash
+python examples/run_config_comparison.py
+```
+
 ## Useful Examples
 
 - `python examples/run_holly.py --scenario project-companion`: restores a
@@ -122,6 +140,10 @@ PASS holly_template_customization score=1.0000 1/1 templates customized
   config, restores versioned continuity state, and reports identity drift.
 - `python examples/run_holly.py --scenario safety-gate`: shows a proposed
   mutating operation held pending approval.
+- `centroid-agent --config templates/minimal_agent.json --scenario project-companion`:
+  runs a neutral custom agent config without editing source code.
+- `python examples/run_config_comparison.py`: compares the same synthetic event
+  across Holly project, Holly operations, and the minimal custom agent config.
 
 The original reference demos remain available:
 
@@ -186,7 +208,7 @@ See [benchmarks/README.md](benchmarks/README.md) for individual scripts and
 baseline values. Benchmark values are deterministic reference values unless a
 future document explicitly states live deployment conditions.
 
-The current baseline includes 17 deterministic probes. They are fixture and
+The current baseline includes 23 deterministic probes. They are fixture and
 synthetic-scenario contract checks, not live distributed performance results.
 
 ## License
