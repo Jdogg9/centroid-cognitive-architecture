@@ -74,7 +74,30 @@ input
 
 ## Diagram
 
-See [docs/diagrams/ARCHITECTURE_FLOW.md](diagrams/ARCHITECTURE_FLOW.md).
+![Centroid architecture flow](diagrams/architecture_flow.svg)
+
+Mermaid source: [docs/diagrams/ARCHITECTURE_FLOW.md](diagrams/ARCHITECTURE_FLOW.md).
+
+## Message Example
+
+```json
+{
+  "message_id": "message-0001",
+  "timestamp": "2026-01-01T00:00:00Z",
+  "source_node": "sensory_node",
+  "target_node": "router",
+  "intent": "route_observation",
+  "priority": 0.75,
+  "state_refs": ["state:demo"],
+  "requires_approval": false,
+  "audit_reason": "demo routing event",
+  "payload": {
+    "observation": "node liveness check"
+  }
+}
+```
+
+Schema: [schemas/message_event.schema.json](../schemas/message_event.schema.json).
 
 ## Design Rules
 
@@ -87,4 +110,3 @@ See [docs/diagrams/ARCHITECTURE_FLOW.md](diagrams/ARCHITECTURE_FLOW.md).
 - Treat recursive self-modeling as internal state representation and consistency
   checking.
 - Tie every public architectural claim to an evaluation or benchmark target.
-

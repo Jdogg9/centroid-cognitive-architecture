@@ -18,7 +18,9 @@ class IdentityState:
     invariants: list[str] = field(default_factory=list)
     last_updated: str = field(default_factory=utc_now)
 
-    def evolve(self, *, goals: list[str] | None = None, invariants: list[str] | None = None) -> "IdentityState":
+    def evolve(
+        self, *, goals: list[str] | None = None, invariants: list[str] | None = None
+    ) -> IdentityState:
         return IdentityState(
             agent_id=self.agent_id,
             version=self.version + 1,
@@ -27,7 +29,7 @@ class IdentityState:
             last_updated=utc_now(),
         )
 
-    def drift_score(self, other: "IdentityState") -> float:
+    def drift_score(self, other: IdentityState) -> float:
         if self.agent_id != other.agent_id:
             return 1.0
         base = set(self.goals + self.invariants)
@@ -35,4 +37,3 @@ class IdentityState:
         if not base and not new:
             return 0.0
         return 1.0 - (len(base & new) / len(base | new))
-

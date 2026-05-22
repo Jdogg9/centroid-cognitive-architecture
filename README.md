@@ -1,5 +1,8 @@
 # Centroid Cognitive Architecture
 
+[![CI](https://github.com/Jdogg9/centroid-cognitive-architecture/actions/workflows/ci.yml/badge.svg)](https://github.com/Jdogg9/centroid-cognitive-architecture/actions/workflows/ci.yml)
+[![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
+
 Centroid Cognitive Architecture is a distributed persistent cognitive
 architecture for studying recursive self-modeling, temporal stratification,
 persistent identity continuity, priority-weighted regulation, and distributed
@@ -58,20 +61,7 @@ See [docs/NON_CLAIMS.md](docs/NON_CLAIMS.md).
 
 ## Architecture
 
-```mermaid
-flowchart LR
-    Input[Sensory or task input] --> Reflex[Reflex node]
-    Reflex --> Priority[Priority scoring]
-    Priority --> Router[Router]
-    Router --> Memory[Memory node]
-    Router --> Deliberation[Deliberation node]
-    Router --> Safety[Safety gate]
-    Memory --> SelfModel[Self-model]
-    Deliberation --> Safety
-    Safety --> Orchestration[Orchestration node]
-    Orchestration --> Audit[Audit log]
-    Audit --> Evaluation[Evaluation harness]
-```
+![Centroid architecture flow](docs/diagrams/architecture_flow.svg)
 
 Primary module documentation:
 
@@ -81,6 +71,7 @@ Primary module documentation:
 - [Temporal Stratification](docs/TEMPORAL_STRATIFICATION.md)
 - [Evaluation](docs/EVALUATION.md)
 - [Glossary](docs/GLOSSARY.md)
+- [Limitations](docs/LIMITATIONS.md)
 
 ## Quick Start
 
@@ -92,6 +83,8 @@ python3 -m venv .venv
 pip install -e ".[dev]"
 python examples/run_evaluation.py evaluation/fixtures/baseline.json
 python examples/run_demo.py --mode full
+python examples/run_temporal_demo.py
+python examples/run_identity_demo.py
 ```
 
 Expected demo result:
@@ -146,7 +139,22 @@ The technical whitepaper is available at
 
 See [ROADMAP.md](ROADMAP.md).
 
+## Running Benchmarks
+
+```bash
+python benchmarks/run_all.py
+```
+
+See [benchmarks/README.md](benchmarks/README.md) for individual scripts and
+baseline values.
+
+## Additional Demos
+
+- `python examples/run_temporal_demo.py`: reflex response, delayed
+  deliberation, reconciliation, and action correction timing.
+- `python examples/run_identity_demo.py`: identity continuity and drift scoring
+  across restored session state.
+
 ## License
 
 Apache-2.0. See [LICENSE](LICENSE).
-

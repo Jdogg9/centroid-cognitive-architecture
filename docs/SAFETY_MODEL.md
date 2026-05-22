@@ -9,6 +9,8 @@ shutdown compliance.
 Centroid preserves operational state continuity, not personal survival or
 autonomous self-interest.
 
+![Centroid safety gates](diagrams/safety_gates.svg)
+
 ## Required Constraints
 
 - Human override for high-impact behavior
@@ -65,3 +67,8 @@ self-interest in continuity. The framework may preserve state so tasks can
 resume coherently, but continuity must not justify resisting shutdown,
 concealing behavior, or escalating autonomy.
 
+## Policy Fixture
+
+Machine-readable safety policy fixtures live in
+[schemas/policy/](../schemas/policy/). The reference fixture records action
+tiers, deny terms, override rules, and shutdown compliance requirements.

@@ -22,4 +22,3 @@ def test_latency_metric_and_telemetry_schema() -> None:
             "labels": {"loop": "reflex"},
         },
     )
-

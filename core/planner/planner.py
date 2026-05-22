@@ -17,4 +17,3 @@ class Plan:
 
     def requires_approval(self) -> bool:
         return any(step.mutates_state or step.requires_approval for step in self.steps)
-

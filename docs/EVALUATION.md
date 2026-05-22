@@ -75,6 +75,10 @@ python examples/run_demo.py --mode full
 | `identity_continuity` | identity drift across before/after state snapshots |
 | `memory_store_roundtrip` | protected event-store write/read behavior |
 | `temporal_stratification_latency` | reflex and deliberation latency bounds |
+| `narrative_reconciliation_delay` | ordering and bounds for reflex, deliberation, and reconciliation timing |
+| `action_correction_timing` | action correction applied within target window |
+| `memory_drift` | recall-set stability across memory states |
+| `distributed_coordination` | node sync, state propagation, and failover continuity |
 | `priority_scoring_bounds` | priority score range correctness |
 | `routing_decision_accuracy` | reflex, deliberation, and orchestration routing |
 | `self_model_status_accuracy` | runtime health classification |
@@ -86,4 +90,3 @@ python examples/run_demo.py --mode full
 - Prefer deterministic fixtures before model-backed evaluations.
 - Record benchmark assumptions, hardware, and latency targets.
 - Treat failures as useful regression data, not narrative exceptions.
-

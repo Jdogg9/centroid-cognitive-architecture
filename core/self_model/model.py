@@ -25,4 +25,3 @@ class SelfModelSnapshot:
         if self.health_ratio > 0.0:
             return "degraded"
         return "critical"
-

@@ -8,6 +8,8 @@ different latency, context, and correction responsibilities.
 A persistent agent can respond quickly while still allowing slower deliberation,
 narrative reconciliation, and state correction to catch up.
 
+![Centroid timing flow](diagrams/timing_flow.svg)
+
 ## Loop Types
 
 | Loop | Cadence | Responsibility |
@@ -47,4 +49,3 @@ Centroid implementations should measure:
 Temporal stratification does not imply subjective experience. It is a systems
 pattern for coordinating fast response, slower reasoning, state reconciliation,
 and evaluation.
-

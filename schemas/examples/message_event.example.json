@@ -1,0 +1,15 @@
+{
+  "message_id": "message-0001",
+  "timestamp": "2026-01-01T00:00:00Z",
+  "source_node": "sensory_node",
+  "target_node": "router",
+  "intent": "route_observation",
+  "priority": 0.75,
+  "state_refs": ["state:demo"],
+  "requires_approval": false,
+  "audit_reason": "demo routing event",
+  "payload": {
+    "observation": "node liveness check"
+  }
+}
+

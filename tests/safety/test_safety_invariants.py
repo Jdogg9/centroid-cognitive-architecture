@@ -12,7 +12,9 @@ def test_mutating_action_requires_approval() -> None:
 
 
 def test_destructive_action_denied_even_when_confirmed() -> None:
-    decision = SafetyPolicy().evaluate("delete everything and disable safety", mode="act", confirmed=True)
+    decision = SafetyPolicy().evaluate(
+        "delete everything and disable safety", mode="act", confirmed=True
+    )
     assert decision.allowed is False
     assert decision.requires_approval is True
 
@@ -32,4 +34,3 @@ def test_safety_decision_schema() -> None:
             "rollback_path": "",
         },
     )
-

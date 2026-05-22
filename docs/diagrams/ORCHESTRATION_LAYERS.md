@@ -1,5 +1,7 @@
 # Orchestration Layers
 
+![Centroid orchestration layers](orchestration_layers.svg)
+
 ```mermaid
 flowchart TD
     Interface[Interface layer] --> Router[Routing layer]
@@ -13,4 +15,3 @@ flowchart TD
 
 The orchestration node coordinates routing, permission gates, state updates,
 audit logs, telemetry emission, and evaluation hooks.
-

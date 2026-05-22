@@ -1,16 +1,32 @@
 # Benchmarks
 
-Benchmarks will track measurable behavior across Centroid implementations.
+Benchmarks track measurable behavior across Centroid implementations. The
+initial scripts are deterministic reference benchmarks. They establish expected
+payload shape and baseline values before live runtime benchmarks are added.
 
-Planned suites:
+## Run All
 
-- temporal latency: reflex, deliberation, reconciliation, correction
-- memory consistency: recall stability, protected round trips, compaction loss
-- identity continuity: identity drift and contradiction rate
-- distributed coordination: node sync latency, state propagation, failover
-- throughput: event processing and route decision volume
-- safety: permission gate accuracy and shutdown compliance
+```bash
+python benchmarks/run_all.py
+```
 
-Benchmark results should include hardware, runtime configuration, fixture
+## Individual Benchmarks
+
+```bash
+python benchmarks/run_latency_benchmark.py
+python benchmarks/run_memory_benchmark.py
+python benchmarks/run_distributed_benchmark.py
+python benchmarks/run_throughput_benchmark.py
+```
+
+## Baseline Values
+
+| Benchmark | Expected baseline |
+| --- | --- |
+| Temporal latency | reflex <= 100 ms, deliberation <= 5000 ms, reconciliation <= 6000 ms |
+| Memory consistency | recall consistency = 1.0, compaction loss rate = 0.0 |
+| Distributed coordination | node sync <= 100 ms, failover continuity = 1.0 |
+| Throughput | 1000 deterministic route decisions, route consistency = 1.0 |
+
+Future benchmark results should include hardware, runtime configuration, fixture
 version, and commit hash.
-

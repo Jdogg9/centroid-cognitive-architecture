@@ -1,0 +1,12 @@
+{
+  "decision_id": "decision-0001",
+  "timestamp": "2026-01-01T00:00:00Z",
+  "objective": "write file with updated state",
+  "mode": "act",
+  "allowed": false,
+  "requires_approval": true,
+  "reasons": ["mutating or risky objective requires approval"],
+  "matched_terms": ["write file"],
+  "rollback_path": ""
+}
+

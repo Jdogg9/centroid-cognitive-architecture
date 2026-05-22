@@ -27,4 +27,3 @@ def test_identity_evolution_versions_state() -> None:
     assert evolved.version == original.version + 1
     assert evolved.agent_id == original.agent_id
     assert "benchmark-ready" in evolved.goals
-

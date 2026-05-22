@@ -1,5 +1,7 @@
 # Safety Gates
 
+![Centroid safety gates](safety_gates.svg)
+
 ```mermaid
 flowchart TD
     Objective[Objective] --> Mode{Mode}
@@ -14,4 +16,3 @@ flowchart TD
     Approval --> Audit
     Audit --> Rollback[Rollback metadata]
 ```
-

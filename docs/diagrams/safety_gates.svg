@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="360" viewBox="0 0 900 360" role="img" aria-label="Centroid safety gates">
+  <style>
+    .box { fill: #f8fafc; stroke: #334155; stroke-width: 2; rx: 8; }
+    .deny { fill: #fef2f2; stroke: #991b1b; stroke-width: 2; rx: 8; }
+    .approve { fill: #ecfdf5; stroke: #166534; stroke-width: 2; rx: 8; }
+    .text { font-family: Arial, sans-serif; font-size: 14px; fill: #0f172a; text-anchor: middle; }
+    .arrow { stroke: #475569; stroke-width: 2; marker-end: url(#arrow); fill: none; }
+  </style>
+  <defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#475569"/></marker></defs>
+  <rect x="30" y="150" width="120" height="55" class="box"/><text x="90" y="182" class="text">Objective</text>
+  <rect x="200" y="70" width="130" height="55" class="approve"/><text x="265" y="102" class="text">Observe</text>
+  <rect x="200" y="150" width="130" height="55" class="approve"/><text x="265" y="182" class="text">Plan</text>
+  <rect x="200" y="230" width="130" height="55" class="box"/><text x="265" y="262" class="text">Act</text>
+  <rect x="395" y="230" width="130" height="55" class="box"/><text x="460" y="262" class="text">Policy check</text>
+  <rect x="590" y="150" width="130" height="55" class="deny"/><text x="655" y="182" class="text">Deny secret</text>
+  <rect x="590" y="230" width="130" height="55" class="box"/><text x="655" y="262" class="text">Approval gate</text>
+  <rect x="760" y="230" width="110" height="55" class="approve"/><text x="815" y="262" class="text">Audit</text>
+  <path d="M150 178 C170 120 180 100 200 98" class="arrow"/><path d="M150 178 L200 178" class="arrow"/><path d="M150 178 C170 220 180 255 200 258" class="arrow"/><path d="M330 258 L395 258" class="arrow"/><path d="M525 258 C555 215 565 185 590 178" class="arrow"/><path d="M525 258 L590 258" class="arrow"/><path d="M720 258 L760 258" class="arrow"/>
+</svg>
+

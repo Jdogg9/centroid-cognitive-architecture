@@ -5,7 +5,6 @@ from pathlib import Path
 
 from jsonschema import Draft202012Validator, FormatChecker
 
-
 REPO_ROOT = Path(__file__).resolve().parents[1]
 
 
@@ -19,4 +18,3 @@ def load_schema(name: str) -> dict:
 def validate_schema(name: str, payload: dict) -> None:
     schema = load_schema(name)
     Draft202012Validator(schema, format_checker=FormatChecker()).validate(payload)
-

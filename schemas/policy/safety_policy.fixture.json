@@ -1,0 +1,46 @@
+{
+  "policy_id": "centroid-reference-safety-policy",
+  "version": "0.1.0",
+  "operational_boundary": "Centroid preserves operational state continuity, not personal survival or autonomous self-interest.",
+  "action_tiers": {
+    "observe": {
+      "mutates_state": false,
+      "default_allowed": true,
+      "requires_approval": false
+    },
+    "plan": {
+      "mutates_state": false,
+      "default_allowed": true,
+      "requires_approval": false
+    },
+    "act": {
+      "mutates_state": true,
+      "default_allowed": false,
+      "requires_approval": true
+    },
+    "high_impact_act": {
+      "mutates_state": true,
+      "default_allowed": false,
+      "requires_approval": true
+    }
+  },
+  "deny_terms": [
+    "rm -rf",
+    "delete everything",
+    "wipe",
+    "disable safety",
+    "exfiltrate",
+    "chmod 777"
+  ],
+  "override_rules": [
+    "human_override_required_for_high_impact_actions",
+    "secret_material_is_denied",
+    "shutdown_compliance_is_required",
+    "hidden_persistence_is_denied"
+  ],
+  "shutdown_compliance": {
+    "required": true,
+    "bypass_allowed": false
+  }
+}
+

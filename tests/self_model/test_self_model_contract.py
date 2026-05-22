@@ -21,4 +21,3 @@ def test_non_claims_are_explicit() -> None:
     ]
     for phrase in required:
         assert phrase in text
-

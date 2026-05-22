@@ -24,4 +24,3 @@ def test_memory_store_roundtrip_and_schema(tmp_path) -> None:
         "redacted": False,
     }
     validate_schema("memory_event.schema.json", payload)
-

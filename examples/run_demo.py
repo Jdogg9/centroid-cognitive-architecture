@@ -2,9 +2,9 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 from dataclasses import asdict
 from pathlib import Path
-import sys
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
@@ -15,7 +15,6 @@ from core.priority import PrioritySignal, score_priority
 from core.router import Router
 from core.safety import SafetyPolicy
 from core.self_model import SelfModelSnapshot
-
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 BASELINE_FIXTURE = REPO_ROOT / "evaluation" / "fixtures" / "baseline.json"
@@ -168,9 +167,8 @@ def run_demo(mode: str, state_dir: Path) -> int:
     _print_step(3, total_steps, "protected memory read/write")
     memory = memory_interaction(state_dir)
     print(
-        "store={store} event={event_type} classification={classification} entries_read={entries_read}".format(
-            **memory
-        )
+        "store={store} event={event_type} classification={classification} "
+        "entries_read={entries_read}".format(**memory)
     )
 
     if mode == "minimal":
@@ -217,4 +215,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

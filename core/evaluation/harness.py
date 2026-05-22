@@ -6,20 +6,27 @@ from pathlib import Path
 
 from .metrics import MetricResult, clamp_score
 from .probes import (
+    action_correction_probe,
     continuity_probe,
+    distributed_coordination_probe,
     memory_probe,
+    memory_drift_probe,
     priority_probe,
+    reconciliation_probe,
     routing_probe,
     safety_probe,
     self_model_probe,
     temporal_probe,
 )
 
-
 PROBES = {
+    "action_correction": action_correction_probe,
     "continuity": continuity_probe,
+    "distributed_coordination": distributed_coordination_probe,
     "memory": memory_probe,
+    "memory_drift": memory_drift_probe,
     "priority": priority_probe,
+    "reconciliation": reconciliation_probe,
     "routing": routing_probe,
     "safety": safety_probe,
     "self_model": self_model_probe,

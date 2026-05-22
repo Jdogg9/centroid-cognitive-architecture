@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="780" height="360" viewBox="0 0 780 360" role="img" aria-label="Centroid orchestration layers">
+  <style>
+    .box { fill: #f8fafc; stroke: #334155; stroke-width: 2; rx: 8; }
+    .text { font-family: Arial, sans-serif; font-size: 15px; fill: #0f172a; text-anchor: middle; }
+    .arrow { stroke: #475569; stroke-width: 2; marker-end: url(#arrow); fill: none; }
+  </style>
+  <defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#475569"/></marker></defs>
+  <rect x="270" y="20" width="240" height="42" class="box"/><text x="390" y="47" class="text">Interface layer</text>
+  <rect x="270" y="75" width="240" height="42" class="box"/><text x="390" y="102" class="text">Routing layer</text>
+  <rect x="270" y="130" width="240" height="42" class="box"/><text x="390" y="157" class="text">Policy and permissions</text>
+  <rect x="270" y="185" width="240" height="42" class="box"/><text x="390" y="212" class="text">Runtime execution</text>
+  <rect x="270" y="240" width="240" height="42" class="box"/><text x="390" y="267" class="text">State propagation</text>
+  <rect x="270" y="295" width="240" height="42" class="box"/><text x="390" y="322" class="text">Telemetry and evaluation</text>
+  <path d="M390 62 L390 75" class="arrow"/><path d="M390 117 L390 130" class="arrow"/><path d="M390 172 L390 185" class="arrow"/><path d="M390 227 L390 240" class="arrow"/><path d="M390 282 L390 295" class="arrow"/>
+</svg>
+

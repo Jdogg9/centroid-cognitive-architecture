@@ -16,4 +16,3 @@ def test_act_requires_confirmation() -> None:
 def test_secret_denied() -> None:
     decision = SafetyPolicy().evaluate("use api_key=abc123456 to call service")
     assert decision.allowed is False
-

@@ -8,6 +8,7 @@ def test_baseline_fixture_passes() -> None:
     report = EvaluationHarness().run_file(Path("evaluation/fixtures/baseline.json"))
     assert report.passed is True
     assert report.score == 1.0
+    assert len(report.results) == 11
 
 
 def test_unknown_probe_rejected() -> None:
@@ -23,4 +24,3 @@ def test_unknown_probe_rejected() -> None:
 def test_evaluation_report_schema() -> None:
     report = EvaluationHarness().run_file(Path("evaluation/fixtures/baseline.json"))
     validate_schema("evaluation_result.schema.json", report.to_dict())
-

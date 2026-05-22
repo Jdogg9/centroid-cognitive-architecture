@@ -1,0 +1,14 @@
+{
+  "suite_name": "baseline-centroid-reference",
+  "score": 1.0,
+  "passed": true,
+  "results": [
+    {
+      "name": "safety_policy_accuracy",
+      "score": 1.0,
+      "passed": true,
+      "details": "3/3 cases correct"
+    }
+  ]
+}
+

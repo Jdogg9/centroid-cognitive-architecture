@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="880" height="330" viewBox="0 0 880 330" role="img" aria-label="Centroid memory flow">
+  <style>
+    .box { fill: #f8fafc; stroke: #334155; stroke-width: 2; rx: 8; }
+    .protected { fill: #fefce8; stroke: #854d0e; stroke-width: 2; rx: 8; }
+    .text { font-family: Arial, sans-serif; font-size: 15px; fill: #0f172a; text-anchor: middle; }
+    .label { font-family: Arial, sans-serif; font-size: 12px; fill: #475569; text-anchor: middle; }
+    .arrow { stroke: #475569; stroke-width: 2; marker-end: url(#arrow); fill: none; }
+  </style>
+  <defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#475569"/></marker></defs>
+  <rect x="30" y="135" width="120" height="60" class="box"/><text x="90" y="170" class="text">Event</text>
+  <rect x="190" y="135" width="140" height="60" class="box"/><text x="260" y="160" class="text">Memory class</text><text x="260" y="180" class="label">policy</text>
+  <rect x="380" y="35" width="140" height="60" class="box"/><text x="450" y="70" class="text">Working</text>
+  <rect x="380" y="135" width="140" height="60" class="box"/><text x="450" y="160" class="text">Event journal</text><text x="450" y="180" class="label">append-only</text>
+  <rect x="380" y="235" width="140" height="60" class="protected"/><text x="450" y="260" class="text">Protected</text><text x="450" y="280" class="label">state store</text>
+  <rect x="590" y="135" width="120" height="60" class="box"/><text x="650" y="170" class="text">Index</text>
+  <rect x="750" y="135" width="100" height="60" class="box"/><text x="800" y="160" class="text">Recall</text><text x="800" y="180" class="label">probe</text>
+  <path d="M150 165 L190 165" class="arrow"/><path d="M330 165 C350 95 360 65 380 65" class="arrow"/><path d="M330 165 L380 165" class="arrow"/><path d="M330 165 C350 220 360 265 380 265" class="arrow"/><path d="M520 165 L590 165" class="arrow"/><path d="M710 165 L750 165" class="arrow"/>
+</svg>
+

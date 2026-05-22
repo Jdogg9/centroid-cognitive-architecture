@@ -1,5 +1,7 @@
 # Memory Flow
 
+![Centroid memory flow](memory_flow.svg)
+
 ```mermaid
 flowchart LR
     Event[Runtime event] --> Classifier[Memory class policy]
@@ -11,4 +13,3 @@ flowchart LR
     Index --> Recall[Recall request]
     Recall --> Evaluation[Recall consistency probe]
 ```
-

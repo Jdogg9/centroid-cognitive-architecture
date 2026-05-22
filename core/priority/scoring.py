@@ -25,4 +25,3 @@ def score_priority(signal: PrioritySignal) -> float:
         + 0.15 * (1.0 - _clamp(signal.stability))
     )
     return round(_clamp(score), 4)
-

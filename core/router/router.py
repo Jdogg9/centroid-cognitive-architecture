@@ -17,4 +17,3 @@ class Router:
         if priority >= 0.75:
             return RouteDecision("reflex_node", "high priority signal")
         return RouteDecision("deliberation_node", "normal planning path")
-

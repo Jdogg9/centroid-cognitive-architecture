@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="420" viewBox="0 0 980 420" role="img" aria-label="Centroid architecture flow">
+  <style>
+    .box { fill: #f8fafc; stroke: #334155; stroke-width: 2; rx: 8; }
+    .gate { fill: #fff7ed; stroke: #9a3412; stroke-width: 2; rx: 8; }
+    .eval { fill: #ecfdf5; stroke: #166534; stroke-width: 2; rx: 8; }
+    .text { font-family: Arial, sans-serif; font-size: 15px; fill: #0f172a; text-anchor: middle; }
+    .label { font-family: Arial, sans-serif; font-size: 12px; fill: #475569; text-anchor: middle; }
+    .arrow { stroke: #475569; stroke-width: 2; marker-end: url(#arrow); fill: none; }
+  </style>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#475569" />
+    </marker>
+  </defs>
+  <rect x="30" y="175" width="120" height="60" class="box"/>
+  <text x="90" y="200" class="text">Input</text>
+  <text x="90" y="220" class="label">task or sensory</text>
+  <rect x="190" y="80" width="130" height="60" class="box"/>
+  <text x="255" y="115" class="text">Reflex node</text>
+  <rect x="190" y="270" width="130" height="60" class="box"/>
+  <text x="255" y="305" class="text">Memory node</text>
+  <rect x="370" y="80" width="130" height="60" class="box"/>
+  <text x="435" y="105" class="text">Priority</text>
+  <text x="435" y="125" class="label">scoring</text>
+  <rect x="550" y="80" width="130" height="60" class="box"/>
+  <text x="615" y="115" class="text">Router</text>
+  <rect x="550" y="270" width="130" height="60" class="box"/>
+  <text x="615" y="295" class="text">Deliberation</text>
+  <text x="615" y="315" class="label">and reconciliation</text>
+  <rect x="730" y="175" width="130" height="60" class="gate"/>
+  <text x="795" y="210" class="text">Safety gate</text>
+  <rect x="730" y="300" width="130" height="60" class="box"/>
+  <text x="795" y="325" class="text">Self-model</text>
+  <text x="795" y="345" class="label">update</text>
+  <rect x="895" y="175" width="70" height="60" class="eval"/>
+  <text x="930" y="200" class="text">Eval</text>
+  <text x="930" y="220" class="label">probes</text>
+  <path d="M150 205 C165 160 170 120 190 110" class="arrow"/>
+  <path d="M150 205 C170 235 170 285 190 300" class="arrow"/>
+  <path d="M320 110 L370 110" class="arrow"/>
+  <path d="M500 110 L550 110" class="arrow"/>
+  <path d="M680 110 C710 130 730 160 760 175" class="arrow"/>
+  <path d="M680 300 C715 270 735 245 760 235" class="arrow"/>
+  <path d="M320 300 L550 300" class="arrow"/>
+  <path d="M795 235 L795 300" class="arrow"/>
+  <path d="M860 205 L895 205" class="arrow"/>
+</svg>
+

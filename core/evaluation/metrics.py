@@ -28,4 +28,3 @@ def clamp_score(value: float) -> float:
 def pass_at(name: str, score: float, minimum: float, details: str = "") -> MetricResult:
     normalized = clamp_score(score)
     return MetricResult(name=name, score=normalized, passed=normalized >= minimum, details=details)
-

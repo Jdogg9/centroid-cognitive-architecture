@@ -7,4 +7,3 @@ def test_memory_tail(tmp_path) -> None:
     events = store.tail()
     assert len(events) == 1
     assert events[0].content == "ok"
-

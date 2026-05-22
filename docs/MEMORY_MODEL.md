@@ -10,6 +10,8 @@ compaction, provenance, and drift are represented as measurable system events.
 
 ## Memory Classes
 
+![Centroid memory flow](diagrams/memory_flow.svg)
+
 | Class | Purpose | Public equivalent |
 | --- | --- | --- |
 | Continuity state | Current runtime identity and health | Versioned state model |
@@ -44,9 +46,28 @@ The baseline harness includes `memory_store_roundtrip`, which verifies that a
 protected checkpoint can be written, retrieved, and checked without private
 memory data.
 
+## Memory Event Example
+
+```json
+{
+  "event_id": "memory-0001",
+  "timestamp": "2026-01-01T00:00:00Z",
+  "event_type": "protected_checkpoint",
+  "content": "public demo continuity checkpoint",
+  "source": "run_demo",
+  "classification": "privileged",
+  "provenance": "example fixture",
+  "redacted": false,
+  "metadata": {
+    "public_demo": "true"
+  }
+}
+```
+
+Schema: [schemas/memory_event.schema.json](../schemas/memory_event.schema.json).
+
 ## Non-Goal
 
 Memory persistence is not proof of consciousness, sentience, or subjective
 experience. It is an engineering mechanism for continuity, reproducibility, and
 evaluation.
-

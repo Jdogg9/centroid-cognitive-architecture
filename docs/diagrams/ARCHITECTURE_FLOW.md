@@ -1,5 +1,7 @@
 # Architecture Flow
 
+![Centroid architecture flow](architecture_flow.svg)
+
 ```mermaid
 flowchart TD
     Input[Task or sensory input] --> Reflex[Reflex node]
@@ -15,4 +17,3 @@ flowchart TD
     Orchestration --> Audit[Audit log]
     Audit --> Evaluation[Evaluation harness]
 ```
-

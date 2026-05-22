@@ -58,6 +58,40 @@
         "max_latency_ms": 30000
       }
     ],
+    "reconciliation": [
+      {
+        "reflex_response_ms": 31,
+        "deliberative_response_ms": 4200,
+        "state_reconciliation_ms": 4388,
+        "max_reflex_ms": 100,
+        "max_deliberative_ms": 5000,
+        "max_reconciliation_ms": 6000
+      }
+    ],
+    "action_correction": [
+      {
+        "correction_ms": 740,
+        "max_correction_ms": 1000,
+        "correction_applied": true
+      }
+    ],
+    "memory_drift": [
+      {
+        "before_recall": ["goal:continuity", "policy:approval", "state:healthy"],
+        "after_recall": ["goal:continuity", "policy:approval", "state:healthy"],
+        "max_drift": 0.0
+      }
+    ],
+    "distributed_coordination": [
+      {
+        "node_sync_latency_ms": 42,
+        "max_sync_latency_ms": 100,
+        "failover_continuity": 1.0,
+        "min_failover_continuity": 1.0,
+        "state_propagation_accuracy": 1.0,
+        "min_state_propagation_accuracy": 1.0
+      }
+    ],
     "priority": [
       {
         "urgency": 1.0,

@@ -298,7 +298,26 @@ This separation is intentional. It allows the private system to retain its
 original context while Centroid provides a neutral, reproducible, testable
 architecture for public discussion and implementation.
 
-## 11. Future Work
+## 11. Related Work
+
+Centroid is related to established cognitive architectures and modern agent
+frameworks, but it focuses on a narrower public claim: measurable distributed
+persistence, temporal stratification, and safety-gated recursive self-modeling.
+
+| System or family | Similarity | Difference |
+| --- | --- | --- |
+| SOAR | Long-running cognitive architecture with explicit state and production-like reasoning | Centroid emphasizes distributed runtime nodes, operational continuity, and public safety fixtures |
+| ACT-R | Structured cognitive modules and memory-oriented modeling | Centroid is not a cognitive psychology model; it is an engineering scaffold for agent runtime continuity |
+| Rete-based agents | Rule matching and efficient decision propagation | Centroid uses priority-weighted routing and evaluation probes rather than rule-network matching as the central mechanism |
+| LangChain | Agent/tool orchestration and memory integrations | Centroid foregrounds temporal stratification, non-claims boundaries, schemas, and benchmarkable continuity |
+| LlamaIndex | Retrieval and memory infrastructure for LLM systems | Centroid treats memory as one layer in a broader persistent coordination architecture |
+| AutoGPT-style agents | Task loops, tool use, and planning | Centroid constrains autonomy with explicit safety gates, shutdown compliance, and reproducible evaluation fixtures |
+
+Centroid can interoperate with model or agent frameworks, but its public
+research surface is the architecture around persistence, routing, timing,
+memory, safety, and evaluation.
+
+## 12. Future Work
 
 Centroid is currently a public scaffold and deterministic reference harness.
 The next research and engineering steps are:
@@ -314,17 +333,26 @@ The next research and engineering steps are:
 - Add live shutdown compliance and rollback verification probes.
 - Add external benchmark alignment for planning, memory recall, and recovery.
 
-## 12. Limitations
+## 13. Limitations
 
 Centroid is an early reference framework. Its current implementation is a
 deterministic scaffold, not a full live multi-node agent deployment. The
 baseline probes validate the present public claims, but they do not establish
 general intelligence, consciousness, sentience, subjective experience, or
-autonomous moral agency. Future work must test real model backends, longer
-session histories, external benchmarks, and distributed failure modes before
+autonomous moral agency.
+
+Current constraints include scalability under concurrent message load, limited
+hardware assumptions, deterministic rather than live distributed benchmark
+coverage, incomplete shutdown compliance testing, and short-horizon identity
+continuity fixtures. Future work must test real model backends, longer session
+histories, external benchmarks, live node recovery, and failure modes before
 claiming broader robustness.
 
-## 13. References
+The non-claims boundary remains central: Centroid studies cognition-like
+continuity and coordination behavior as engineering phenomena, not subjective
+experience or moral status.
+
+## 14. References
 
 - Anderson, J. R. ACT-R: A theory of higher level cognition and its relation to
   visual attention.

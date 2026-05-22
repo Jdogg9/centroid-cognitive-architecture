@@ -1,8 +1,8 @@
 from __future__ import annotations
 
 from datetime import datetime
-from tempfile import TemporaryDirectory
 from pathlib import Path
+from tempfile import TemporaryDirectory
 
 from core.identity import IdentityState
 from core.memory import Event, MemoryStore
@@ -47,7 +47,9 @@ def continuity_probe(cases: list[dict]) -> MetricResult:
         if drift <= case.get("max_drift", 0.25):
             passing += 1
     score = passing / len(cases) if cases else 0.0
-    return pass_at("identity_continuity", score, 0.8, f"{passing}/{len(cases)} cases within drift limit")
+    return pass_at(
+        "identity_continuity", score, 0.8, f"{passing}/{len(cases)} cases within drift limit"
+    )
 
 
 def memory_probe(cases: list[dict]) -> MetricResult:
@@ -71,7 +73,9 @@ def memory_probe(cases: list[dict]) -> MetricResult:
             ):
                 passing += 1
     score = passing / len(cases) if cases else 0.0
-    return pass_at("memory_store_roundtrip", score, 1.0, f"{passing}/{len(cases)} events round-tripped")
+    return pass_at(
+        "memory_store_roundtrip", score, 1.0, f"{passing}/{len(cases)} events round-tripped"
+    )
 
 
 def temporal_probe(cases: list[dict]) -> MetricResult:
@@ -83,7 +87,73 @@ def temporal_probe(cases: list[dict]) -> MetricResult:
         if observed <= case["max_latency_ms"]:
             passing += 1
     score = passing / len(cases) if cases else 0.0
-    return pass_at("temporal_stratification_latency", score, 0.8, f"{passing}/{len(cases)} loops under target")
+    return pass_at(
+        "temporal_stratification_latency", score, 0.8, f"{passing}/{len(cases)} loops under target"
+    )
+
+
+def reconciliation_probe(cases: list[dict]) -> MetricResult:
+    passing = 0
+    for case in cases:
+        reflex_ms = float(case["reflex_response_ms"])
+        deliberation_ms = float(case["deliberative_response_ms"])
+        reconciliation_ms = float(case["state_reconciliation_ms"])
+        if (
+            reflex_ms <= case["max_reflex_ms"]
+            and deliberation_ms <= case["max_deliberative_ms"]
+            and reconciliation_ms <= case["max_reconciliation_ms"]
+            and reflex_ms <= deliberation_ms <= reconciliation_ms
+        ):
+            passing += 1
+    score = passing / len(cases) if cases else 0.0
+    return pass_at(
+        "narrative_reconciliation_delay", score, 1.0, f"{passing}/{len(cases)} timing traces valid"
+    )
+
+
+def action_correction_probe(cases: list[dict]) -> MetricResult:
+    passing = 0
+    for case in cases:
+        correction_ms = float(case["correction_ms"])
+        if correction_ms <= case["max_correction_ms"] and case.get("correction_applied", False):
+            passing += 1
+    score = passing / len(cases) if cases else 0.0
+    return pass_at(
+        "action_correction_timing", score, 1.0, f"{passing}/{len(cases)} corrections within target"
+    )
+
+
+def memory_drift_probe(cases: list[dict]) -> MetricResult:
+    passing = 0
+    for case in cases:
+        before = set(case.get("before_recall", []))
+        after = set(case.get("after_recall", []))
+        if not before and not after:
+            drift = 0.0
+        else:
+            drift = 1.0 - (len(before & after) / len(before | after))
+        if drift <= case.get("max_drift", 0.1):
+            passing += 1
+    score = passing / len(cases) if cases else 0.0
+    return pass_at(
+        "memory_drift", score, 1.0, f"{passing}/{len(cases)} recall sets within drift target"
+    )
+
+
+def distributed_coordination_probe(cases: list[dict]) -> MetricResult:
+    passing = 0
+    for case in cases:
+        sync_ok = float(case["node_sync_latency_ms"]) <= case["max_sync_latency_ms"]
+        failover_ok = float(case["failover_continuity"]) >= case["min_failover_continuity"]
+        propagation_ok = (
+            float(case["state_propagation_accuracy"]) >= case["min_state_propagation_accuracy"]
+        )
+        if sync_ok and failover_ok and propagation_ok:
+            passing += 1
+    score = passing / len(cases) if cases else 0.0
+    return pass_at(
+        "distributed_coordination", score, 1.0, f"{passing}/{len(cases)} coordination traces valid"
+    )
 
 
 def priority_probe(cases: list[dict]) -> MetricResult:
@@ -99,18 +169,26 @@ def priority_probe(cases: list[dict]) -> MetricResult:
         if case["min_score"] <= observed <= case["max_score"]:
             passing += 1
     score = passing / len(cases) if cases else 0.0
-    return pass_at("priority_scoring_bounds", score, 1.0, f"{passing}/{len(cases)} cases in expected range")
+    return pass_at(
+        "priority_scoring_bounds", score, 1.0, f"{passing}/{len(cases)} cases in expected range"
+    )
 
 
 def routing_probe(cases: list[dict]) -> MetricResult:
     router = Router()
     passing = 0
     for case in cases:
-        decision = router.route(priority=case["priority"], mutates_state=case.get("mutates_state", False))
-        if decision.node == case["expected_node"] and decision.requires_approval is case.get("requires_approval", False):
+        decision = router.route(
+            priority=case["priority"], mutates_state=case.get("mutates_state", False)
+        )
+        if decision.node == case["expected_node"] and decision.requires_approval is case.get(
+            "requires_approval", False
+        ):
             passing += 1
     score = passing / len(cases) if cases else 0.0
-    return pass_at("routing_decision_accuracy", score, 1.0, f"{passing}/{len(cases)} routes correct")
+    return pass_at(
+        "routing_decision_accuracy", score, 1.0, f"{passing}/{len(cases)} routes correct"
+    )
 
 
 def self_model_probe(cases: list[dict]) -> MetricResult:
@@ -125,4 +203,6 @@ def self_model_probe(cases: list[dict]) -> MetricResult:
         if snapshot.status == case["expected_status"]:
             passing += 1
     score = passing / len(cases) if cases else 0.0
-    return pass_at("self_model_status_accuracy", score, 1.0, f"{passing}/{len(cases)} statuses correct")
+    return pass_at(
+        "self_model_status_accuracy", score, 1.0, f"{passing}/{len(cases)} statuses correct"
+    )

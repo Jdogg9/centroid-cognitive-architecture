@@ -1,0 +1,14 @@
+{
+  "event_id": "memory-0001",
+  "timestamp": "2026-01-01T00:00:00Z",
+  "event_type": "protected_checkpoint",
+  "content": "public demo continuity checkpoint",
+  "source": "run_demo",
+  "classification": "privileged",
+  "provenance": "example fixture",
+  "redacted": false,
+  "metadata": {
+    "public_demo": "true"
+  }
+}
+

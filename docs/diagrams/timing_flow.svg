@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="260" viewBox="0 0 900 260" role="img" aria-label="Centroid timing flow">
+  <style>
+    .lane { stroke: #cbd5e1; stroke-width: 2; }
+    .box { fill: #f8fafc; stroke: #334155; stroke-width: 2; rx: 8; }
+    .text { font-family: Arial, sans-serif; font-size: 14px; fill: #0f172a; text-anchor: middle; }
+    .arrow { stroke: #475569; stroke-width: 2; marker-end: url(#arrow); fill: none; }
+  </style>
+  <defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#475569"/></marker></defs>
+  <line x1="90" y1="40" x2="90" y2="220" class="lane"/><text x="90" y="25" class="text">Input</text>
+  <line x1="260" y1="40" x2="260" y2="220" class="lane"/><text x="260" y="25" class="text">Reflex</text>
+  <line x1="440" y1="40" x2="440" y2="220" class="lane"/><text x="440" y="25" class="text">Deliberation</text>
+  <line x1="650" y1="40" x2="650" y2="220" class="lane"/><text x="650" y="25" class="text">Reconciliation</text>
+  <line x1="820" y1="40" x2="820" y2="220" class="lane"/><text x="820" y="25" class="text">Evaluation</text>
+  <rect x="120" y="60" width="120" height="42" class="box"/><text x="180" y="86" class="text">stimulus</text>
+  <path d="M240 81 L260 81" class="arrow"/><rect x="275" y="60" width="120" height="42" class="box"/><text x="335" y="86" class="text">31 ms reflex</text>
+  <path d="M395 81 L440 81" class="arrow"/><rect x="455" y="115" width="150" height="42" class="box"/><text x="530" y="141" class="text">4200 ms plan</text>
+  <path d="M605 136 L650 136" class="arrow"/><rect x="665" y="115" width="135" height="42" class="box"/><text x="732" y="141" class="text">4388 ms align</text>
+  <path d="M800 136 L820 136" class="arrow"/>
+</svg>
+

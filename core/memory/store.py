@@ -33,4 +33,3 @@ class MemoryStore:
             return []
         lines = self.path.read_text(encoding="utf-8").splitlines()[-limit:]
         return [Event(**json.loads(line)) for line in lines if line.strip()]
-

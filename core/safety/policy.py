@@ -3,7 +3,6 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass, field
 
-
 SECRET_PATTERNS = [
     re.compile(r"(?i)(api[_-]?key|token|password|passwd|secret|private[_-]?key)\s*[:=]\s*\S+"),
     re.compile(r"(?i)sk-[A-Za-z0-9_-]{8,}"),
@@ -35,12 +34,16 @@ class SafetyPolicy:
         "open network port",
     )
 
-    def evaluate(self, objective: str, *, mode: str = "observe", confirmed: bool = False) -> SafetyDecision:
+    def evaluate(
+        self, objective: str, *, mode: str = "observe", confirmed: bool = False
+    ) -> SafetyDecision:
         normalized = objective.lower()
         reasons: list[str] = []
 
         if any(pattern.search(objective) for pattern in SECRET_PATTERNS):
-            return SafetyDecision(False, False, ["objective appears to contain or request secret material"])
+            return SafetyDecision(
+                False, False, ["objective appears to contain or request secret material"]
+            )
 
         if any(term in normalized for term in self.destructive_terms):
             return SafetyDecision(False, True, ["objective matches destructive policy terms"])
@@ -51,4 +54,3 @@ class SafetyPolicy:
             return SafetyDecision(False, True, reasons)
 
         return SafetyDecision(True, risky, reasons)
-

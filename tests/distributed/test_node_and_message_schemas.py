@@ -32,4 +32,3 @@ def test_message_event_schema() -> None:
             "payload": {"observation": "node liveness check"},
         },
     )
-

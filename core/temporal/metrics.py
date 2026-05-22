@@ -17,4 +17,3 @@ class TimingSample:
 
 def latency_ms(started_at: datetime, completed_at: datetime) -> float:
     return round((completed_at - started_at).total_seconds() * 1000, 3)
-

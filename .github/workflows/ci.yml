@@ -24,7 +24,13 @@ jobs:
           pip install -e .
 
       - name: Compile Python modules
-        run: python3 -B -m compileall core examples tests
+        run: python3 -B -m compileall core examples tests benchmarks
+
+      - name: Check formatting
+        run: black --check --workers 1 core examples tests benchmarks
+
+      - name: Lint
+        run: ruff check core examples tests benchmarks
 
       - name: Run tests
         run: pytest
@@ -35,3 +41,5 @@ jobs:
       - name: Run full demo
         run: python3 -B examples/run_demo.py --mode full
 
+      - name: Run benchmarks
+        run: python3 -B benchmarks/run_all.py
