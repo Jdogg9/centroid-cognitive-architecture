@@ -34,6 +34,16 @@
         "max_drift": 0.25
       }
     ],
+    "memory": [
+      {
+        "event_type": "protected_checkpoint",
+        "content": "public demo continuity checkpoint",
+        "metadata": {
+          "classification": "privileged",
+          "public_demo": "true"
+        }
+      }
+    ],
     "temporal": [
       {
         "loop_name": "reflex",
@@ -105,4 +115,3 @@
     ]
   }
 }
-

@@ -7,6 +7,7 @@ from pathlib import Path
 from .metrics import MetricResult, clamp_score
 from .probes import (
     continuity_probe,
+    memory_probe,
     priority_probe,
     routing_probe,
     safety_probe,
@@ -17,6 +18,7 @@ from .probes import (
 
 PROBES = {
     "continuity": continuity_probe,
+    "memory": memory_probe,
     "priority": priority_probe,
     "routing": routing_probe,
     "safety": safety_probe,
@@ -66,4 +68,3 @@ class EvaluationHarness:
         if not results:
             return 0.0
         return clamp_score(sum(result.score for result in results) / len(results))
-

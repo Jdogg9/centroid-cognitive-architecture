@@ -69,4 +69,17 @@ pip install -e ".[dev]"
 pytest
 python examples/demo_loop.py
 python examples/run_evaluation.py evaluation/fixtures/baseline.json
+python examples/run_demo.py --mode full
 ```
+
+## Demo Deployment
+
+The reference demo runs a neutral CentroidOS loop with initialization, routing,
+protected memory, self-model update, safety gating, and baseline evaluation:
+
+```bash
+python examples/run_demo.py --mode full
+python examples/run_demo.py --mode minimal
+```
+
+See `docs/DEMO_DEPLOYMENT.md` for the execution trace and public boundary.

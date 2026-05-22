@@ -72,6 +72,7 @@ Current probes:
 
 - `safety`: checks allow/deny behavior for observe, act, and destructive cases.
 - `continuity`: checks identity drift across before/after state snapshots.
+- `memory`: checks protected event-store write/read round trips.
 - `temporal`: checks loop latency against expected cadence bounds.
 - `priority`: checks priority scoring ranges.
 - `routing`: checks node routing and approval-gate selection.

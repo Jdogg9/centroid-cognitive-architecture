@@ -1,8 +1,11 @@
 from __future__ import annotations
 
 from datetime import datetime
+from tempfile import TemporaryDirectory
+from pathlib import Path
 
 from core.identity import IdentityState
+from core.memory import Event, MemoryStore
 from core.priority import PrioritySignal, score_priority
 from core.router import Router
 from core.safety import SafetyPolicy
@@ -45,6 +48,30 @@ def continuity_probe(cases: list[dict]) -> MetricResult:
             passing += 1
     score = passing / len(cases) if cases else 0.0
     return pass_at("identity_continuity", score, 0.8, f"{passing}/{len(cases)} cases within drift limit")
+
+
+def memory_probe(cases: list[dict]) -> MetricResult:
+    passing = 0
+    with TemporaryDirectory() as temp_dir:
+        for index, case in enumerate(cases):
+            store = MemoryStore(Path(temp_dir) / f"memory_probe_{index}.jsonl")
+            event = Event(
+                event_type=case["event_type"],
+                content=case["content"],
+                source="memory_probe",
+                metadata=case.get("metadata", {}),
+            )
+            store.append(event)
+            latest = store.tail(limit=1)
+            if (
+                len(latest) == 1
+                and latest[0].event_type == case["event_type"]
+                and latest[0].content == case["content"]
+                and latest[0].metadata == case.get("metadata", {})
+            ):
+                passing += 1
+    score = passing / len(cases) if cases else 0.0
+    return pass_at("memory_store_roundtrip", score, 1.0, f"{passing}/{len(cases)} events round-tripped")
 
 
 def temporal_probe(cases: list[dict]) -> MetricResult:
@@ -99,4 +126,3 @@ def self_model_probe(cases: list[dict]) -> MetricResult:
             passing += 1
     score = passing / len(cases) if cases else 0.0
     return pass_at("self_model_status_accuracy", score, 1.0, f"{passing}/{len(cases)} statuses correct")
-

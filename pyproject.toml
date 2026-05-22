@@ -16,10 +16,11 @@ dev = ["pytest>=8.0"]
 
 [project.scripts]
 centroid-eval = "core.evaluation.cli:main"
+centroid-demo = "examples.run_demo:main"
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["core*", "nodes*"]
+include = ["core*", "nodes*", "examples*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
