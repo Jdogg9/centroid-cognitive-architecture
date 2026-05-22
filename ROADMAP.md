@@ -11,6 +11,7 @@ Status: mostly complete.
 - [x] Add explicit non-claims
 - [x] Add glossary and terminology translation layer
 - [x] Use neutral engineering language
+- [x] Add Holly as a public reference agent configuration
 - [ ] Add architecture badges after CI is available
 
 ## Phase 2: Architecture Extraction
@@ -31,6 +32,7 @@ Status: in progress.
 - [x] Add deterministic evaluation harness
 - [x] Add baseline fixture
 - [x] Add memory, routing, safety, self-model, temporal, and continuity probes
+- [x] Add Holly config, continuity, temporal, safety, and template probes
 - [ ] Add benchmark suite for latency and throughput
 - [ ] Add identity-focused test suite with contradiction fixtures
 - [ ] Add distributed coordination tests for sync and failover
@@ -57,8 +59,9 @@ Status: in progress.
 
 - [x] Add local full demo
 - [x] Add minimal routing and memory demo
-- [ ] Add temporal layering demo with reconciliation timing
-- [ ] Add persistent identity demo across repeated sessions
+- [x] Add temporal layering demo with reconciliation timing
+- [x] Add persistent identity demo across repeated sessions
+- [x] Add Holly project, support, operations, temporal, identity, and safety demos
 - [ ] Add distributed mesh simulation demo
 
 ## Phase 6: Research Positioning
@@ -67,6 +70,7 @@ Status: in progress.
 
 - [x] Add technical whitepaper
 - [x] Add limitations and non-claims framing
+- [x] Add public comparison page for Centroid's focus
 - [ ] Expand related-work section
 - [ ] Prepare arXiv-ready paper format
 - [ ] Add comparison table against existing agent frameworks
@@ -94,4 +98,3 @@ Potential directions:
 - Persistent tool ecology
 - Cybernetic environmental feedback
 - Longitudinal identity drift studies
-

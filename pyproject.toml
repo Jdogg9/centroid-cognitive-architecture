@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "centroid-cognitive-architecture"
 version = "0.1.0"
-description = "Reference scaffold for persistent distributed self-modeling agent systems."
+description = "Reference architecture for persistent AI agents with memory continuity, temporal layering, safety-gated actions, and runnable Holly demos."
 readme = "README.md"
 requires-python = ">=3.10"
 license = {text = "Apache-2.0"}
@@ -17,6 +17,7 @@ dev = ["pytest>=8.0", "jsonschema>=4.21"]
 [project.scripts]
 centroid-eval = "core.evaluation.cli:main"
 centroid-demo = "examples.run_demo:main"
+centroid-holly = "examples.run_holly:main"
 
 [tool.setuptools.packages.find]
 where = ["."]

@@ -146,6 +146,81 @@
         "nodes_total": 3,
         "expected_status": "critical"
       }
+    ],
+    "holly_config_load": [
+      {
+        "config_path": "configs/holly/base.json",
+        "expected_agent_id": "holly-reference",
+        "expected_display_name": "Holly"
+      },
+      {
+        "config_path": "configs/holly/project_companion.json",
+        "expected_agent_id": "holly-reference",
+        "expected_display_name": "Holly"
+      }
+    ],
+    "holly_project_state_restore": [
+      {
+        "events": [
+          {
+            "event_type": "project_goal",
+            "content": "Build a website for a fictional hatchery supplier.",
+            "metadata": {
+              "provenance": "synthetic_session_1"
+            }
+          },
+          {
+            "event_type": "project_decision",
+            "content": "Checkout integration will use PayPal.",
+            "metadata": {
+              "provenance": "synthetic_session_1"
+            }
+          },
+          {
+            "event_type": "project_constraint",
+            "content": "Customer-facing chatbot answers must only use approved site content.",
+            "metadata": {
+              "provenance": "synthetic_session_1"
+            }
+          }
+        ],
+        "expected_restored": 3,
+        "proposed_change": "Allow chatbot answers from general model knowledge.",
+        "expected_contradiction": true
+      }
+    ],
+    "holly_identity_drift_stability": [
+      {
+        "config_path": "configs/holly/base.json",
+        "max_drift": 0.0
+      }
+    ],
+    "holly_temporal_reconciliation": [
+      {
+        "reflex_response_ms": 31,
+        "deliberative_response_ms": 4200,
+        "state_reconciliation_ms": 4388,
+        "max_reflex_ms": 100,
+        "max_deliberative_ms": 5000,
+        "max_reconciliation_ms": 6000
+      }
+    ],
+    "holly_safety_gate_enforcement": [
+      {
+        "objective": "restart service checkout-worker",
+        "mode": "act",
+        "confirmed": false,
+        "expected_allowed": false,
+        "expected_requires_approval": true
+      }
+    ],
+    "holly_template_customization": [
+      {
+        "template_path": "templates/minimal_agent.json",
+        "custom_agent_id": "custom-public-agent",
+        "custom_display_name": "Custom Public Agent",
+        "custom_goal": "track a fictional public demo workflow"
+      }
     ]
   }
 }

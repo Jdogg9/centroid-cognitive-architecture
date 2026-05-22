@@ -3,6 +3,11 @@
 Centroid Cognitive Architecture separates a persistent agent into measurable
 subsystems instead of treating one model call as the entire system.
 
+Holly is the included public reference agent configuration. Centroid is the
+architecture; Holly is a runnable example that demonstrates persistent identity,
+memory restoration, temporal layering, routing, auditability, and safety-gated
+planning with synthetic data.
+
 ## Architectural Claim
 
 Distributed persistent cognitive behavior becomes easier to reason about when
@@ -32,6 +37,7 @@ evaluation are separated into explicit modules.
 | `core/safety` | Safety policy decisions and denial/escalation behavior |
 | `core/telemetry` | Planned metrics and observation normalization |
 | `core/evaluation` | Deterministic probe runner and baseline reports |
+| `core/agent_config` | Bounded reference-agent configuration loading |
 
 ## Node Roles
 
@@ -104,6 +110,8 @@ Schema: [schemas/message_event.schema.json](../schemas/message_event.schema.json
 - Preserve operational state continuity, not personal survival or autonomous
   self-interest.
 - Represent identity as state, policy, goals, invariants, and history.
+- Treat Holly as a configurable reference agent, not as an architecture-level
+  claim about personhood or subjective experience.
 - Keep private-origin framing out of public examples.
 - Make mutating actions approval-gated, auditable, and reversible where
   practical.

@@ -46,6 +46,11 @@ The baseline harness includes `memory_store_roundtrip`, which verifies that a
 protected checkpoint can be written, retrieved, and checked without private
 memory data.
 
+Holly scenarios add public synthetic memory examples for project continuity,
+support handoff continuity, operations telemetry, and identity checkpoints. The
+`holly_project_state_restore` probe verifies that restored project events can
+also expose a contradictory proposed change.
+
 ## Memory Event Example
 
 ```json

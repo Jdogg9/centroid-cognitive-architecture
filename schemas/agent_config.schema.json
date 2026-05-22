@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Jdogg9/centroid-cognitive-architecture/schemas/agent_config.schema.json",
+  "title": "Centroid Agent Configuration",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "agent_id",
+    "display_name",
+    "role",
+    "description",
+    "goals",
+    "invariants",
+    "memory_policy"
+  ],
+  "properties": {
+    "agent_id": {"type": "string", "minLength": 1},
+    "display_name": {"type": "string", "minLength": 1},
+    "role": {"type": "string", "minLength": 1},
+    "description": {"type": "string", "minLength": 1},
+    "scenario_id": {"type": "string", "minLength": 1},
+    "scenario_name": {"type": "string", "minLength": 1},
+    "goals": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string", "minLength": 1},
+      "uniqueItems": true
+    },
+    "invariants": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string", "minLength": 1},
+      "uniqueItems": true
+    },
+    "memory_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["default_retention", "store_sensitive_data", "require_provenance"],
+      "properties": {
+        "default_retention": {"type": "string", "minLength": 1},
+        "store_sensitive_data": {"type": "boolean"},
+        "require_provenance": {"type": "boolean"}
+      }
+    },
+    "priority_policy": {
+      "type": "object",
+      "additionalProperties": {"type": "number", "minimum": 0.0, "maximum": 1.0}
+    },
+    "safety_policy": {
+      "type": "object",
+      "additionalProperties": {
+        "anyOf": [
+          {"type": "boolean"},
+          {"type": "string"},
+          {"type": "number"}
+        ]
+      }
+    }
+  }
+}

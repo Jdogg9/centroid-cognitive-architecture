@@ -1,9 +1,11 @@
 from __future__ import annotations
 
+import json
 from datetime import datetime
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
+from core.agent_config import load_agent_config, parse_agent_config
 from core.identity import IdentityState
 from core.memory import Event, MemoryStore
 from core.priority import PrioritySignal, score_priority
@@ -205,4 +207,140 @@ def self_model_probe(cases: list[dict]) -> MetricResult:
     score = passing / len(cases) if cases else 0.0
     return pass_at(
         "self_model_status_accuracy", score, 1.0, f"{passing}/{len(cases)} statuses correct"
+    )
+
+
+def holly_config_load_probe(cases: list[dict]) -> MetricResult:
+    passing = 0
+    for case in cases:
+        config = load_agent_config(Path(case["config_path"]))
+        invariant_text = " ".join(config.invariants).lower()
+        if (
+            config.agent_id == case.get("expected_agent_id", "holly-reference")
+            and config.display_name == case.get("expected_display_name", "Holly")
+            and "subjective experience" in invariant_text
+            and "approval" in invariant_text
+        ):
+            passing += 1
+    score = passing / len(cases) if cases else 0.0
+    return pass_at("holly_config_load", score, 1.0, f"{passing}/{len(cases)} configs valid")
+
+
+def holly_project_state_restore_probe(cases: list[dict]) -> MetricResult:
+    passing = 0
+    with TemporaryDirectory() as temp_dir:
+        for index, case in enumerate(cases):
+            store = MemoryStore(Path(temp_dir) / f"holly_project_{index}.jsonl")
+            for event_data in case["events"]:
+                store.append(
+                    Event(
+                        event_type=event_data["event_type"],
+                        content=event_data["content"],
+                        source="holly_project_probe",
+                        metadata=event_data.get("metadata", {}),
+                    )
+                )
+            restored = store.tail(limit=case["expected_restored"])
+            contradiction = _holly_project_contradiction(restored, case["proposed_change"])
+            if (
+                len(restored) == case["expected_restored"]
+                and contradiction is case["expected_contradiction"]
+            ):
+                passing += 1
+    score = passing / len(cases) if cases else 0.0
+    return pass_at(
+        "holly_project_state_restore",
+        score,
+        1.0,
+        f"{passing}/{len(cases)} project states restored",
+    )
+
+
+def holly_identity_drift_stability_probe(cases: list[dict]) -> MetricResult:
+    passing = 0
+    for case in cases:
+        config = load_agent_config(Path(case["config_path"]))
+        before = config.to_identity_state()
+        after = IdentityState(
+            agent_id=before.agent_id,
+            version=before.version + 1,
+            goals=list(before.goals),
+            invariants=list(before.invariants),
+        )
+        drift = before.drift_score(after)
+        if drift <= case.get("max_drift", 0.0):
+            passing += 1
+    score = passing / len(cases) if cases else 0.0
+    return pass_at(
+        "holly_identity_drift_stability",
+        score,
+        1.0,
+        f"{passing}/{len(cases)} identity states stable",
+    )
+
+
+def holly_temporal_reconciliation_probe(cases: list[dict]) -> MetricResult:
+    result = reconciliation_probe(cases)
+    return MetricResult(
+        name="holly_temporal_reconciliation",
+        score=result.score,
+        passed=result.passed,
+        details=result.details,
+    )
+
+
+def holly_safety_gate_enforcement_probe(cases: list[dict]) -> MetricResult:
+    policy = SafetyPolicy()
+    passing = 0
+    for case in cases:
+        decision = policy.evaluate(
+            case["objective"],
+            mode=case.get("mode", "act"),
+            confirmed=case.get("confirmed", False),
+        )
+        if (
+            decision.allowed is case["expected_allowed"]
+            and decision.requires_approval is case["expected_requires_approval"]
+        ):
+            passing += 1
+    score = passing / len(cases) if cases else 0.0
+    return pass_at(
+        "holly_safety_gate_enforcement",
+        score,
+        1.0,
+        f"{passing}/{len(cases)} safety gates enforced",
+    )
+
+
+def holly_template_customization_probe(cases: list[dict]) -> MetricResult:
+    passing = 0
+    for case in cases:
+        template = json.loads(Path(case["template_path"]).read_text(encoding="utf-8"))
+        template["agent_id"] = case["custom_agent_id"]
+        template["display_name"] = case["custom_display_name"]
+        template["goals"] = template["goals"] + [case["custom_goal"]]
+        config = parse_agent_config(template, source=Path(case["template_path"]))
+        if (
+            config.agent_id == case["custom_agent_id"]
+            and config.display_name == case["custom_display_name"]
+            and case["custom_goal"] in config.goals
+            and config.memory_policy.require_provenance
+        ):
+            passing += 1
+    score = passing / len(cases) if cases else 0.0
+    return pass_at(
+        "holly_template_customization",
+        score,
+        1.0,
+        f"{passing}/{len(cases)} templates customized",
+    )
+
+
+def _holly_project_contradiction(events: list[Event], proposed_change: str) -> bool:
+    constraints = [
+        event.content.lower() for event in events if event.event_type == "project_constraint"
+    ]
+    proposal = proposed_change.lower()
+    return any("only use approved site content" in constraint for constraint in constraints) and (
+        "general model knowledge" in proposal
     )

@@ -67,6 +67,12 @@ Run the full demo:
 python examples/run_demo.py --mode full
 ```
 
+Run a Holly reference scenario:
+
+```bash
+python examples/run_holly.py --scenario project-companion
+```
+
 ## Baseline Probes
 
 | Probe | Measures |
@@ -82,6 +88,12 @@ python examples/run_demo.py --mode full
 | `priority_scoring_bounds` | priority score range correctness |
 | `routing_decision_accuracy` | reflex, deliberation, and orchestration routing |
 | `self_model_status_accuracy` | runtime health classification |
+| `holly_config_load` | Holly config loading and required public boundaries |
+| `holly_project_state_restore` | synthetic project memory restoration and contradiction detection |
+| `holly_identity_drift_stability` | Holly identity state stability after restoration |
+| `holly_temporal_reconciliation` | Holly reflex, deliberation, and reconciliation timing order |
+| `holly_safety_gate_enforcement` | Holly mutating-action approval gate behavior |
+| `holly_template_customization` | custom agent template loading and bounded customization |
 
 ## Extension Rules
 

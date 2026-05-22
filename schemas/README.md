@@ -3,7 +3,7 @@
 This directory contains machine-readable JSON Schema contracts for CentroidOS
 runtime events and evaluation artifacts. The schemas support reproducibility by
 making message shape, telemetry shape, memory writes, safety decisions, node
-heartbeats, and evaluation results explicit.
+heartbeats, agent configuration, and evaluation results explicit.
 
 ## Files
 
@@ -15,6 +15,7 @@ heartbeats, and evaluation results explicit.
 - `safety_decision.schema.json`: safety policy outcomes for observe, plan, act,
   and high-impact actions.
 - `node_heartbeat.schema.json`: node liveness and status reports.
+- `agent_config.schema.json`: bounded reference-agent configuration contract.
 - `evaluation_result.schema.json`: normalized probe results and suite reports.
 
 ## Field Notes

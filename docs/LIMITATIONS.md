@@ -10,6 +10,8 @@ it is not yet a full production runtime.
 - Benchmarks are deterministic reference benchmarks, not hardware-normalized
   deployment benchmarks.
 - No live model backend is required or evaluated by default.
+- Holly is a deterministic reference agent configuration, not a production
+  assistant or private-origin persona.
 - Longitudinal identity drift is represented by small fixtures, not extended
   multi-week traces.
 - Distributed coordination is simulated through deterministic event shape and
@@ -39,4 +41,3 @@ subjective experience, or autonomous moral agency.
 - longer identity continuity fixtures
 - model-backed deliberation probes with deterministic replay traces
 - shutdown compliance integration tests
-

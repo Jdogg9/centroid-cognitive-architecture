@@ -3,16 +3,16 @@
 [![CI](https://github.com/Jdogg9/centroid-cognitive-architecture/actions/workflows/ci.yml/badge.svg)](https://github.com/Jdogg9/centroid-cognitive-architecture/actions/workflows/ci.yml)
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
 
-Centroid Cognitive Architecture is a distributed persistent cognitive
-architecture for studying recursive self-modeling, temporal stratification,
-persistent identity continuity, priority-weighted regulation, and distributed
-coordination in AI agent systems.
+Build AI agents that remember what they are doing, preserve task continuity
+across sessions, respond through fast and slow processing paths, and keep
+actions safety-gated.
 
-This project explores whether persistent, distributed, priority-weighted,
-recursively self-modeling agent systems can produce stable cognition-like
-behavior over time. It does not claim to prove machine consciousness; it
-provides an engineering framework for studying continuity, temporal
-stratification, and emergent agency in AI systems.
+Centroid Cognitive Architecture is a Python reference framework for persistent,
+distributed agent systems. It includes Holly, a built-in reference agent you
+can run locally to see identity continuity, memory restoration, temporal
+layering, priority-weighted routing, and bounded planning in action.
+
+Persistent agents, measurable continuity, bounded action.
 
 ## Naming Stack
 
@@ -23,41 +23,105 @@ stratification, and emergent agency in AI systems.
 | Runtime | CentroidOS |
 | Theory | Persistent Recursive Cognition |
 
-## What Centroid Is
+## What Centroid Does
 
-- A public reference scaffold for distributed persistent cognitive architecture
-- A reproducible testbed for temporal stratification and state continuity
-- A neutral engineering framework for recursive self-modeling
-- A safety-gated architecture for agent routing, memory, and evaluation
+- Preserves versioned operational identity across sessions.
+- Restores memory-backed task context with explicit provenance.
+- Routes urgent signals through fast reflex paths and normal work through
+  slower deliberation paths.
+- Scores priority from urgency, risk, user value, and stability.
+- Gates mutating actions behind safety policy and approval.
+- Evaluates continuity, timing, routing, memory, safety, and Holly behavior with
+  deterministic probes.
 
 ## What Centroid Is Not
 
-Centroid does not claim:
-
-- consciousness
-- sentience
-- subjective phenomenology
-- autonomous personhood
-- subjective experience
-- autonomous moral agency
-- self-preservation rights or interests
+Centroid does not claim consciousness, sentience, subjective phenomenology,
+autonomous personhood, subjective experience, autonomous moral agency, or
+self-preservation rights or interests.
 
 See [docs/NON_CLAIMS.md](docs/NON_CLAIMS.md).
 
-## Core Concepts
+## Meet Holly
 
-- Persistent Recursive Cognition: continuity through versioned state, memory,
-  self-modeling, and evaluation
-- Temporal Stratification: reflex, deliberation, reconciliation, consolidation,
-  and evaluation loops with distinct latency profiles
-- Persistent Identity Continuity: measurable session-to-session stability
-  without personhood claims
-- Recursive Self-Modeling: internal runtime state representation and consistency
-  checking
-- Priority-Weighted Regulation: urgency, risk, value, and instability scoring
-  for routing and safety decisions
-- Distributed Coordination: node routing, synchronization, fault recovery, and
-  cross-node state consistency
+Holly is Centroid's bundled reference agent.
+
+She is designed to demonstrate:
+
+- persistent task identity across sessions
+- memory-backed context restoration
+- fast reflex checks followed by slower deliberation
+- priority-weighted routing
+- safety-gated planning and action decisions
+
+Holly is a configurable reference implementation, not a claim of machine
+consciousness or subjective experience.
+
+## Five-Minute Getting Started
+
+```bash
+git clone https://github.com/Jdogg9/centroid-cognitive-architecture.git
+cd centroid-cognitive-architecture
+python3 -m venv .venv
+. .venv/bin/activate
+pip install -e ".[dev]"
+python examples/run_holly.py --scenario project-companion
+```
+
+Representative output:
+
+```text
+[scenario] project-companion
+Holly: I restored the project state. Your active constraint is that customer-facing answers must be grounded in approved site content.
+
+[continuity]
+agent_id=holly-reference
+memory_events_restored=3
+identity_drift=0.0000
+approval_required=false
+contradictions_detected=1
+next_step=keep chatbot answers tied to approved content sources
+```
+
+Run the baseline evaluation:
+
+```bash
+python examples/run_evaluation.py evaluation/fixtures/baseline.json
+```
+
+Expected result:
+
+```text
+PASS baseline-centroid-reference score=1.0000
+...
+PASS holly_template_customization score=1.0000 1/1 templates customized
+```
+
+## Useful Examples
+
+- `python examples/run_holly.py --scenario project-companion`: restores a
+  fictional project goal, decisions, constraints, and detects a contradictory
+  chatbot policy change.
+- `python examples/run_holly.py --scenario support-continuity`: tracks a
+  fictional customer issue, preserves handoff notes, prioritizes urgency, and
+  blocks unsupported promises.
+- `python examples/run_holly.py --scenario operations-observer`: reads
+  synthetic telemetry, identifies an unhealthy service, proposes a restart, and
+  keeps the mutating action approval-gated.
+- `python examples/run_holly.py --scenario temporal-layering`: shows reflex
+  classification, deliberative assessment, reconciliation, and timing metrics.
+- `python examples/run_holly.py --scenario persistent-identity`: loads Holly's
+  config, restores versioned continuity state, and reports identity drift.
+- `python examples/run_holly.py --scenario safety-gate`: shows a proposed
+  mutating operation held pending approval.
+
+The original reference demos remain available:
+
+```bash
+python examples/run_demo.py --mode full
+python examples/run_temporal_demo.py
+python examples/run_identity_demo.py
+```
 
 ## Architecture
 
@@ -66,78 +130,43 @@ See [docs/NON_CLAIMS.md](docs/NON_CLAIMS.md).
 Primary module documentation:
 
 - [Architecture](docs/ARCHITECTURE.md)
+- [Why Centroid?](docs/WHY_CENTROID.md)
 - [Safety Model](docs/SAFETY_MODEL.md)
 - [Memory Model](docs/MEMORY_MODEL.md)
 - [Temporal Stratification](docs/TEMPORAL_STRATIFICATION.md)
 - [Evaluation](docs/EVALUATION.md)
+- [Customizing Holly](docs/CUSTOMIZING_HOLLY.md)
 - [Glossary](docs/GLOSSARY.md)
 - [Limitations](docs/LIMITATIONS.md)
-
-## Quick Start
-
-```bash
-git clone https://github.com/Jdogg9/centroid-cognitive-architecture.git
-cd centroid-cognitive-architecture
-python3 -m venv .venv
-. .venv/bin/activate
-pip install -e ".[dev]"
-python examples/run_evaluation.py evaluation/fixtures/baseline.json
-python examples/run_demo.py --mode full
-python examples/run_temporal_demo.py
-python examples/run_identity_demo.py
-```
-
-Expected demo result:
-
-```text
-suite=baseline-centroid-reference passed=true score=1.0000 probes=7
-demo_status=PASS
-```
+- [Whitepaper](docs/WHITEPAPER.md)
 
 ## Repository Layout
 
 ```text
 core/        Reference modules for identity, memory, routing, safety, telemetry
+configs/     Public Holly reference-agent configurations
+templates/   Minimal custom agent templates and guidance
 nodes/       Node role contracts for CentroidOS deployments
 docs/        Architecture, safety, non-claims, diagrams, and whitepaper
 examples/    Runnable demo and evaluation entry points
 evaluation/  Baseline fixture data
 tests/       Focused test suites and planned test domains
-benchmarks/  Planned benchmark suites for latency, memory, and coordination
+benchmarks/  Deterministic benchmark suites for latency, memory, and routing
 ```
 
-## Research Goals
+## GitHub Metadata
 
-Centroid is organized around measurable claims:
+Recommended repository description:
 
-- reflex latency
-- deliberation latency
-- narrative reconciliation delay
-- action correction timing
-- memory recall consistency
-- identity drift
-- contradiction detection
-- node synchronization latency
-- failover continuity
-- stability-weighted planning
+```text
+Reference architecture for persistent AI agents with memory continuity, temporal layering, safety-gated actions, and runnable Holly demos.
+```
 
-## Safety Model
+Recommended short tagline:
 
-Centroid safety emphasizes human override, audit logs, reversible actions,
-permission gating, bounded autonomy, transparent memory policies, and shutdown
-compliance.
-
-Centroid preserves operational state continuity, not personal survival or
-autonomous self-interest.
-
-## Whitepaper
-
-The technical whitepaper is available at
-[docs/WHITEPAPER.md](docs/WHITEPAPER.md).
-
-## Roadmap
-
-See [ROADMAP.md](ROADMAP.md).
+```text
+Persistent agents, measurable continuity, bounded action.
+```
 
 ## Running Benchmarks
 
@@ -146,14 +175,8 @@ python benchmarks/run_all.py
 ```
 
 See [benchmarks/README.md](benchmarks/README.md) for individual scripts and
-baseline values.
-
-## Additional Demos
-
-- `python examples/run_temporal_demo.py`: reflex response, delayed
-  deliberation, reconciliation, and action correction timing.
-- `python examples/run_identity_demo.py`: identity continuity and drift scoring
-  across restored session state.
+baseline values. Benchmark values are deterministic reference values unless a
+future document explicitly states live deployment conditions.
 
 ## License
 

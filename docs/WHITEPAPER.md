@@ -17,10 +17,11 @@ behavior over time. It does not claim to prove machine consciousness; it
 provides an engineering framework for studying continuity, temporal
 stratification, and emergent agency in AI systems.
 
-The reference runtime, CentroidOS, includes a deterministic evaluation harness
-and a local demo deployment. Reviewers can run the baseline suite and reproduce
-the current public claims without access to private memory, live model servers,
-or the private source system from which the architecture was abstracted.
+The reference runtime, CentroidOS, includes a deterministic evaluation harness,
+a local demo deployment, and Holly, a public reference agent configuration.
+Reviewers can run the baseline suite and Holly scenarios to reproduce the
+current public claims without access to private memory, live model servers, or
+the private source system from which the architecture was abstracted.
 
 ## 1. Introduction
 
@@ -35,6 +36,12 @@ defines a persistent identity state, protected event memory, routing between
 reflex and deliberation paths, runtime self-model updates, and deterministic
 baseline probes. The goal is not to anthropomorphize the system. The goal is to
 make long-running agent behavior observable, bounded, and measurable.
+
+Holly is included as a concrete reference agent profile for that architecture.
+Holly demonstrates configuration loading, persistent task state, memory-backed
+restoration, temporal layering, and safety-gated planning with synthetic data.
+Holly is not a private-origin persona and is not a claim of consciousness,
+sentience, subjective experience, personhood, or autonomous moral agency.
 
 The public scope is deliberately narrow:
 
@@ -240,6 +247,12 @@ python examples/run_demo.py --mode full
 | `priority_scoring_bounds` | Priority score range correctness | 1.0000 |
 | `routing_decision_accuracy` | Reflex, deliberation, and orchestration routing | 1.0000 |
 | `self_model_status_accuracy` | Runtime health classification | 1.0000 |
+| `holly_config_load` | Holly config loading and required public boundaries | 1.0000 |
+| `holly_project_state_restore` | Synthetic project state restoration | 1.0000 |
+| `holly_identity_drift_stability` | Holly identity drift stability | 1.0000 |
+| `holly_temporal_reconciliation` | Holly timing order and bounds | 1.0000 |
+| `holly_safety_gate_enforcement` | Holly approval gate behavior | 1.0000 |
+| `holly_template_customization` | Custom agent template parsing | 1.0000 |
 
 The system achieves `score=1.0000` on all baseline probes. This does not mean
 the architecture is complete. It means the public reference scaffold satisfies
@@ -279,13 +292,21 @@ self_model=healthy active_goals=3
 [5/6] safety gate
 objective=write file with updated state allowed=false approval=true result=hold
 [6/6] baseline evaluation
-suite=baseline-centroid-reference passed=true score=1.0000 probes=7
+suite=baseline-centroid-reference passed=true score=1.0000 probes=17
 demo_status=PASS
 ```
 
 The trace demonstrates the full claim path: initialization, routing, memory
 round trip, self-model update, safety hold, and baseline evaluation. Additional
 deployment details are documented in `docs/DEMO_DEPLOYMENT.md`.
+
+Holly scenarios provide more concrete reference-agent traces:
+
+```bash
+python examples/run_holly.py --scenario project-companion
+python examples/run_holly.py --scenario temporal-layering
+python examples/run_holly.py --scenario safety-gate
+```
 
 ## 10. Origin and Derivation
 
@@ -303,6 +324,9 @@ architecture for public discussion and implementation.
 Centroid is related to established cognitive architectures and modern agent
 frameworks, but it focuses on a narrower public claim: measurable distributed
 persistence, temporal stratification, and safety-gated recursive self-modeling.
+See [WHY_CENTROID.md](WHY_CENTROID.md) for a practical comparison against
+stateless wrappers, orchestration frameworks, cognitive architectures, and
+memory-augmented assistants.
 
 | System or family | Similarity | Difference |
 | --- | --- | --- |

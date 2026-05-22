@@ -35,6 +35,7 @@ symbolic language into neutral technical language.
 
 ## Preferred Public Terms
 
+- Holly reference agent
 - distributed persistent cognitive architecture
 - persistent recursive cognition
 - recursive self-modeling
@@ -47,9 +48,15 @@ symbolic language into neutral technical language.
 - distributed coordination
 - operational state continuity
 
+## Reference Agent
+
+Holly is Centroid's bundled public reference agent. The term refers to a
+configurable agent profile and deterministic demos that exercise the
+architecture; it does not imply consciousness, subjective experience,
+personhood, or autonomous moral agency.
+
 ## Terms To Avoid In Public Claims
 
 Avoid language that implies verified subjective experience, personhood, mystical
 status, or autonomous moral agency. Preserve useful ideas by translating them
 into state, memory, routing, timing, safety, and evaluation terminology.
-

@@ -72,3 +72,7 @@ concealing behavior, or escalating autonomy.
 Machine-readable safety policy fixtures live in
 [schemas/policy/](../schemas/policy/). The reference fixture records action
 tiers, deny terms, override rules, and shutdown compliance requirements.
+
+Holly's operations and safety-gate scenarios demonstrate the same boundary with
+synthetic telemetry: Holly may observe an unhealthy service and propose a
+restart, but the mutating action remains blocked until approval is recorded.
