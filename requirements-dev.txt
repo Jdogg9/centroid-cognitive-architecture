@@ -2,3 +2,6 @@ pytest>=8.0
 jsonschema>=4.21
 ruff>=0.8
 black>=24.0
+build>=1.2
+setuptools>=77
+wheel>=0.43

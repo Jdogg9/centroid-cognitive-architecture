@@ -61,6 +61,12 @@ Run the baseline fixture:
 python examples/run_evaluation.py evaluation/fixtures/baseline.json
 ```
 
+Installed CLI entry points can also use the packaged baseline fixture:
+
+```bash
+centroid-eval
+```
+
 Run the full demo:
 
 ```bash
@@ -74,6 +80,10 @@ python examples/run_holly.py --scenario project-companion
 ```
 
 ## Baseline Probes
+
+The current baseline contains 17 deterministic probes. These are contract
+checks over fixture data and synthetic Holly scenarios; they are not claims of
+live distributed runtime performance.
 
 | Probe | Measures |
 | --- | --- |

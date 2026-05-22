@@ -1,18 +1,26 @@
 [build-system]
-requires = ["setuptools>=68"]
+requires = ["setuptools>=77"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "centroid-cognitive-architecture"
-version = "0.1.0"
+version = "0.2.1"
 description = "Reference architecture for persistent AI agents with memory continuity, temporal layering, safety-gated actions, and runnable Holly demos."
 readme = "README.md"
 requires-python = ">=3.10"
-license = {text = "Apache-2.0"}
+license = "Apache-2.0"
 authors = [{name = "Centroid Contributors"}]
 
 [project.optional-dependencies]
-dev = ["pytest>=8.0", "jsonschema>=4.21"]
+dev = [
+    "pytest>=8.0",
+    "jsonschema>=4.21",
+    "ruff>=0.8",
+    "black>=24.0",
+    "build>=1.2",
+    "setuptools>=77",
+    "wheel>=0.43",
+]
 
 [project.scripts]
 centroid-eval = "core.evaluation.cli:main"
@@ -21,7 +29,15 @@ centroid-holly = "examples.run_holly:main"
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["core*", "nodes*", "examples*"]
+include = ["core*", "nodes*", "examples*", "configs*", "evaluation*", "schemas*", "templates*"]
+
+[tool.setuptools.package-data]
+"configs.holly" = ["*.json"]
+"evaluation.fixtures" = ["*.json"]
+"schemas" = ["*.json", "*.md"]
+"schemas.examples" = ["*.json"]
+"schemas.policy" = ["*.json"]
+"templates" = ["*.json", "*.md"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

@@ -9,6 +9,7 @@ from core.agent_config import load_agent_config, parse_agent_config
 from core.identity import IdentityState
 from core.memory import Event, MemoryStore
 from core.priority import PrioritySignal, score_priority
+from core.resources import read_text_resource_or_file
 from core.router import Router
 from core.safety import SafetyPolicy
 from core.self_model import SelfModelSnapshot
@@ -315,7 +316,7 @@ def holly_safety_gate_enforcement_probe(cases: list[dict]) -> MetricResult:
 def holly_template_customization_probe(cases: list[dict]) -> MetricResult:
     passing = 0
     for case in cases:
-        template = json.loads(Path(case["template_path"]).read_text(encoding="utf-8"))
+        template = json.loads(read_text_resource_or_file(case["template_path"]))
         template["agent_id"] = case["custom_agent_id"]
         template["display_name"] = case["custom_display_name"]
         template["goals"] = template["goals"] + [case["custom_goal"]]

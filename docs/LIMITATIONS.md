@@ -9,9 +9,13 @@ it is not yet a full production runtime.
 - The default demo is local and deterministic, not a live multi-machine mesh.
 - Benchmarks are deterministic reference benchmarks, not hardware-normalized
   deployment benchmarks.
+- The 17 baseline probes are deterministic contract checks over fixtures and
+  synthetic Holly scenarios, not live distributed execution evidence.
 - No live model backend is required or evaluated by default.
 - Holly is a deterministic reference agent configuration, not a production
   assistant or private-origin persona.
+- Holly configuration files are packaged for installation, but scenario
+  behavior is still mostly deterministic and not yet fully config-driven.
 - Longitudinal identity drift is represented by small fixtures, not extended
   multi-week traces.
 - Distributed coordination is simulated through deterministic event shape and

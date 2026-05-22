@@ -17,7 +17,7 @@ from core.safety import SafetyPolicy
 from core.self_model import SelfModelSnapshot
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-BASELINE_FIXTURE = REPO_ROOT / "evaluation" / "fixtures" / "baseline.json"
+BASELINE_FIXTURE = Path("evaluation/fixtures/baseline.json")
 
 
 def _print_step(index: int, total: int, label: str) -> None:
@@ -208,7 +208,7 @@ def run_demo(mode: str, state_dir: Path) -> int:
 def main() -> int:
     parser = argparse.ArgumentParser(description="Run the CentroidOS reference demo.")
     parser.add_argument("--mode", choices=("minimal", "full"), default="full")
-    parser.add_argument("--state-dir", type=Path, default=REPO_ROOT / "runtime_state" / "demo")
+    parser.add_argument("--state-dir", type=Path, default=Path("runtime_state") / "demo")
     args = parser.parse_args()
     return run_demo(args.mode, args.state_dir)
 

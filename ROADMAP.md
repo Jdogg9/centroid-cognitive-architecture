@@ -5,14 +5,14 @@ reproducible, research-grade public framework.
 
 ## Phase 1: Foundation And Public Framing
 
-Status: mostly complete.
+Status: complete for the initial public release.
 
 - [x] Establish public thesis and naming stack
 - [x] Add explicit non-claims
 - [x] Add glossary and terminology translation layer
 - [x] Use neutral engineering language
 - [x] Add Holly as a public reference agent configuration
-- [ ] Add architecture badges after CI is available
+- [x] Add architecture badges after CI is available
 
 ## Phase 2: Architecture Extraction
 
@@ -22,8 +22,9 @@ Status: in progress.
 - [x] Define initial node roles
 - [x] Add architecture documentation
 - [x] Add first Mermaid architecture diagram
-- [ ] Stabilize message schemas
-- [ ] Add typed telemetry event schemas
+- [x] Stabilize initial message schemas
+- [x] Add typed telemetry event schemas
+- [ ] Harden schema versioning across independent implementations
 
 ## Phase 3: Measurable Systems
 
@@ -33,11 +34,13 @@ Status: in progress.
 - [x] Add baseline fixture
 - [x] Add memory, routing, safety, self-model, temporal, and continuity probes
 - [x] Add Holly config, continuity, temporal, safety, and template probes
-- [ ] Add benchmark suite for latency and throughput
-- [ ] Add identity-focused test suite with contradiction fixtures
-- [ ] Add distributed coordination tests for sync and failover
-- [ ] Add narrative reconciliation delay metrics
-- [ ] Add action correction timing metrics
+- [x] Add deterministic benchmark suite for latency, memory, coordination, and routing throughput
+- [x] Add identity-focused test suite
+- [x] Add deterministic distributed coordination tests for sync and failover fixtures
+- [x] Add narrative reconciliation delay metrics
+- [x] Add action correction timing metrics
+- [ ] Add measured benchmarks with elapsed time, repeated trials, and runtime metadata
+- [ ] Add live distributed simulation with failure injection
 
 ## Phase 4: Safety And Governance
 
@@ -49,7 +52,7 @@ Status: in progress.
 - [x] Add SECURITY.md
 - [x] Add CODE_OF_CONDUCT.md
 - [x] Add CONTRIBUTING.md
-- [ ] Add machine-readable policy fixtures
+- [x] Add machine-readable policy fixtures
 - [ ] Add shutdown compliance tests
 - [ ] Add reversible-action audit examples
 
@@ -83,10 +86,12 @@ Status: in progress.
 - [x] Add CONTRIBUTING.md
 - [x] Add SECURITY.md
 - [x] Add CODE_OF_CONDUCT.md
-- [ ] Add GitHub Actions for tests
-- [ ] Add linting and formatting configuration
-- [ ] Add issue and PR templates
+- [x] Add GitHub Actions for tests
+- [x] Add linting and formatting configuration
+- [x] Add issue and PR templates
+- [x] Add wheel build and installed-CLI smoke coverage
 - [ ] Add benchmark reporting artifacts
+- [ ] Add published GitHub Release notes for each tagged release
 
 ## Phase 8: Long-Term Expansion
 

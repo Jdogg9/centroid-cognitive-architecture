@@ -6,6 +6,7 @@ from pathlib import Path
 from typing import Any
 
 from core.identity import IdentityState
+from core.resources import read_text_resource_or_file
 
 REQUIRED_CONFIG_FIELDS = (
     "agent_id",
@@ -48,7 +49,7 @@ class AgentConfig:
 
 
 def load_agent_config(path: Path) -> AgentConfig:
-    data = json.loads(path.read_text(encoding="utf-8"))
+    data = json.loads(read_text_resource_or_file(path))
     return parse_agent_config(data, source=path)
 
 

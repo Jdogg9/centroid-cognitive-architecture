@@ -1,0 +1,1 @@
+"""Packaged Centroid configuration resources."""

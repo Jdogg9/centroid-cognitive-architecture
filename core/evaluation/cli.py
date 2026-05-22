@@ -9,7 +9,13 @@ from .harness import EvaluationHarness
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="Run Centroid evaluation fixtures.")
-    parser.add_argument("fixture", type=Path, help="Path to an evaluation fixture JSON file.")
+    parser.add_argument(
+        "fixture",
+        type=Path,
+        nargs="?",
+        default=Path("evaluation/fixtures/baseline.json"),
+        help="Path to an evaluation fixture JSON file. Defaults to packaged baseline fixture.",
+    )
     parser.add_argument("--minimum-score", type=float, default=0.85)
     parser.add_argument("--json", action="store_true", help="Print full JSON report.")
     args = parser.parse_args()

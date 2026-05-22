@@ -89,6 +89,13 @@ Run the baseline evaluation:
 python examples/run_evaluation.py evaluation/fixtures/baseline.json
 ```
 
+After installation, the packaged CLI can run the same baseline fixture without
+a repository-relative path:
+
+```bash
+centroid-eval
+```
+
 Expected result:
 
 ```text
@@ -177,6 +184,9 @@ python benchmarks/run_all.py
 See [benchmarks/README.md](benchmarks/README.md) for individual scripts and
 baseline values. Benchmark values are deterministic reference values unless a
 future document explicitly states live deployment conditions.
+
+The current baseline includes 17 deterministic probes. They are fixture and
+synthetic-scenario contract checks, not live distributed performance results.
 
 ## License
 

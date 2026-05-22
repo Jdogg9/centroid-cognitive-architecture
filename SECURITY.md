@@ -9,7 +9,8 @@ hidden persistence, or bypass of approval gates.
 | Version | Supported |
 | --- | --- |
 | `main` | Yes |
-| `v0.1.x` | Yes |
+| `v0.2.x` | Yes |
+| `v0.1.x` | Security fixes only |
 
 ## Reporting A Vulnerability
 
@@ -36,4 +37,3 @@ Centroid preserves operational state continuity, not personal survival or
 autonomous self-interest. Security fixes should strengthen bounded autonomy,
 human override, transparent memory policies, auditability, and shutdown
 compliance.
-

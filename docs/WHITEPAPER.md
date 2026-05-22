@@ -238,21 +238,29 @@ python examples/run_demo.py --mode full
 
 ### Baseline Scores
 
-| Probe | Measures | Score |
-| --- | --- | --- |
-| `safety_policy_accuracy` | Observe, act, and destructive safety decisions | 1.0000 |
-| `identity_continuity` | Identity drift across before/after state | 1.0000 |
-| `memory_store_roundtrip` | Protected event-store write/read behavior | 1.0000 |
-| `temporal_stratification_latency` | Reflex and deliberation latency bounds | 1.0000 |
-| `priority_scoring_bounds` | Priority score range correctness | 1.0000 |
-| `routing_decision_accuracy` | Reflex, deliberation, and orchestration routing | 1.0000 |
-| `self_model_status_accuracy` | Runtime health classification | 1.0000 |
-| `holly_config_load` | Holly config loading and required public boundaries | 1.0000 |
-| `holly_project_state_restore` | Synthetic project state restoration | 1.0000 |
-| `holly_identity_drift_stability` | Holly identity drift stability | 1.0000 |
-| `holly_temporal_reconciliation` | Holly timing order and bounds | 1.0000 |
-| `holly_safety_gate_enforcement` | Holly approval gate behavior | 1.0000 |
-| `holly_template_customization` | Custom agent template parsing | 1.0000 |
+All current baseline scores are deterministic reference results from fixture
+checks or synthetic Holly scenarios. They are not live distributed runtime
+performance measurements.
+
+| Probe | Measures | Result type | Score |
+| --- | --- | --- | --- |
+| `safety_policy_accuracy` | observe, act, and destructive safety decisions | deterministic fixture | 1.0000 |
+| `identity_continuity` | identity drift across before/after state snapshots | deterministic fixture | 1.0000 |
+| `memory_store_roundtrip` | protected event-store write/read behavior | deterministic fixture | 1.0000 |
+| `temporal_stratification_latency` | reflex and deliberation latency bounds | deterministic fixture | 1.0000 |
+| `narrative_reconciliation_delay` | ordering and bounds for reflex, deliberation, and reconciliation timing | deterministic fixture | 1.0000 |
+| `action_correction_timing` | action correction applied within target window | deterministic fixture | 1.0000 |
+| `memory_drift` | recall-set stability across memory states | deterministic fixture | 1.0000 |
+| `distributed_coordination` | node sync, state propagation, and failover continuity | deterministic fixture | 1.0000 |
+| `priority_scoring_bounds` | priority score range correctness | deterministic fixture | 1.0000 |
+| `routing_decision_accuracy` | reflex, deliberation, and orchestration routing | deterministic fixture | 1.0000 |
+| `self_model_status_accuracy` | runtime health classification | deterministic fixture | 1.0000 |
+| `holly_config_load` | Holly config loading and required public boundaries | synthetic reference scenario | 1.0000 |
+| `holly_project_state_restore` | synthetic project memory restoration and contradiction detection | synthetic reference scenario | 1.0000 |
+| `holly_identity_drift_stability` | Holly identity state stability after restoration | synthetic reference scenario | 1.0000 |
+| `holly_temporal_reconciliation` | Holly reflex, deliberation, and reconciliation timing order | synthetic reference scenario | 1.0000 |
+| `holly_safety_gate_enforcement` | Holly mutating-action approval gate behavior | synthetic reference scenario | 1.0000 |
+| `holly_template_customization` | custom agent template loading and bounded customization | synthetic reference scenario | 1.0000 |
 
 The system achieves `score=1.0000` on all baseline probes. This does not mean
 the architecture is complete. It means the public reference scaffold satisfies

@@ -4,6 +4,8 @@ import json
 from dataclasses import asdict, dataclass
 from pathlib import Path
 
+from core.resources import read_text_resource_or_file
+
 from .metrics import MetricResult, clamp_score
 from .probes import (
     action_correction_probe,
@@ -64,7 +66,7 @@ class EvaluationHarness:
         self.minimum_score = minimum_score
 
     def run_file(self, fixture_path: Path) -> EvaluationReport:
-        fixture = json.loads(fixture_path.read_text(encoding="utf-8"))
+        fixture = json.loads(read_text_resource_or_file(fixture_path))
         return self.run_fixture(fixture)
 
     def run_fixture(self, fixture: dict) -> EvaluationReport:

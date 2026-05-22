@@ -1,0 +1,1 @@
+"""Packaged Centroid evaluation fixtures."""

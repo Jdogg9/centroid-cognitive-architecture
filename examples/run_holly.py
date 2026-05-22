@@ -16,7 +16,7 @@ from core.router import Router
 from core.safety import SafetyPolicy
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-HOLLY_CONFIG_DIR = REPO_ROOT / "configs" / "holly"
+HOLLY_CONFIG_DIR = Path("configs") / "holly"
 
 CONFIG_BY_SCENARIO = {
     "project-companion": HOLLY_CONFIG_DIR / "project_companion.json",
@@ -293,7 +293,7 @@ def main() -> int:
         choices=tuple(CONFIG_BY_SCENARIO.keys()),
         default="project-companion",
     )
-    parser.add_argument("--state-dir", type=Path, default=REPO_ROOT / "runtime_state" / "holly")
+    parser.add_argument("--state-dir", type=Path, default=Path("runtime_state") / "holly")
     parser.add_argument("--approve-action", action="store_true")
     args = parser.parse_args()
 
