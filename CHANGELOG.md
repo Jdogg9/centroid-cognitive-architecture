@@ -1,13 +1,24 @@
 # Changelog
 
-## Unreleased / v0.2.1
+## v0.3.0 - 2026-05-22
 
-- Prepare `0.2.1` package metadata after the `v0.2.0` tag.
-- Package Holly configs, templates, schemas, and baseline fixtures for wheel
-  installs.
-- Add wheel build and installed-CLI smoke coverage.
-- Update CI action versions and least-privilege workflow permissions.
-- Align roadmap, security policy, PR checklist, and whitepaper probe tables.
+- Add a config-driven runtime layer under `core/runtime/` for routing, safety,
+  memory retention, and audit provenance.
+- Extend the agent configuration schema with config versioning, structured
+  priority policy, structured safety policy, configurable memory retention, and
+  audit policy fields.
+- Add inheritance-aware config loading so Holly scenario profiles can extend the
+  shared base config without duplicating all policy data.
+- Add a neutral `centroid-agent` CLI for running any packaged or local agent
+  config against the deterministic public scenarios.
+- Add a deterministic config-comparison demo showing the same synthetic input
+  producing different routes, memory writes, and safety outcomes under
+  different configs.
+- Expand baseline evaluation coverage from 17 to 23 deterministic probes,
+  including config-driven routing, safety, memory, CLI, audit, and Holly
+  backward-compatibility checks.
+- Extend wheel smoke coverage and CI to exercise `centroid-agent` and the
+  config-comparison demo alongside the existing Holly and evaluation paths.
 
 ## v0.2.0 - Holly Reference Agent
 

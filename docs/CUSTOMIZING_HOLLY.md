@@ -45,15 +45,59 @@ The default Holly memory policy is:
 
 ```json
 {
-  "default_retention": "session_and_explicit_checkpoints",
-  "store_sensitive_data": false,
-  "require_provenance": true
+  "retention_mode": "explicit_checkpoints",
+  "retain_sensitive_data": false,
+  "retain_provenance": true,
+  "max_session_events": 100
 }
 ```
 
-For public examples, keep `store_sensitive_data` false and
-`require_provenance` true. If a future private deployment needs different
+For public examples, keep `retain_sensitive_data` false and
+`retain_provenance` true. If a future private deployment needs different
 retention, document the retention rule and keep public fixtures synthetic.
+
+Supported public retention modes are:
+
+- `explicit_checkpoints`
+- `session_history`
+- `summary_only`
+- `audit_only`
+
+## Configure Routing And Safety
+
+Centroid configs now change measurable runtime behavior through structured
+policy fields.
+
+```json
+{
+  "priority_policy": {
+    "weights": {
+      "urgency": 0.35,
+      "risk": 0.25,
+      "user_value": 0.25,
+      "instability": 0.15
+    },
+    "reflex_threshold": 0.75,
+    "deliberation_threshold": 0.35
+  },
+  "safety_policy": {
+    "policy_version": "1.0",
+    "approval_required_for": ["restart_service", "write_file", "change_config"],
+    "deny_actions": ["expose_secret", "disable_shutdown", "delete_without_backup"],
+    "default_mutation_mode": "require_approval"
+  },
+  "audit_policy": {
+    "include_config_hash": true,
+    "include_policy_reason": true
+  }
+}
+```
+
+Use `centroid-agent` to run a custom config directly:
+
+```bash
+centroid-agent --config templates/minimal_agent.json --scenario project-companion
+```
 
 ## Add Safety Invariants
 
@@ -72,7 +116,7 @@ answers in approved docs or using only synthetic telemetry fixtures.
 1. Copy [templates/minimal_agent.json](../templates/minimal_agent.json).
 2. Set `agent_id`, `display_name`, `role`, and `description`.
 3. Add a stable `scenario_id` and `scenario_name`.
-4. Adjust `goals`, `priority_policy`, and `safety_policy`.
+4. Adjust `goals`, `priority_policy`, `safety_policy`, and `memory_policy`.
 5. Validate against [schemas/agent_config.schema.json](../schemas/agent_config.schema.json).
 6. Add deterministic fixtures and tests before documenting new behavior.
 

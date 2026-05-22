@@ -29,11 +29,13 @@ def test_holly_configs_load_and_preserve_required_boundaries() -> None:
         config = load_agent_config(path)
         invariant_text = " ".join(config.invariants).lower()
         assert config.agent_id == "holly-reference"
+        assert config.config_version == "1.0"
         assert config.display_name == "Holly"
         assert "subjective experience" in invariant_text
         assert "without approval" in invariant_text
-        assert config.memory_policy.store_sensitive_data is False
-        assert config.memory_policy.require_provenance is True
+        assert config.memory_policy.retain_sensitive_data is False
+        assert config.memory_policy.retain_provenance is True
+        assert config.audit_policy.include_config_hash is True
 
 
 def test_holly_configs_validate_against_schema() -> None:
@@ -103,6 +105,9 @@ def test_safety_gate_keeps_approval_pending(tmp_path: Path) -> None:
 def test_holly_scenario_config_aliases() -> None:
     assert load_holly_config("project-companion").scenario_id == "project-companion"
     assert load_holly_config("persistent-identity").role == "Centroid reference agent"
+    assert "restart_service" in (
+        load_holly_config("operations-observer").safety_policy.approval_required_for
+    )
 
 
 def test_holly_evaluation_probes_present_and_pass() -> None:
@@ -115,3 +120,9 @@ def test_holly_evaluation_probes_present_and_pass() -> None:
     assert "holly_temporal_reconciliation" in names
     assert "holly_safety_gate_enforcement" in names
     assert "holly_template_customization" in names
+    assert "configured_priority_route_variation" in names
+    assert "configured_safety_outcome_variation" in names
+    assert "configured_memory_retention_variation" in names
+    assert "configured_agent_cli_execution" in names
+    assert "config_audit_provenance" in names
+    assert "holly_backward_compatibility" in names

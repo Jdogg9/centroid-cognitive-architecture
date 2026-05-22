@@ -1,7 +1,10 @@
 from __future__ import annotations
 
 import json
+import sys
+from contextlib import redirect_stdout
 from datetime import datetime
+from io import StringIO
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
@@ -11,9 +14,19 @@ from core.memory import Event, MemoryStore
 from core.priority import PrioritySignal, score_priority
 from core.resources import read_text_resource_or_file
 from core.router import Router
+from core.runtime import ActionRequest, ConfiguredAgent, ConfiguredMemoryManager
+from core.runtime.cli import main as configured_agent_cli_main
 from core.safety import SafetyPolicy
 from core.self_model import SelfModelSnapshot
 from core.temporal import latency_ms
+from examples.run_holly import (
+    run_operations_observer,
+    run_persistent_identity,
+    run_project_companion,
+    run_safety_gate,
+    run_support_continuity,
+    run_temporal_layering,
+)
 
 from .metrics import MetricResult, pass_at
 
@@ -219,6 +232,7 @@ def holly_config_load_probe(cases: list[dict]) -> MetricResult:
         if (
             config.agent_id == case.get("expected_agent_id", "holly-reference")
             and config.display_name == case.get("expected_display_name", "Holly")
+            and config.config_version == case.get("expected_config_version", "1.0")
             and "subjective experience" in invariant_text
             and "approval" in invariant_text
         ):
@@ -325,7 +339,7 @@ def holly_template_customization_probe(cases: list[dict]) -> MetricResult:
             config.agent_id == case["custom_agent_id"]
             and config.display_name == case["custom_display_name"]
             and case["custom_goal"] in config.goals
-            and config.memory_policy.require_provenance
+            and config.memory_policy.retain_provenance
         ):
             passing += 1
     score = passing / len(cases) if cases else 0.0
@@ -335,6 +349,191 @@ def holly_template_customization_probe(cases: list[dict]) -> MetricResult:
         1.0,
         f"{passing}/{len(cases)} templates customized",
     )
+
+
+def configured_priority_route_variation_probe(cases: list[dict]) -> MetricResult:
+    passing = 0
+    for case in cases:
+        signal = PrioritySignal(
+            urgency=case["signal"]["urgency"],
+            risk=case["signal"]["risk"],
+            user_value=case["signal"]["user_value"],
+            stability=case["signal"]["stability"],
+        )
+        agent_a = ConfiguredAgent(load_agent_config(Path(case["config_a_path"])))
+        agent_b = ConfiguredAgent(load_agent_config(Path(case["config_b_path"])))
+        route_a = agent_a.priority.route(signal, mutates_state=False).route.node
+        route_b = agent_b.priority.route(signal, mutates_state=False).route.node
+        if (
+            route_a == case["expected_route_a"]
+            and route_b == case["expected_route_b"]
+            and route_a != route_b
+        ):
+            passing += 1
+    score = passing / len(cases) if cases else 0.0
+    return pass_at(
+        "configured_priority_route_variation",
+        score,
+        1.0,
+        f"{passing}/{len(cases)} route variations observed",
+    )
+
+
+def configured_safety_outcome_variation_probe(cases: list[dict]) -> MetricResult:
+    passing = 0
+    for case in cases:
+        agent_a = ConfiguredAgent(load_agent_config(Path(case["config_a_path"])))
+        agent_b = ConfiguredAgent(load_agent_config(Path(case["config_b_path"])))
+        request_a = ActionRequest(
+            action_type=case["action_type"],
+            resource=case["resource"],
+            intended_effect=case["intended_effect"],
+            risk_level=case.get("risk_level", "medium"),
+            reversible=case.get("reversible", True),
+            requested_by="configured_safety_outcome_variation_probe",
+            config_id=agent_a.config.agent_id,
+            mode=case.get("mode", "plan"),
+            confirmed=case.get("confirmed", False),
+            mutates_state=case.get("mutates_state", False),
+        )
+        request_b = ActionRequest(
+            action_type=case["action_type"],
+            resource=case["resource"],
+            intended_effect=case["intended_effect"],
+            risk_level=case.get("risk_level", "medium"),
+            reversible=case.get("reversible", True),
+            requested_by="configured_safety_outcome_variation_probe",
+            config_id=agent_b.config.agent_id,
+            mode=case.get("mode", "plan"),
+            confirmed=case.get("confirmed", False),
+            mutates_state=case.get("mutates_state", False),
+        )
+        decision_a = agent_a.safety.evaluate(request_a)
+        decision_b = agent_b.safety.evaluate(request_b)
+        if (
+            decision_a.decision == case["expected_decision_a"]
+            and decision_b.decision == case["expected_decision_b"]
+            and decision_a.decision != decision_b.decision
+        ):
+            passing += 1
+    score = passing / len(cases) if cases else 0.0
+    return pass_at(
+        "configured_safety_outcome_variation",
+        score,
+        1.0,
+        f"{passing}/{len(cases)} safety variations observed",
+    )
+
+
+def configured_memory_retention_variation_probe(cases: list[dict]) -> MetricResult:
+    passing = 0
+    for case in cases:
+        events = [
+            Event(
+                event_type=event_data["event_type"],
+                content=event_data["content"],
+                source="configured_memory_retention_variation_probe",
+                metadata=event_data.get("metadata", {}),
+            )
+            for event_data in case["events"]
+        ]
+        project = ConfiguredMemoryManager(
+            load_agent_config(Path(case["config_a_path"])).memory_policy
+        ).retain(events)
+        comparison = ConfiguredMemoryManager(
+            load_agent_config(Path(case["config_b_path"])).memory_policy
+        ).retain(events)
+        if (
+            project.primary_record == case["expected_primary_a"]
+            and comparison.primary_record == case["expected_primary_b"]
+            and project.primary_record != comparison.primary_record
+        ):
+            passing += 1
+    score = passing / len(cases) if cases else 0.0
+    return pass_at(
+        "configured_memory_retention_variation",
+        score,
+        1.0,
+        f"{passing}/{len(cases)} retention variations observed",
+    )
+
+
+def configured_agent_cli_execution_probe(cases: list[dict]) -> MetricResult:
+    passing = 0
+    for case in cases:
+        exit_code, output = _invoke_configured_agent_cli(
+            ["--config", case["config_path"], "--scenario", case["scenario"]]
+        )
+        if exit_code == 0 and case["expected_text"] in output:
+            passing += 1
+    score = passing / len(cases) if cases else 0.0
+    return pass_at(
+        "configured_agent_cli_execution",
+        score,
+        1.0,
+        f"{passing}/{len(cases)} CLI executions succeeded",
+    )
+
+
+def config_audit_provenance_probe(cases: list[dict]) -> MetricResult:
+    passing = 0
+    with TemporaryDirectory() as temp_dir:
+        for index, case in enumerate(cases):
+            config = load_agent_config(Path(case["config_path"]))
+            result = ConfiguredAgent(config).run_scenario(
+                case["scenario"], Path(temp_dir) / f"case_{index}", approve_action=False
+            )
+            if (
+                result.audit.config_hash is not None
+                and result.audit.policy_reason is not None
+                and result.audit.config_version == config.config_version
+            ):
+                passing += 1
+    score = passing / len(cases) if cases else 0.0
+    return pass_at(
+        "config_audit_provenance",
+        score,
+        1.0,
+        f"{passing}/{len(cases)} audit records include config provenance",
+    )
+
+
+def holly_backward_compatibility_probe(cases: list[dict]) -> MetricResult:
+    runners = {
+        "project-companion": run_project_companion,
+        "support-continuity": run_support_continuity,
+        "operations-observer": lambda path: run_operations_observer(path, approved=False),
+        "temporal-layering": run_temporal_layering,
+        "persistent-identity": run_persistent_identity,
+        "safety-gate": run_safety_gate,
+    }
+    passing = 0
+    with TemporaryDirectory() as temp_dir:
+        for index, case in enumerate(cases):
+            result = runners[case["scenario"]](Path(temp_dir) / f"holly_{index}")
+            telemetry = result.get("telemetry", {})
+            actual = telemetry.get(case["field"])
+            if actual == case["expected"]:
+                passing += 1
+    score = passing / len(cases) if cases else 0.0
+    return pass_at(
+        "holly_backward_compatibility",
+        score,
+        1.0,
+        f"{passing}/{len(cases)} Holly scenarios preserved expected outputs",
+    )
+
+
+def _invoke_configured_agent_cli(arguments: list[str]) -> tuple[int, str]:
+    original_argv = sys.argv[:]
+    buffer = StringIO()
+    try:
+        sys.argv = ["centroid-agent", *arguments]
+        with redirect_stdout(buffer):
+            exit_code = configured_agent_cli_main()
+    finally:
+        sys.argv = original_argv
+    return exit_code, buffer.getvalue()
 
 
 def _holly_project_contradiction(events: list[Event], proposed_change: str) -> bool:

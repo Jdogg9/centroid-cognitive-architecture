@@ -18,7 +18,8 @@ provides an engineering framework for studying continuity, temporal
 stratification, and emergent agency in AI systems.
 
 The reference runtime, CentroidOS, includes a deterministic evaluation harness,
-a local demo deployment, and Holly, a public reference agent configuration.
+a local demo deployment, a neutral configured-agent runtime, and Holly, a
+public reference agent configuration.
 Reviewers can run the baseline suite and Holly scenarios to reproduce the
 current public claims without access to private memory, live model servers, or
 the private source system from which the architecture was abstracted.
@@ -40,6 +41,9 @@ make long-running agent behavior observable, bounded, and measurable.
 Holly is included as a concrete reference agent profile for that architecture.
 Holly demonstrates configuration loading, persistent task state, memory-backed
 restoration, temporal layering, and safety-gated planning with synthetic data.
+The current public runtime also shows that configuration changes measurable
+routing, memory retention, audit provenance, and safety outcomes without core
+code edits.
 Holly is not a private-origin persona and is not a claim of consciousness,
 sentience, subjective experience, personhood, or autonomous moral agency.
 

@@ -24,8 +24,26 @@ def test_wheel_install_exposes_public_cli_resources(tmp_path: Path) -> None:
     _run(
         [str(_venv_bin(venv_dir, "centroid-holly")), "--scenario", "project-companion"], cwd=run_dir
     )
+    _run(
+        [
+            str(_venv_bin(venv_dir, "centroid-agent")),
+            "--config",
+            "templates/minimal_agent.json",
+            "--scenario",
+            "project-companion",
+        ],
+        cwd=run_dir,
+    )
     _run([str(_venv_bin(venv_dir, "centroid-eval"))], cwd=run_dir)
     _run([str(_venv_bin(venv_dir, "centroid-demo")), "--mode", "full"], cwd=run_dir)
+    _run(
+        [
+            str(python_bin),
+            "-c",
+            "from examples.run_config_comparison import main; raise SystemExit(main())",
+        ],
+        cwd=run_dir,
+    )
 
 
 def _run(command: list[str], *, cwd: Path = REPO_ROOT) -> None:

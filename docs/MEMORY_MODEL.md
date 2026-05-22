@@ -31,6 +31,19 @@ compaction, provenance, and drift are represented as measurable system events.
 - Drift checks for identity and goal state
 - Compaction records that explain what was summarized and why
 
+## Configurable Retention
+
+The configured runtime now uses per-agent memory policy to decide what public
+synthetic state is retained:
+
+- `explicit_checkpoints`: keep checkpoint-class continuity records
+- `session_history`: keep bounded session events
+- `summary_only`: write only a synthetic task summary
+- `audit_only`: keep audit-oriented records
+
+Public configs can also require provenance, cap retained event counts, and
+redact synthetic sensitive metadata such as customer identifiers.
+
 ## Measurable Claims
 
 - memory recall consistency

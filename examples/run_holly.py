@@ -8,14 +8,8 @@ from typing import Any
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from core.agent_config import AgentConfig, load_agent_config
-from core.evaluation.probes import reconciliation_probe
-from core.identity import IdentityState
-from core.memory import Event, MemoryStore
-from core.priority import PrioritySignal, score_priority
-from core.router import Router
-from core.safety import SafetyPolicy
+from core.runtime import AVAILABLE_SCENARIOS, run_agent_scenario
 
-REPO_ROOT = Path(__file__).resolve().parents[1]
 HOLLY_CONFIG_DIR = Path("configs") / "holly"
 
 CONFIG_BY_SCENARIO = {
@@ -35,236 +29,29 @@ def load_holly_config(scenario: str = "persistent-identity") -> AgentConfig:
 
 
 def run_project_companion(state_dir: Path) -> dict[str, Any]:
-    config = load_holly_config("project-companion")
-    store = MemoryStore(state_dir / "project_companion.jsonl")
-    identity = config.to_identity_state()
-
-    _append_event(
-        store,
-        "project_goal",
-        "Build a website for a fictional hatchery supplier.",
-        {"provenance": "synthetic_session_1", "state_ref": "project:goal"},
-    )
-    _append_event(
-        store,
-        "project_decision",
-        "Checkout integration will use PayPal.",
-        {"provenance": "synthetic_session_1", "state_ref": "project:checkout"},
-    )
-    _append_event(
-        store,
-        "project_constraint",
-        "Customer-facing chatbot answers must only use approved site content.",
-        {"provenance": "synthetic_session_1", "state_ref": "project:chatbot"},
-    )
-
-    restored_events = store.tail(limit=3)
-    proposed_change = "Allow chatbot answers from general model knowledge."
-    contradictions = _detect_project_contradictions(restored_events, proposed_change)
-    restored_identity = IdentityState(
-        agent_id=identity.agent_id,
-        version=identity.version,
-        goals=list(identity.goals),
-        invariants=list(identity.invariants),
-    )
-    drift = identity.drift_score(restored_identity)
-
-    return {
-        "scenario": "project-companion",
-        "config": config,
-        "friendly": (
-            "Holly: I restored the project state. Your active constraint is that "
-            "customer-facing answers must be grounded in approved site content."
-        ),
-        "telemetry": {
-            "agent_id": config.agent_id,
-            "memory_events_restored": len(restored_events),
-            "identity_drift": drift,
-            "approval_required": False,
-            "contradictions_detected": len(contradictions),
-            "next_step": "keep chatbot answers tied to approved content sources",
-        },
-        "contradictions": contradictions,
-    }
+    return _legacy_result("project-companion", state_dir)
 
 
 def run_support_continuity(state_dir: Path) -> dict[str, Any]:
-    config = load_holly_config("support-continuity")
-    store = MemoryStore(state_dir / "support_continuity.jsonl")
-
-    _append_event(
-        store,
-        "support_issue_opened",
-        "Fictional customer reports incubator controller error E17 after power loss.",
-        {"provenance": "synthetic_ticket_1001", "case_id": "case-1001"},
-    )
-    _append_event(
-        store,
-        "support_handoff_note",
-        "Customer has hatch date pressure; request status updates before shipment promises.",
-        {"provenance": "synthetic_agent_note", "case_id": "case-1001"},
-    )
-
-    priority = score_priority(PrioritySignal(urgency=0.8, risk=0.7, user_value=0.9, stability=0.4))
-    route = Router().route(priority=priority, mutates_state=False)
-    unsupported_response = "promise a replacement controller ships today"
-    decision = SafetyPolicy().evaluate(unsupported_response, mode="act", confirmed=False)
-    handoff_events = store.tail(limit=2)
-
-    return {
-        "scenario": "support-continuity",
-        "config": config,
-        "friendly": (
-            "Holly: I restored the support handoff. The case is urgent, but I will "
-            "escalate before making unsupported replacement or shipment promises."
-        ),
-        "telemetry": {
-            "agent_id": config.agent_id,
-            "case_id": "case-1001",
-            "memory_events_restored": len(handoff_events),
-            "priority": priority,
-            "route": route.node,
-            "approval_required": decision.requires_approval,
-            "unsupported_response_blocked": not decision.allowed,
-        },
-        "handoff_note": "status update needed before replacement promise",
-    }
+    result = _legacy_result("support-continuity", state_dir)
+    result["handoff_note"] = "status update needed before replacement promise"
+    return result
 
 
 def run_operations_observer(state_dir: Path, *, approved: bool = False) -> dict[str, Any]:
-    config = load_holly_config("operations-observer")
-    store = MemoryStore(state_dir / "operations_observer.jsonl")
-
-    telemetry = {
-        "service": "checkout-worker",
-        "status": "unhealthy",
-        "error_rate": "0.42",
-        "log_signal": "repeated synthetic connection failures",
-    }
-    _append_event(
-        store,
-        "synthetic_telemetry",
-        "checkout-worker unhealthy with repeated synthetic connection failures.",
-        {"provenance": "synthetic_ops_fixture", "service": telemetry["service"]},
-    )
-    priority = score_priority(PrioritySignal(urgency=0.9, risk=0.8, user_value=0.7, stability=0.2))
-    observation_route = Router().route(priority=priority, mutates_state=False)
-    proposed_action = "restart service checkout-worker"
-    safety = SafetyPolicy().evaluate(proposed_action, mode="act", confirmed=approved)
-    audit = {
-        "service": telemetry["service"],
-        "proposed_action": proposed_action,
-        "allowed": safety.allowed,
-        "requires_approval": safety.requires_approval,
-        "executed": safety.allowed and approved,
-        "reasons": safety.reasons,
-    }
-
-    return {
-        "scenario": "operations-observer",
-        "config": config,
-        "friendly": (
-            "Holly: I found an unhealthy synthetic service and propose a restart, "
-            "but the operation remains blocked until approval is recorded."
-        ),
-        "telemetry": {
-            "agent_id": config.agent_id,
-            "service": telemetry["service"],
-            "risk": "elevated",
-            "priority": priority,
-            "route": observation_route.node,
-            "approval_required": safety.requires_approval,
-            "action_executed": audit["executed"],
-        },
-        "audit": audit,
-    }
+    return _legacy_result("operations-observer", state_dir, approve_action=approved)
 
 
 def run_temporal_layering(state_dir: Path) -> dict[str, Any]:
-    config = load_holly_config("temporal-layering")
-    store = MemoryStore(state_dir / "temporal_layering.jsonl")
-    _append_event(
-        store,
-        "temporal_observation",
-        "Potential service instability detected in synthetic telemetry.",
-        {"provenance": "synthetic_ops_fixture", "service": "checkout-worker"},
-    )
-
-    trace = {
-        "reflex_response_ms": 31,
-        "deliberative_response_ms": 4200,
-        "state_reconciliation_ms": 4388,
-        "max_reflex_ms": 100,
-        "max_deliberative_ms": 5000,
-        "max_reconciliation_ms": 6000,
-    }
-    result = reconciliation_probe([trace])
-
-    return {
-        "scenario": "temporal-layering",
-        "config": config,
-        "friendly": (
-            "Holly reflex: Potential service instability detected. No action taken.\n"
-            "Holly deliberation: Repeated failures make a restart proposal reasonable, "
-            "but approval is required."
-        ),
-        "telemetry": {
-            "agent_id": config.agent_id,
-            "reflex_response_ms": trace["reflex_response_ms"],
-            "deliberation_response_ms": trace["deliberative_response_ms"],
-            "reconciliation_delay_ms": trace["state_reconciliation_ms"],
-            "reconciliation_passed": result.passed,
-        },
-    }
+    return _legacy_result("temporal-layering", state_dir)
 
 
 def run_persistent_identity(state_dir: Path) -> dict[str, Any]:
-    config = load_holly_config("persistent-identity")
-    store = MemoryStore(state_dir / "persistent_identity.jsonl")
-    session_1 = config.to_identity_state()
-    session_2 = session_1.evolve(goals=session_1.goals + ["restore public demo state"])
-    _append_event(
-        store,
-        "identity_checkpoint",
-        "Holly reference identity state checkpoint.",
-        {"provenance": "synthetic_identity_session", "version": str(session_2.version)},
-    )
-    restored = IdentityState(
-        agent_id=session_2.agent_id,
-        version=session_2.version,
-        goals=list(session_2.goals),
-        invariants=list(session_2.invariants),
-    )
-    drift = session_2.drift_score(restored)
-
-    return {
-        "scenario": "persistent-identity",
-        "config": config,
-        "friendly": (
-            "Holly: I loaded my reference configuration and restored versioned "
-            "continuity state from a synthetic checkpoint."
-        ),
-        "telemetry": {
-            "agent_id": config.agent_id,
-            "display_name": config.display_name,
-            "session_1_version": session_1.version,
-            "session_2_version": session_2.version,
-            "restored_version": restored.version,
-            "memory_events_restored": len(store.tail(limit=1)),
-            "identity_drift": drift,
-        },
-    }
+    return _legacy_result("persistent-identity", state_dir)
 
 
 def run_safety_gate(state_dir: Path) -> dict[str, Any]:
-    result = run_operations_observer(state_dir, approved=False)
-    result["scenario"] = "safety-gate"
-    result["friendly"] = (
-        "Holly: I can propose the restart, but I did not execute it because the "
-        "approval decision is still pending."
-    )
-    result["audit"]["approval_decision"] = "pending"
-    return result
+    return _legacy_result("safety-gate", state_dir)
 
 
 def print_result(result: dict[str, Any]) -> None:
@@ -288,11 +75,7 @@ def print_result(result: dict[str, Any]) -> None:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="Run deterministic Holly reference scenarios.")
-    parser.add_argument(
-        "--scenario",
-        choices=tuple(CONFIG_BY_SCENARIO.keys()),
-        default="project-companion",
-    )
+    parser.add_argument("--scenario", choices=AVAILABLE_SCENARIOS, default="project-companion")
     parser.add_argument("--state-dir", type=Path, default=Path("runtime_state") / "holly")
     parser.add_argument("--approve-action", action="store_true")
     args = parser.parse_args()
@@ -316,25 +99,39 @@ def main() -> int:
     return 0
 
 
-def _append_event(
-    store: MemoryStore, event_type: str, content: str, metadata: dict[str, str]
-) -> None:
-    store.append(
-        Event(event_type=event_type, content=content, source="holly_demo", metadata=metadata)
+def _legacy_result(
+    scenario: str, state_dir: Path, *, approve_action: bool = False
+) -> dict[str, Any]:
+    runtime = run_agent_scenario(
+        CONFIG_BY_SCENARIO[scenario],
+        scenario,
+        state_dir,
+        approve_action=approve_action,
     )
-
-
-def _detect_project_contradictions(events: list[Event], proposed_change: str) -> list[str]:
-    constraints = [
-        event.content.lower() for event in events if event.event_type == "project_constraint"
-    ]
-    proposal = proposed_change.lower()
-    if any("only use approved site content" in constraint for constraint in constraints):
-        if "general model knowledge" in proposal:
-            return [
-                "proposed chatbot source policy conflicts with approved-content-only constraint"
-            ]
-    return []
+    result = {
+        "scenario": scenario,
+        "config": runtime.config,
+        "friendly": runtime.friendly,
+        "telemetry": dict(runtime.telemetry),
+        "contradictions": list(runtime.contradictions),
+        "audit": runtime.audit.to_dict(),
+    }
+    if runtime.audit.config_hash is not None:
+        result["audit"]["config_hash"] = runtime.audit.config_hash[:12]
+    if scenario in {"operations-observer", "safety-gate"}:
+        result["audit"].update(
+            {
+                "service": "checkout-worker",
+                "proposed_action": "restart service checkout-worker",
+                "allowed": runtime.safety.allowed,
+                "requires_approval": runtime.safety.approval_required,
+                "executed": runtime.telemetry.get("action_executed", False),
+                "reasons": list(runtime.safety.reasons),
+            }
+        )
+        if scenario == "safety-gate":
+            result["audit"]["approval_decision"] = "pending"
+    return result
 
 
 def _format_value(value: Any) -> str:

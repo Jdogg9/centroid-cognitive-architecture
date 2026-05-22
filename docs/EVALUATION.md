@@ -79,9 +79,15 @@ Run a Holly reference scenario:
 python examples/run_holly.py --scenario project-companion
 ```
 
+Run a custom configured agent:
+
+```bash
+centroid-agent --config templates/minimal_agent.json --scenario project-companion
+```
+
 ## Baseline Probes
 
-The current baseline contains 17 deterministic probes. These are contract
+The current baseline contains 23 deterministic probes. These are contract
 checks over fixture data and synthetic Holly scenarios; they are not claims of
 live distributed runtime performance.
 
@@ -104,6 +110,12 @@ live distributed runtime performance.
 | `holly_temporal_reconciliation` | Holly reflex, deliberation, and reconciliation timing order |
 | `holly_safety_gate_enforcement` | Holly mutating-action approval gate behavior |
 | `holly_template_customization` | custom agent template loading and bounded customization |
+| `configured_priority_route_variation` | different configs route the same synthetic input differently |
+| `configured_safety_outcome_variation` | different configs change structured safety outcomes |
+| `configured_memory_retention_variation` | different configs retain different records for the same synthetic events |
+| `configured_agent_cli_execution` | the neutral configured-agent CLI runs deterministically |
+| `config_audit_provenance` | audit output records config identity and policy reason |
+| `holly_backward_compatibility` | the six public Holly scenarios preserve their expected behavior |
 
 ## Extension Rules
 

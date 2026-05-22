@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "centroid-cognitive-architecture"
-version = "0.2.1"
+version = "0.3.0"
 description = "Reference architecture for persistent AI agents with memory continuity, temporal layering, safety-gated actions, and runnable Holly demos."
 readme = "README.md"
 requires-python = ">=3.10"
@@ -25,6 +25,7 @@ dev = [
 [project.scripts]
 centroid-eval = "core.evaluation.cli:main"
 centroid-demo = "examples.run_demo:main"
+centroid-agent = "core.runtime.cli:main"
 centroid-holly = "examples.run_holly:main"
 
 [tool.setuptools.packages.find]

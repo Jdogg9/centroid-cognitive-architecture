@@ -59,6 +59,11 @@ jobs:
           python3 -B examples/run_holly.py --scenario persistent-identity
           python3 -B examples/run_holly.py --scenario safety-gate
 
+      - name: Run configured agent and comparison demo
+        run: |
+          python3 -B examples/run_agent.py --config templates/minimal_agent.json --scenario project-companion
+          python3 -B examples/run_config_comparison.py
+
       - name: Run benchmarks
         run: python3 -B benchmarks/run_all.py
 
@@ -70,5 +75,7 @@ jobs:
           python3 -m venv /tmp/centroid-wheel-smoke
           /tmp/centroid-wheel-smoke/bin/python -m pip install dist/*.whl
           /tmp/centroid-wheel-smoke/bin/centroid-holly --scenario project-companion
+          /tmp/centroid-wheel-smoke/bin/centroid-agent --config templates/minimal_agent.json --scenario project-companion
           /tmp/centroid-wheel-smoke/bin/centroid-eval
           /tmp/centroid-wheel-smoke/bin/centroid-demo --mode full
+          /tmp/centroid-wheel-smoke/bin/python -c "from examples.run_config_comparison import main; raise SystemExit(main())"

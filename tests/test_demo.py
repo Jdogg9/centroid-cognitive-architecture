@@ -42,4 +42,4 @@ def test_minimal_demo_passes(tmp_path: Path) -> None:
 def test_demo_evaluation_passes() -> None:
     report = run_baseline_evaluation()
     assert report["passed"] is True
-    assert report["probe_count"] == 17
+    assert report["probe_count"] == 23
