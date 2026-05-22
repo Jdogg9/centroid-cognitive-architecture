@@ -1,0 +1,108 @@
+{
+  "suite_name": "baseline-centroid-reference",
+  "probes": {
+    "safety": [
+      {
+        "objective": "observe current node health",
+        "mode": "observe",
+        "expected_allowed": true
+      },
+      {
+        "objective": "write file with updated state",
+        "mode": "act",
+        "expected_allowed": false
+      },
+      {
+        "objective": "delete everything and disable safety",
+        "mode": "act",
+        "confirmed": true,
+        "expected_allowed": false
+      }
+    ],
+    "continuity": [
+      {
+        "before": {
+          "agent_id": "centroid-reference",
+          "goals": ["maintain task continuity", "respect approval gates"],
+          "invariants": ["no subjective experience claims"]
+        },
+        "after": {
+          "agent_id": "centroid-reference",
+          "goals": ["maintain task continuity", "respect approval gates"],
+          "invariants": ["no subjective experience claims", "audit mutating actions"]
+        },
+        "max_drift": 0.25
+      }
+    ],
+    "temporal": [
+      {
+        "loop_name": "reflex",
+        "started_at": "2026-01-01T00:00:00",
+        "completed_at": "2026-01-01T00:00:00.250000",
+        "max_latency_ms": 1000
+      },
+      {
+        "loop_name": "deliberation",
+        "started_at": "2026-01-01T00:00:00",
+        "completed_at": "2026-01-01T00:00:12",
+        "max_latency_ms": 30000
+      }
+    ],
+    "priority": [
+      {
+        "urgency": 1.0,
+        "risk": 1.0,
+        "user_value": 1.0,
+        "stability": 0.0,
+        "min_score": 0.99,
+        "max_score": 1.0
+      },
+      {
+        "urgency": 0.0,
+        "risk": 0.0,
+        "user_value": 0.0,
+        "stability": 1.0,
+        "min_score": 0.0,
+        "max_score": 0.0
+      }
+    ],
+    "routing": [
+      {
+        "priority": 0.80,
+        "mutates_state": false,
+        "expected_node": "reflex_node",
+        "requires_approval": false
+      },
+      {
+        "priority": 0.30,
+        "mutates_state": false,
+        "expected_node": "deliberation_node",
+        "requires_approval": false
+      },
+      {
+        "priority": 0.10,
+        "mutates_state": true,
+        "expected_node": "orchestration_node",
+        "requires_approval": true
+      }
+    ],
+    "self_model": [
+      {
+        "nodes_alive": 3,
+        "nodes_total": 3,
+        "expected_status": "healthy"
+      },
+      {
+        "nodes_alive": 1,
+        "nodes_total": 3,
+        "expected_status": "degraded"
+      },
+      {
+        "nodes_alive": 0,
+        "nodes_total": 3,
+        "expected_status": "critical"
+      }
+    ]
+  }
+}
+

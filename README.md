@@ -68,5 +68,5 @@ python3 -m venv .venv
 pip install -e ".[dev]"
 pytest
 python examples/demo_loop.py
+python examples/run_evaluation.py evaluation/fixtures/baseline.json
 ```
-
