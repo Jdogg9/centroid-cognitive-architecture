@@ -8,7 +8,7 @@
 6. Priority module rewrite
 7. Evaluation harness: baseline fixture runner added under `core/evaluation/`
 8. Demo deployment: reference CentroidOS loop added in `examples/run_demo.py`
-9. Technical whitepaper
+9. Technical whitepaper: draft added in `docs/WHITEPAPER.md`
 10. Public repository release
 
 ## First Implementation Milestones

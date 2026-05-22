@@ -83,3 +83,7 @@ python examples/run_demo.py --mode minimal
 ```
 
 See `docs/DEMO_DEPLOYMENT.md` for the execution trace and public boundary.
+
+## Whitepaper
+
+The technical whitepaper is available at `docs/WHITEPAPER.md`.
