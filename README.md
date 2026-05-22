@@ -1,4 +1,5 @@
 # Centroid Cognitive Architecture
+This repository contains the public reference architecture (Holly). The full production system I run (AIMEE) contains additional proprietary components, including a sophisticated self-modification engine, that are not included in this release. The public version is intentionally limited for safety and stability reasons.
 
 [![CI](https://github.com/Jdogg9/centroid-cognitive-architecture/actions/workflows/ci.yml/badge.svg)](https://github.com/Jdogg9/centroid-cognitive-architecture/actions/workflows/ci.yml)
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
