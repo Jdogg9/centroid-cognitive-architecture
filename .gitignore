@@ -11,4 +11,5 @@ htmlcov/
 *.sqlite
 *.jsonl
 runtime_state/
-
+.agents/
+.codex/

@@ -1,13 +1,10 @@
 # Centroid Cognitive Architecture
 
-Centroid is a public, reproducible architecture for studying persistent,
-distributed, priority-weighted agent systems.
-
-The project explores whether persistent, distributed, recursively self-modeling
+Centroid explores whether persistent, distributed, recursively self-modeling
 agent systems can produce stable cognition-like behavior over time. It does not
-claim to prove machine consciousness. It provides an engineering framework for
-studying continuity, temporal stratification, state propagation, and emergent
-coordination in AI systems.
+claim to prove machine consciousness; it provides a runnable engineering
+framework for studying continuity, temporal stratification, state propagation,
+priority-weighted routing, and emergent coordination in AI systems.
 
 ## Runtime Name
 
@@ -63,6 +60,8 @@ not part of this repository.
 ## Quick Start
 
 ```bash
+git clone https://github.com/Jdogg9/centroid-cognitive-architecture.git
+cd centroid-cognitive-architecture
 python3 -m venv .venv
 . .venv/bin/activate
 pip install -e ".[dev]"

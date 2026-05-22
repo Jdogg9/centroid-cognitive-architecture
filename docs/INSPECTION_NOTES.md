@@ -1,4 +1,4 @@
-# AIMEE System Inspection Notes
+# Private Source System Inspection Notes
 
 These notes summarize read-only structural inspection performed before creating
 Centroid. They are intentionally sanitized for public use.
@@ -28,4 +28,3 @@ Centroid. They are intentionally sanitized for public use.
 - Public docs avoid claims of consciousness and focus on measurable behavior.
 - Public safety is stricter than the private system: mutating actions are
   approval-gated by default.
-
