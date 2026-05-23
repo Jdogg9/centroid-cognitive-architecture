@@ -1,5 +1,12 @@
 # Changelog
 
+## v0.4.2 - 2026-05-23
+
+- Correct stale README provider-layer release wording with version-neutral provider adapter capability language.
+- Correct the README baseline count from 23 to 29 deterministic probes.
+- Preserve the v0.4.x provider-adapter implementation unchanged.
+- Confirm provider tool proposals remain non-executable and MCP remains deferred to v0.5.0.
+
 ## v0.4.1 - 2026-05-23
 
 - Repair release CI checks after the pushed `v0.4.0` tag failed on CI-only workflow issues: a stale provider-schema pytest node id and an overbroad credential/private-endpoint grep that matched safe source-code symbols and a numbered documentation heading.
