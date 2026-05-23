@@ -100,13 +100,34 @@ Status: in progress.
 - [ ] Add benchmark reporting artifacts
 - [ ] Add published GitHub Release notes for each tagged release
 
-## Phase 8: Long-Term Expansion
+## Phase 8: Adoption-Oriented Integration
 
-Potential directions:
+Status: planned. `v0.3.0` is complete as the Config-Driven Agent Runtime
+release. The next public releases should make Centroid easier for outside
+developers to connect to their existing model and tool ecosystems.
 
-- Cognitive mesh networking
-- Adaptive identity stability
-- Multi-agent recursive coordination
-- Persistent tool ecology
-- Cybernetic environmental feedback
-- Longitudinal identity drift studies
+Near-term release sequence:
+
+- `v0.4.0`: Model Provider Adapter Layer
+  - provider-neutral model interface
+  - deterministic mock-provider tests
+  - optional OpenAI adapter
+  - optional Anthropic adapter
+  - optional Ollama adapter
+  - optional vLLM/OpenAI-compatible adapter
+- `v0.5.0`: MCP Interoperability
+  - safety-gated tool and context boundaries
+  - read-only or proposal-only Centroid MCP server capabilities first
+  - approval-gated boundaries for mutating tool paths
+  - deterministic MCP contract fixtures and tests
+
+Deferred future candidates:
+
+- live distributed mesh execution
+- model-backed measurements with deterministic replay traces
+- sensorium and runtime-health expansion
+- retrieval/RAG-backed provenance memory
+- auditable reflection traces
+- bounded forecasting and calibration
+- simulated action bridges
+- concept graphs and multimodal latent indexes
