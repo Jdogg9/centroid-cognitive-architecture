@@ -40,7 +40,7 @@ Persistent agents, measurable continuity, bounded action.
 
 ## Connect a Model Provider
 
-Centroid v0.4.0 adds a provider adapter boundary while keeping Centroid authoritative for identity continuity, memory policy, routing, safety decisions, audit provenance, and action gating. Mock mode is deterministic and is what CI verifies.
+Centroid includes a provider adapter boundary while keeping Centroid authoritative for identity continuity, memory policy, routing, safety decisions, audit provenance, and action gating. Mock mode is deterministic and is what CI verifies.
 
 ```bash
 python examples/run_agent.py --config templates/minimal_agent.json --scenario project-companion --provider mock
@@ -230,7 +230,7 @@ See [benchmarks/README.md](benchmarks/README.md) for individual scripts and
 baseline values. Benchmark values are deterministic reference values unless a
 future document explicitly states live deployment conditions.
 
-The current baseline includes 23 deterministic probes. They are fixture and
+The current baseline includes 29 deterministic probes. They are fixture and
 synthetic-scenario contract checks, not live distributed performance results.
 
 ## License
