@@ -12,5 +12,8 @@ htmlcov/
 *.sqlite
 *.jsonl
 runtime_state/
+.env
+.env.*
+!.env.example
 .agents/
 .codex/
