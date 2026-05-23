@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "centroid-cognitive-architecture"
-version = "0.4.0"
+version = "0.4.1"
 description = "Reference architecture for persistent AI agents with memory continuity, temporal layering, safety-gated actions, and runnable Holly demos."
 readme = "README.md"
 requires-python = ">=3.10"
