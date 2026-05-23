@@ -127,6 +127,6 @@ Holly-derived agents are configurable reference implementations for persistent
 task continuity, memory restoration, routing, timing, auditability, and
 safety-gated planning. They are not claims of consciousness, sentience,
 subjective experience, personhood, or autonomous moral agency.
-## v0.4.0 Provider Adapter Boundary
+## Provider Adapter Boundary
 
 Holly can select a provider with `python examples/run_holly.py --scenario project-companion --provider mock`. Without `--provider`, Holly keeps the deterministic v0.3-compatible public path. Live providers require `--live` and environment configuration; Centroid still owns continuity, memory, safety, and audit.

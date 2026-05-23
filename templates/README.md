@@ -30,6 +30,6 @@ Validate custom configs against
 ```bash
 centroid-agent --config templates/minimal_agent.json --scenario project-companion
 ```
-## v0.4.0 Provider Adapter Boundary
+## Provider Adapter Boundary
 
 Templates can be run with the mock provider: `centroid-agent --config templates/minimal_agent.json --scenario project-companion --provider mock`. Provider selection does not give models authority over Centroid memory, safety, or audit.

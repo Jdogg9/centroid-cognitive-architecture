@@ -2,10 +2,10 @@
 
 ## v0.4.2 - 2026-05-23
 
-- Correct stale README provider-layer release wording with version-neutral provider adapter capability language.
-- Correct the README baseline count from 23 to 29 deterministic probes.
-- Preserve the v0.4.x provider-adapter implementation unchanged.
+- Synchronize release-facing documentation with the implemented provider-adapter layer and current 29-probe deterministic baseline.
+- Keep provider functionality unchanged from the verified v0.4.x implementation.
 - Confirm provider tool proposals remain non-executable and MCP remains deferred to v0.5.0.
+- Clarify public positioning against orchestration frameworks, live-provider non-claims, deterministic mock-mode verification, and future validation boundaries.
 
 ## v0.4.1 - 2026-05-23
 

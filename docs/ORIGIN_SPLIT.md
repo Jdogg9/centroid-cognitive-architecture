@@ -1,11 +1,12 @@
-# Origin Split
+# Public Scope Split
 
-Centroid was derived from a private long-running experimental agent system. The
-public release extracts architecture, not persona.
+Centroid is published as a neutral reference architecture. The public release
+extracts architecture, deterministic fixtures, schemas, and safety boundaries,
+not persona-specific context or non-public deployment state.
 
-## Private-Origin Material
+## Excluded Non-Public Material
 
-Private-origin systems may contain symbolic language, personal context,
+Non-public experimental systems may contain symbolic language, personal context,
 relationship history, or identity framing. That material is not part of the
 public architecture.
 
@@ -36,8 +37,7 @@ Include:
 Exclude:
 
 - personal relationship content
-- private memory anchors
+- non-public memory anchors
 - mystical, religious, or personhood framing
 - identity-lock language
 - claims of subjective experience
-

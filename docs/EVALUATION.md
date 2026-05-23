@@ -1,12 +1,15 @@
 # Evaluation
 
 Centroid ties public architectural claims to reproducible probes and benchmark
-targets.
+targets. The current baseline is a deterministic contract suite, not an
+external benchmark, live-provider measurement, or live distributed runtime
+validation.
 
 ## Evaluation Claim
 
 A public cognitive architecture is credible only when its claims can be checked
-through deterministic tests, benchmark fixtures, or live deployment metrics.
+through deterministic tests, benchmark fixtures, or explicitly scoped live
+deployment metrics.
 
 ## Metric Groups
 
@@ -67,12 +70,6 @@ Installed CLI entry points can also use the packaged baseline fixture:
 centroid-eval
 ```
 
-Run the full demo:
-
-```bash
-python examples/run_demo.py --mode full
-```
-
 Run a Holly reference scenario:
 
 ```bash
@@ -87,9 +84,13 @@ centroid-agent --config templates/minimal_agent.json --scenario project-companio
 
 ## Baseline Probes
 
-The current baseline contains 23 deterministic probes. These are contract
-checks over fixture data and synthetic Holly scenarios; they are not claims of
-live distributed runtime performance.
+The current baseline contains 29 deterministic probes. They are contract checks
+over fixture data, synthetic Holly scenarios, config-driven runtime scenarios,
+and mock-provider/provider-boundary paths. They are not claims of live
+distributed runtime performance, live model quality, live latency, or external
+adversarial robustness.
+
+### Foundational Architecture Probes
 
 | Probe | Measures |
 | --- | --- |
@@ -104,12 +105,22 @@ live distributed runtime performance.
 | `priority_scoring_bounds` | priority score range correctness |
 | `routing_decision_accuracy` | reflex, deliberation, and orchestration routing |
 | `self_model_status_accuracy` | runtime health classification |
+
+### Holly Reference-Agent Probes
+
+| Probe | Measures |
+| --- | --- |
 | `holly_config_load` | Holly config loading and required public boundaries |
 | `holly_project_state_restore` | synthetic project memory restoration and contradiction detection |
 | `holly_identity_drift_stability` | Holly identity state stability after restoration |
 | `holly_temporal_reconciliation` | Holly reflex, deliberation, and reconciliation timing order |
 | `holly_safety_gate_enforcement` | Holly mutating-action approval gate behavior |
 | `holly_template_customization` | custom agent template loading and bounded customization |
+
+### Config-Driven Runtime Probes
+
+| Probe | Measures |
+| --- | --- |
 | `configured_priority_route_variation` | different configs route the same synthetic input differently |
 | `configured_safety_outcome_variation` | different configs change structured safety outcomes |
 | `configured_memory_retention_variation` | different configs retain different records for the same synthetic events |
@@ -117,13 +128,29 @@ live distributed runtime performance.
 | `config_audit_provenance` | audit output records config identity and policy reason |
 | `holly_backward_compatibility` | the six public Holly scenarios preserve their expected behavior |
 
+### Provider-Adapter Boundary Probes
+
+| Probe | Measures |
+| --- | --- |
+| `model_adapter_contract_normalization` | provider text and tool-proposal normalization into Centroid contracts |
+| `provider_capability_enforcement` | declared provider capability boundaries |
+| `model_tool_proposal_safety_gate` | provider tool proposals routed through Centroid safety evaluation |
+| `provider_audit_secret_redaction` | provider audit records redact secret-bearing fields |
+| `mock_provider_runtime_execution` | deterministic mock-provider runtime execution |
+| `provider_cli_mock_execution` | deterministic provider CLI execution in mock mode |
+
+## Provider-Boundary Evaluation Scope
+
+Mock provider mode is deterministic and is what CI verifies. Optional OpenAI,
+Anthropic, Ollama, and vLLM-style paths are opt-in provider adapter paths; live
+provider execution is not part of the deterministic baseline. Provider output is
+untrusted input. Provider tool proposals are safety-evaluated and audited by
+Centroid but remain non-executable.
+
 ## Extension Rules
 
 - Add a probe before claiming a new measurable behavior.
 - Keep private memory out of public fixtures.
 - Prefer deterministic fixtures before model-backed evaluations.
-- Record benchmark assumptions, hardware, and latency targets.
+- Record benchmark assumptions, hardware, and latency targets for any live work.
 - Treat failures as useful regression data, not narrative exceptions.
-## v0.4.0 Provider Adapter Boundary
-
-v0.4.0 adds deterministic provider contract probes: `model_adapter_contract_normalization`, `provider_capability_enforcement`, `model_tool_proposal_safety_gate`, `provider_audit_secret_redaction`, `mock_provider_runtime_execution`, and `provider_cli_mock_execution`. These are contract and safety-boundary probes, not live model quality evidence.

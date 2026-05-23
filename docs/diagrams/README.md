@@ -2,7 +2,7 @@
 
 This directory contains public architecture diagrams for Centroid.
 
-Diagrams should use neutral technical labels and avoid private-origin,
+Diagrams should use neutral technical labels and avoid non-public,
 mystical, religious, personhood, or autonomous-life framing.
 
 Current diagrams:
