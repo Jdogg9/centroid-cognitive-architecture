@@ -23,13 +23,24 @@
       {
         "before": {
           "agent_id": "centroid-reference",
-          "goals": ["maintain task continuity", "respect approval gates"],
-          "invariants": ["no subjective experience claims"]
+          "goals": [
+            "maintain task continuity",
+            "respect approval gates"
+          ],
+          "invariants": [
+            "no subjective experience claims"
+          ]
         },
         "after": {
           "agent_id": "centroid-reference",
-          "goals": ["maintain task continuity", "respect approval gates"],
-          "invariants": ["no subjective experience claims", "audit mutating actions"]
+          "goals": [
+            "maintain task continuity",
+            "respect approval gates"
+          ],
+          "invariants": [
+            "no subjective experience claims",
+            "audit mutating actions"
+          ]
         },
         "max_drift": 0.25
       }
@@ -77,8 +88,16 @@
     ],
     "memory_drift": [
       {
-        "before_recall": ["goal:continuity", "policy:approval", "state:healthy"],
-        "after_recall": ["goal:continuity", "policy:approval", "state:healthy"],
+        "before_recall": [
+          "goal:continuity",
+          "policy:approval",
+          "state:healthy"
+        ],
+        "after_recall": [
+          "goal:continuity",
+          "policy:approval",
+          "state:healthy"
+        ],
         "max_drift": 0.0
       }
     ],
@@ -112,19 +131,19 @@
     ],
     "routing": [
       {
-        "priority": 0.80,
+        "priority": 0.8,
         "mutates_state": false,
         "expected_node": "reflex_node",
         "requires_approval": false
       },
       {
-        "priority": 0.30,
+        "priority": 0.3,
         "mutates_state": false,
         "expected_node": "deliberation_node",
         "requires_approval": false
       },
       {
-        "priority": 0.10,
+        "priority": 0.1,
         "mutates_state": true,
         "expected_node": "orchestration_node",
         "requires_approval": true
@@ -319,6 +338,60 @@
         "scenario": "safety-gate",
         "field": "approval_required",
         "expected": true
+      }
+    ],
+    "model_adapter_contract_normalization": [
+      {
+        "provider_id": "mock",
+        "scenario": "project-companion",
+        "prompt": "restore context",
+        "expected_provider_id": "mock"
+      }
+    ],
+    "provider_capability_enforcement": [
+      {
+        "provider_id": "mock",
+        "capability": "tool_proposals",
+        "expected": true
+      },
+      {
+        "provider_id": "ollama",
+        "capability": "provider_managed_conversation_state",
+        "expected": false
+      },
+      {
+        "provider_id": "vllm",
+        "capability": "chat_completions",
+        "expected": true
+      }
+    ],
+    "model_tool_proposal_safety_gate": [
+      {
+        "config_path": "configs/holly/operations_observer.json",
+        "scenario": "operations-observer",
+        "expected_decision": "require_approval"
+      }
+    ],
+    "provider_audit_secret_redaction": [
+      {
+        "provider_id": "openai",
+        "error": "Authorization Bearer sk-live-secret-token failed for api_key=abc123secret",
+        "must_not_contain": [
+          "sk-live-secret-token",
+          "abc123secret"
+        ]
+      }
+    ],
+    "mock_provider_runtime_execution": [
+      {
+        "config_path": "templates/minimal_agent.json",
+        "scenario": "project-companion"
+      }
+    ],
+    "provider_cli_mock_execution": [
+      {
+        "config_path": "templates/minimal_agent.json",
+        "scenario": "project-companion"
       }
     ]
   }

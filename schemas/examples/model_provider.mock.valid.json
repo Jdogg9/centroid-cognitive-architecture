@@ -1,0 +1,21 @@
+{
+  "provider_id": "mock",
+  "adapter_type": "mock",
+  "protocol": "mock",
+  "model": "mock-centroid-model",
+  "live_enabled": false,
+  "capabilities": {
+    "text_generation": true,
+    "streaming": false,
+    "structured_outputs": false,
+    "tool_proposals": true,
+    "vision": false,
+    "responses_api": false,
+    "chat_completions": false,
+    "provider_managed_conversation_state": false,
+    "remote_mcp": false
+  },
+  "metadata": {
+    "description": "Deterministic CI-safe mock provider."
+  }
+}

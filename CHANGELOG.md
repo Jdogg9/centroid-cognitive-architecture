@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.4.0 - 2026-05-23
+
+- Add a provider-neutral model adapter layer with deterministic mock, optional OpenAI, optional Anthropic, and OpenAI-compatible Ollama/vLLM profiles.
+- Route provider text and tool proposals through the configured Centroid runtime while preserving Centroid authority over continuity, memory policy, routing, safety, audit provenance, and action gating.
+- Add provider schemas, public-safe provider config examples, placeholder `.env.example`, provider demos, and provider CLI selection for `centroid-agent` and Holly.
+- Expand deterministic evaluation coverage from 23 to 29 probes for provider contracts, declared capabilities, tool-proposal safety gating, audit redaction, mock runtime execution, and source-environment provider CLI execution.
+- Document that live providers are opt-in only, CI verifies mock behavior only, provider tool proposals do not execute, and MCP remains future v0.5.0 work.
+
 ## v0.3.0 - 2026-05-22
 
 - Add a config-driven runtime layer under `core/runtime/` for routing, safety,

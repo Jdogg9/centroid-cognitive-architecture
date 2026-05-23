@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Centroid Model Provider Config",
+  "type": "object",
+  "required": [
+    "provider_id",
+    "adapter_type",
+    "protocol",
+    "capabilities"
+  ],
+  "properties": {
+    "provider_id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_-]*$"
+    },
+    "adapter_type": {
+      "type": "string",
+      "enum": [
+        "mock",
+        "openai",
+        "anthropic",
+        "openai_compatible"
+      ]
+    },
+    "protocol": {
+      "type": "string",
+      "enum": [
+        "mock",
+        "responses",
+        "messages",
+        "chat_completions"
+      ]
+    },
+    "model": {
+      "type": "string"
+    },
+    "api_key_env": {
+      "type": "string"
+    },
+    "base_url_env": {
+      "type": "string"
+    },
+    "model_env": {
+      "type": "string"
+    },
+    "default_base_url": {
+      "type": "string"
+    },
+    "live_enabled": {
+      "type": "boolean"
+    },
+    "capabilities": {
+      "type": "object",
+      "properties": {
+        "text_generation": {
+          "type": "boolean"
+        },
+        "streaming": {
+          "type": "boolean"
+        },
+        "structured_outputs": {
+          "type": "boolean"
+        },
+        "tool_proposals": {
+          "type": "boolean"
+        },
+        "vision": {
+          "type": "boolean"
+        },
+        "responses_api": {
+          "type": "boolean"
+        },
+        "chat_completions": {
+          "type": "boolean"
+        },
+        "provider_managed_conversation_state": {
+          "type": "boolean"
+        },
+        "remote_mcp": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": true
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": false
+}

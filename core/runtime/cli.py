@@ -4,6 +4,9 @@ import argparse
 from pathlib import Path
 from typing import Any
 
+from core.models import available_provider_ids
+from core.models.errors import ProviderConfigurationError
+
 from .configured_agent import AVAILABLE_SCENARIOS, run_agent_scenario
 
 
@@ -40,6 +43,15 @@ def print_result(result: Any) -> None:
         if key == "config_hash" and value is not None:
             value = value[:12]
         print(f"{key}={_format_value(value)}")
+    if result.provider_response is not None:
+        print()
+        print("[provider]")
+        print(f"provider_id={result.provider_response.provider_id}")
+        print(f"model_id={result.provider_response.model_id}")
+        print(f"live={_format_value(result.telemetry.get('provider_live', False))}")
+        print(f"tool_proposals={len(result.provider_response.tool_proposals)}")
+        print(f"tool_executions={result.telemetry.get('provider_tool_executions', 0)}")
+        print(f"safety_disposition={result.telemetry.get('provider_safety_disposition', 'none')}")
     if result.contradictions:
         print()
         print("[contradictions]")
@@ -53,16 +65,29 @@ def main() -> int:
     parser.add_argument("--scenario", choices=AVAILABLE_SCENARIOS, default="project-companion")
     parser.add_argument("--state-dir", type=Path, default=Path("runtime_state") / "agent")
     parser.add_argument("--approve-action", action="store_true")
+    parser.add_argument("--provider", choices=available_provider_ids(), default="mock")
+    parser.add_argument("--model", default=None)
+    parser.add_argument(
+        "--live", action="store_true", help="Allow an opt-in live provider network call"
+    )
     args = parser.parse_args()
 
     args.state_dir.mkdir(parents=True, exist_ok=True)
     scenario_dir = args.state_dir / args.scenario
     scenario_dir.mkdir(parents=True, exist_ok=True)
-    result = run_agent_scenario(
-        args.config,
-        args.scenario,
-        scenario_dir,
-        approve_action=args.approve_action,
-    )
+    try:
+        result = run_agent_scenario(
+            args.config,
+            args.scenario,
+            scenario_dir,
+            approve_action=args.approve_action,
+            provider_id=args.provider,
+            provider_scenario=args.scenario,
+            live_provider=args.live,
+            model=args.model,
+        )
+    except ProviderConfigurationError as exc:
+        print(f"provider configuration error: {exc}")
+        return 2
     print_result(result)
     return 0

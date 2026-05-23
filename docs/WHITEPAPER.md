@@ -397,3 +397,6 @@ experience or moral status.
 - Lamport, L. Time, clocks, and the ordering of events in a distributed system.
 - Picard, R. W. Affective Computing.
 - Sutton, R. S., and Barto, A. G. Reinforcement Learning: An Introduction.
+## v0.4.0 Provider Adapter Boundary
+
+Implementation scope update: v0.4.0 adds a provider adapter boundary that normalizes model text and tool proposals while preserving Centroid as the authority for continuity, memory policy, safety, and audit. This is scoped engineering work, not a claim of live performance or autonomous action.

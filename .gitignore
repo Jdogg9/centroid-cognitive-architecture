@@ -17,3 +17,7 @@ runtime_state/
 !.env.example
 .agents/
 .codex/
+.Hermes
+.Hermes/
+.hermes
+.hermes/

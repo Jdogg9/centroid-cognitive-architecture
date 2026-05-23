@@ -55,3 +55,6 @@ Evaluation is a first-class architectural layer, not an afterthought. `core.eval
 - Config-driven behavior matters here. `configs/holly/*.json` and `templates/minimal_agent.json` are part of the public contract; validate config changes against `schemas/agent_config.schema.json`, keep `agent_id` stable once fixtures depend on it, and preserve required invariants like approval gating, auditability, and no hidden tool effects.
 - Memory is modeled as append-only JSONL events with explicit metadata/provenance. Public configs should continue to keep `retain_sensitive_data` false and `retain_provenance` true unless the repository intentionally expands that contract.
 - When changing architecture-level behavior, tie it back to measurable coverage. This repository expects claims to be backed by tests, probes, benchmarks, or schemas rather than prose alone.
+## v0.4.0 Provider Adapter Boundary
+
+For v0.4.0 provider work, preserve deterministic mock behavior, avoid live network calls in CI, never add real credentials/private endpoints, and treat provider tool calls as Centroid-gated proposals only. MCP remains future v0.5.0 documentation and must not be implemented in this pass.

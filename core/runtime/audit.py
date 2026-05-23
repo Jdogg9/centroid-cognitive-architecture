@@ -7,6 +7,7 @@ from typing import Any
 from uuid import uuid4
 
 from core.agent_config import AgentConfig
+from core.models.types import ProviderAuditRecord
 
 
 @dataclass(frozen=True)
@@ -26,6 +27,7 @@ class AuditRecord:
     policy_version: str
     memory_retention_mode: str
     retained_event_types: list[str]
+    provider: ProviderAuditRecord | None = None
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -50,6 +52,7 @@ def build_audit_record(
     policy_version: str,
     memory_retention_mode: str,
     retained_event_types: list[str],
+    provider: ProviderAuditRecord | None = None,
 ) -> AuditRecord:
     return AuditRecord(
         audit_id=str(uuid4()),
@@ -67,4 +70,5 @@ def build_audit_record(
         policy_version=policy_version,
         memory_retention_mode=memory_retention_mode,
         retained_event_types=list(retained_event_types),
+        provider=provider,
     )

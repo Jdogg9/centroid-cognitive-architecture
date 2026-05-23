@@ -1,5 +1,5 @@
 # Centroid Cognitive Architecture
-This repository contains the public reference architecture (Holly). The full production system I run (AIMEE) contains additional proprietary components, including a sophisticated self-modification engine, that are not included in this release. The public version is intentionally limited for safety and stability reasons.
+This repository contains the public reference architecture and bundled Holly reference agent. It is intentionally scoped to deterministic, auditable behavior suitable for public review and local experimentation.
 
 [![CI](https://github.com/Jdogg9/centroid-cognitive-architecture/actions/workflows/ci.yml/badge.svg)](https://github.com/Jdogg9/centroid-cognitive-architecture/actions/workflows/ci.yml)
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
@@ -36,6 +36,28 @@ Persistent agents, measurable continuity, bounded action.
   keeping behavior deterministic and bounded.
 - Evaluates continuity, timing, routing, memory, safety, and Holly behavior with
   deterministic probes.
+
+
+## Connect a Model Provider
+
+Centroid v0.4.0 adds a provider adapter boundary while keeping Centroid authoritative for identity continuity, memory policy, routing, safety decisions, audit provenance, and action gating. Mock mode is deterministic and is what CI verifies.
+
+```bash
+python examples/run_agent.py --config templates/minimal_agent.json --scenario project-companion --provider mock
+python examples/run_holly.py --scenario project-companion --provider mock
+python examples/run_provider_demo.py
+python examples/run_provider_comparison.py
+```
+
+Optional live providers require explicit opt-in with `--live` plus user-supplied environment configuration. Selecting OpenAI, Anthropic, Ollama, or vLLM without `--live` does not perform a network request. Model tool calls are normalized as Centroid tool proposals and are never executed in this release. See `docs/MODEL_PROVIDERS.md`.
+
+```bash
+export CENTROID_OPENAI_API_KEY=
+export CENTROID_OPENAI_MODEL=
+python examples/run_agent.py --config templates/minimal_agent.json --scenario project-companion --provider openai --live
+```
+
+Local examples may use localhost defaults such as `CENTROID_OLLAMA_BASE_URL=http://localhost:11434/v1` or `CENTROID_VLLM_BASE_URL=http://localhost:8000/v1`; CI never calls those endpoints.
 
 ## What Centroid Is Not
 

@@ -1,0 +1,25 @@
+{
+  "provider_id": "vllm",
+  "adapter_type": "openai_compatible",
+  "protocol": "chat_completions",
+  "base_url_env": "CENTROID_VLLM_BASE_URL",
+  "api_key_env": "CENTROID_VLLM_API_KEY",
+  "model_env": "CENTROID_VLLM_MODEL",
+  "default_base_url": "http://localhost:8000/v1",
+  "model": "served-model-placeholder",
+  "live_enabled": false,
+  "capabilities": {
+    "text_generation": true,
+    "streaming": false,
+    "structured_outputs": false,
+    "tool_proposals": false,
+    "vision": false,
+    "responses_api": false,
+    "chat_completions": true,
+    "provider_managed_conversation_state": false,
+    "remote_mcp": false
+  },
+  "metadata": {
+    "capability_source": "configuration or probe results; do not assume every deployment supports every feature"
+  }
+}

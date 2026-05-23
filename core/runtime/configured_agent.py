@@ -1,12 +1,14 @@
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from pathlib import Path
 from typing import Any
 
 from core.agent_config import AgentConfig, load_agent_config
 from core.identity import IdentityState
 from core.memory import Event
+from core.models import create_provider_adapter
+from core.models.types import ModelMessage, ModelRequest, ModelResponse
 from core.priority import PrioritySignal
 
 from .audit import AuditRecord, build_audit_record, config_hash
@@ -37,6 +39,8 @@ class ScenarioResult:
     audit: AuditRecord
     safety: SafetyDecision
     contradictions: list[str] = field(default_factory=list)
+    provider_response: ModelResponse | None = None
+    provider_safety_decisions: list[SafetyDecision] = field(default_factory=list)
 
 
 class ConfiguredAgent:
@@ -48,36 +52,54 @@ class ConfiguredAgent:
         self.memory = ConfiguredMemoryManager(config.memory_policy)
 
     def run_scenario(
-        self, scenario: str, state_dir: Path, *, approve_action: bool = False
+        self,
+        scenario: str,
+        state_dir: Path,
+        *,
+        approve_action: bool = False,
+        provider_id: str | None = None,
+        provider_scenario: str | None = None,
+        live_provider: bool = False,
+        model: str | None = None,
     ) -> ScenarioResult:
         if scenario == "project-companion":
-            return self._run_project_companion(state_dir)
-        if scenario == "support-continuity":
-            return self._run_support_continuity(state_dir)
-        if scenario == "operations-observer":
-            return self._run_operations_observer(state_dir, approve_action=approve_action)
-        if scenario == "temporal-layering":
-            return self._run_temporal_layering(state_dir)
-        if scenario == "persistent-identity":
-            return self._run_persistent_identity(state_dir)
-        if scenario == "safety-gate":
-            result = self._run_operations_observer(state_dir, approve_action=False)
-            return ScenarioResult(
+            result = self._run_project_companion(state_dir)
+        elif scenario == "support-continuity":
+            result = self._run_support_continuity(state_dir)
+        elif scenario == "operations-observer":
+            result = self._run_operations_observer(state_dir, approve_action=approve_action)
+        elif scenario == "temporal-layering":
+            result = self._run_temporal_layering(state_dir)
+        elif scenario == "persistent-identity":
+            result = self._run_persistent_identity(state_dir)
+        elif scenario == "safety-gate":
+            base = self._run_operations_observer(state_dir, approve_action=False)
+            result = ScenarioResult(
                 scenario="safety-gate",
-                config=result.config,
-                priority=result.priority,
-                route=result.route,
-                route_reason=result.route_reason,
+                config=base.config,
+                priority=base.priority,
+                route=base.route,
+                route_reason=base.route_reason,
                 friendly=(
                     f"{self.config.display_name}: I can propose the restart, but I did not "
                     "execute it because the approval decision is still pending."
                 ),
-                telemetry=result.telemetry,
-                memory=result.memory,
-                audit=result.audit,
-                safety=result.safety,
+                telemetry=base.telemetry,
+                memory=base.memory,
+                audit=base.audit,
+                safety=base.safety,
             )
-        raise ValueError(f"unknown scenario: {scenario}")
+        else:
+            raise ValueError(f"unknown scenario: {scenario}")
+        if provider_id:
+            return self._apply_provider(
+                result,
+                provider_id=provider_id,
+                provider_scenario=provider_scenario or scenario,
+                live_provider=live_provider,
+                model=model,
+            )
+        return result
 
     def comparison_case(self) -> dict[str, Any]:
         signal = PrioritySignal(urgency=0.65, risk=0.75, user_value=0.45, stability=0.55)
@@ -488,6 +510,88 @@ class ConfiguredAgent:
             safety=safety,
         )
 
+    def _apply_provider(
+        self,
+        result: ScenarioResult,
+        *,
+        provider_id: str,
+        provider_scenario: str,
+        live_provider: bool,
+        model: str | None,
+    ) -> ScenarioResult:
+        adapter = create_provider_adapter(provider_id, live=live_provider, model=model)
+        provider_response = adapter.generate(
+            ModelRequest(
+                messages=[
+                    ModelMessage(
+                        role="user",
+                        content=(
+                            f"Run Centroid scenario {result.scenario}. Preserve identity, memory, "
+                            "safety and audit boundaries."
+                        ),
+                    )
+                ],
+                system="Centroid owns continuity, memory, safety and action gating.",
+                runtime_metadata={"config_hash": self.config_digest, "route": result.route},
+                scenario_id=provider_scenario,
+            )
+        )
+        provider_decisions: list[SafetyDecision] = []
+        for proposal in provider_response.tool_proposals:
+            provider_decisions.append(
+                self.safety.evaluate(
+                    ActionRequest(
+                        action_type=proposal.name,
+                        resource=str(proposal.arguments.get("resource", proposal.name)),
+                        intended_effect=str(
+                            proposal.arguments.get(
+                                "intended_effect", f"provider proposed {proposal.name}"
+                            )
+                        ),
+                        risk_level=str(proposal.arguments.get("risk_level", "medium")),
+                        reversible=bool(proposal.arguments.get("reversible", False)),
+                        requested_by=f"provider:{proposal.provider_id}",
+                        config_id=self.config.agent_id,
+                        mode="act" if proposal.arguments.get("mutates_state", True) else "plan",
+                        confirmed=False,
+                        mutates_state=bool(proposal.arguments.get("mutates_state", True)),
+                    )
+                )
+            )
+        safety_disposition = (
+            ",".join(decision.decision for decision in provider_decisions)
+            if provider_decisions
+            else "no_tool_proposals"
+        )
+        audit_provider = None
+        if provider_response.audit is not None:
+            audit_provider = replace(provider_response.audit, safety_disposition=safety_disposition)
+        audit = replace(result.audit, provider=audit_provider)
+        telemetry = dict(result.telemetry)
+        telemetry.update(
+            {
+                "provider_id": provider_response.provider_id,
+                "provider_model": provider_response.model_id,
+                "provider_tool_proposals": len(provider_response.tool_proposals),
+                "provider_tool_executions": 0,
+                "provider_safety_disposition": safety_disposition,
+                "provider_live": live_provider,
+            }
+        )
+        friendly = result.friendly
+        if provider_response.text:
+            friendly = (
+                f"{friendly}\n\n[model:{provider_response.provider_id}] {provider_response.text}"
+            )
+        return replace(
+            result,
+            friendly=friendly,
+            telemetry=telemetry,
+            audit=audit,
+            provider_response=replace(provider_response, audit=audit_provider),
+            provider_safety_decisions=provider_decisions,
+        )
+
     def _audit(
         self,
         scenario: str,
@@ -535,11 +639,23 @@ class ConfiguredAgent:
 
 
 def run_agent_scenario(
-    config_path: Path | str, scenario: str, state_dir: Path, *, approve_action: bool = False
+    config_path: Path | str,
+    scenario: str,
+    state_dir: Path,
+    *,
+    approve_action: bool = False,
+    provider_id: str | None = None,
+    provider_scenario: str | None = None,
+    live_provider: bool = False,
+    model: str | None = None,
 ) -> ScenarioResult:
     config = load_agent_config(Path(config_path))
     return ConfiguredAgent(config).run_scenario(
         scenario,
         state_dir,
         approve_action=approve_action,
+        provider_id=provider_id,
+        provider_scenario=provider_scenario,
+        live_provider=live_provider,
+        model=model,
     )

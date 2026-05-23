@@ -1,0 +1,23 @@
+{
+  "provider_id": "anthropic",
+  "adapter_type": "anthropic",
+  "protocol": "messages",
+  "api_key_env": "CENTROID_ANTHROPIC_API_KEY",
+  "model_env": "CENTROID_ANTHROPIC_MODEL",
+  "model": "claude-3-5-haiku-latest",
+  "live_enabled": false,
+  "capabilities": {
+    "text_generation": true,
+    "streaming": true,
+    "structured_outputs": false,
+    "tool_proposals": true,
+    "vision": false,
+    "responses_api": false,
+    "chat_completions": false,
+    "provider_managed_conversation_state": false,
+    "remote_mcp": false
+  },
+  "metadata": {
+    "tool_use": "normalized as Centroid proposals only"
+  }
+}
