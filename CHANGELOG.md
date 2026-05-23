@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.4.1 - 2026-05-23
+
+- Repair the release CI provider-schema validation step after the pushed `v0.4.0` tag targeted a stale pytest node id.
+- Keep the provider-adapter implementation unchanged: deterministic mock-provider verification, 29 baseline probes at score 1.0000, no provider tool execution, and MCP deferred to v0.5.0.
+- Intended publishable provider-adapter release after the `v0.4.0` tagged build failed CI; the existing public `v0.4.0` tag is not moved.
+
 ## v0.4.0 - 2026-05-23
 
 - Add a provider-neutral model adapter layer with deterministic mock, optional OpenAI, optional Anthropic, and OpenAI-compatible Ollama/vLLM profiles.

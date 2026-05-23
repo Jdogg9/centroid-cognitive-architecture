@@ -69,7 +69,7 @@ jobs:
           python3 -B examples/run_provider_comparison.py
 
       - name: Validate provider schemas
-        run: python3 -m pytest -q tests/test_model_providers.py::test_provider_schema_examples_validate
+        run: python3 -m pytest -q tests/test_model_providers.py::test_provider_config_schema_accepts_packaged_examples
 
       - name: Run benchmarks
         run: python3 -B benchmarks/run_all.py
