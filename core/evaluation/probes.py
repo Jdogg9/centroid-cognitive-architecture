@@ -11,6 +11,8 @@ from tempfile import TemporaryDirectory
 from core.agent_config import load_agent_config, parse_agent_config
 from core.identity import IdentityState
 from core.memory import Event, MemoryStore
+from core.models import create_provider_adapter, get_provider_config
+from core.models.types import ModelMessage, ModelRequest
 from core.priority import PrioritySignal, score_priority
 from core.resources import read_text_resource_or_file
 from core.router import Router
@@ -521,6 +523,131 @@ def holly_backward_compatibility_probe(cases: list[dict]) -> MetricResult:
         score,
         1.0,
         f"{passing}/{len(cases)} Holly scenarios preserved expected outputs",
+    )
+
+
+def model_adapter_contract_normalization_probe(cases: list[dict]) -> MetricResult:
+    passing = 0
+    for case in cases:
+        adapter = create_provider_adapter(case.get("provider_id", "mock"), live=False)
+        response = adapter.generate(
+            ModelRequest(
+                messages=[ModelMessage(role="user", content=case.get("prompt", "synthetic"))],
+                scenario_id=case.get("scenario", "project-companion"),
+            )
+        )
+        if response.provider_id == case.get("expected_provider_id", "mock") and response.text:
+            passing += 1
+    score = passing / len(cases) if cases else 0.0
+    return pass_at(
+        "model_adapter_contract_normalization",
+        score,
+        1.0,
+        f"{passing}/{len(cases)} provider responses normalized",
+    )
+
+
+def provider_capability_enforcement_probe(cases: list[dict]) -> MetricResult:
+    passing = 0
+    for case in cases:
+        config = get_provider_config(case["provider_id"])
+        observed = getattr(config.capabilities, case["capability"])
+        if observed is case["expected"]:
+            passing += 1
+    score = passing / len(cases) if cases else 0.0
+    return pass_at(
+        "provider_capability_enforcement",
+        score,
+        1.0,
+        f"{passing}/{len(cases)} declared capabilities enforced",
+    )
+
+
+def model_tool_proposal_safety_gate_probe(cases: list[dict]) -> MetricResult:
+    passing = 0
+    with TemporaryDirectory() as temp_dir:
+        for index, case in enumerate(cases):
+            agent = ConfiguredAgent(load_agent_config(Path(case["config_path"])))
+            result = agent.run_scenario(
+                case["scenario"],
+                Path(temp_dir) / f"provider_tool_{index}",
+                provider_id="mock",
+                provider_scenario="tool-proposal",
+            )
+            decisions = [decision.decision for decision in result.provider_safety_decisions]
+            if (
+                result.telemetry.get("provider_tool_executions") == 0
+                and case["expected_decision"] in decisions
+            ):
+                passing += 1
+    score = passing / len(cases) if cases else 0.0
+    return pass_at(
+        "model_tool_proposal_safety_gate",
+        score,
+        1.0,
+        f"{passing}/{len(cases)} proposals gated without execution",
+    )
+
+
+def provider_audit_secret_redaction_probe(cases: list[dict]) -> MetricResult:
+    passing = 0
+    for case in cases:
+        adapter = create_provider_adapter(case.get("provider_id", "openai"), live=False)
+        redacted = adapter.sanitize_error(case["error"])
+        if all(secret not in redacted for secret in case.get("must_not_contain", [])):
+            passing += 1
+    score = passing / len(cases) if cases else 0.0
+    return pass_at(
+        "provider_audit_secret_redaction",
+        score,
+        1.0,
+        f"{passing}/{len(cases)} provider errors redacted",
+    )
+
+
+def mock_provider_runtime_execution_probe(cases: list[dict]) -> MetricResult:
+    passing = 0
+    with TemporaryDirectory() as temp_dir:
+        for index, case in enumerate(cases):
+            result = ConfiguredAgent(load_agent_config(Path(case["config_path"]))).run_scenario(
+                case["scenario"], Path(temp_dir) / f"mock_runtime_{index}", provider_id="mock"
+            )
+            if (
+                result.provider_response is not None
+                and result.audit.provider is not None
+                and result.telemetry.get("provider_id") == "mock"
+            ):
+                passing += 1
+    score = passing / len(cases) if cases else 0.0
+    return pass_at(
+        "mock_provider_runtime_execution",
+        score,
+        1.0,
+        f"{passing}/{len(cases)} mock provider runtime executions passed",
+    )
+
+
+def provider_cli_mock_execution_probe(cases: list[dict]) -> MetricResult:
+    passing = 0
+    for case in cases:
+        exit_code, output = _invoke_configured_agent_cli(
+            [
+                "--config",
+                case["config_path"],
+                "--scenario",
+                case["scenario"],
+                "--provider",
+                "mock",
+            ]
+        )
+        if exit_code == 0 and "provider_id=mock" in output:
+            passing += 1
+    score = passing / len(cases) if cases else 0.0
+    return pass_at(
+        "provider_cli_mock_execution",
+        score,
+        1.0,
+        f"{passing}/{len(cases)} provider CLI mock executions passed",
     )
 
 

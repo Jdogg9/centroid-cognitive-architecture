@@ -124,3 +124,6 @@ live distributed runtime performance.
 - Prefer deterministic fixtures before model-backed evaluations.
 - Record benchmark assumptions, hardware, and latency targets.
 - Treat failures as useful regression data, not narrative exceptions.
+## v0.4.0 Provider Adapter Boundary
+
+v0.4.0 adds deterministic provider contract probes: `model_adapter_contract_normalization`, `provider_capability_enforcement`, `model_tool_proposal_safety_gate`, `provider_audit_secret_redaction`, `mock_provider_runtime_execution`, and `provider_cli_mock_execution`. These are contract and safety-boundary probes, not live model quality evidence.

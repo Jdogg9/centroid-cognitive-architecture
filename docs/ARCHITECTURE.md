@@ -132,3 +132,6 @@ Schema: [schemas/message_event.schema.json](../schemas/message_event.schema.json
 - Treat recursive self-modeling as internal state representation and consistency
   checking.
 - Tie every public architectural claim to an evaluation or benchmark target.
+## v0.4.0 Provider Adapter Boundary
+
+Provider adapter boundary: input/scenario -> configured Centroid runtime -> identity/memory/priority context -> selected model adapter -> normalized model response/tool proposals -> Centroid safety evaluation -> bounded memory retention -> sanitized audit -> visible output. Providers are not authoritative over Centroid state.

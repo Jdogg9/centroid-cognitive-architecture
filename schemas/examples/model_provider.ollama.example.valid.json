@@ -1,0 +1,24 @@
+{
+  "provider_id": "ollama",
+  "adapter_type": "openai_compatible",
+  "protocol": "responses",
+  "base_url_env": "CENTROID_OLLAMA_BASE_URL",
+  "model_env": "CENTROID_OLLAMA_MODEL",
+  "default_base_url": "http://localhost:11434/v1",
+  "model": "local-model-placeholder",
+  "live_enabled": false,
+  "capabilities": {
+    "text_generation": true,
+    "streaming": false,
+    "structured_outputs": false,
+    "tool_proposals": false,
+    "vision": false,
+    "responses_api": true,
+    "chat_completions": true,
+    "provider_managed_conversation_state": false,
+    "remote_mcp": false
+  },
+  "metadata": {
+    "state": "non-stateful Responses-compatible mode; Centroid owns memory and continuity"
+  }
+}

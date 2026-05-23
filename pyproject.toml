@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "centroid-cognitive-architecture"
-version = "0.3.0"
+version = "0.4.0"
 description = "Reference architecture for persistent AI agents with memory continuity, temporal layering, safety-gated actions, and runnable Holly demos."
 readme = "README.md"
 requires-python = ">=3.10"
@@ -22,11 +22,17 @@ dev = [
     "wheel>=0.43",
 ]
 
+providers = ["openai>=1.0", "anthropic>=0.40"]
+openai = ["openai>=1.0"]
+anthropic = ["anthropic>=0.40"]
+
 [project.scripts]
 centroid-eval = "core.evaluation.cli:main"
 centroid-demo = "examples.run_demo:main"
 centroid-agent = "core.runtime.cli:main"
 centroid-holly = "examples.run_holly:main"
+centroid-provider-demo = "examples.run_provider_demo:main"
+centroid-provider-comparison = "examples.run_provider_comparison:main"
 
 [tool.setuptools.packages.find]
 where = ["."]
@@ -34,6 +40,7 @@ include = ["core*", "nodes*", "examples*", "configs*", "evaluation*", "schemas*"
 
 [tool.setuptools.package-data]
 "configs.holly" = ["*.json"]
+"configs.providers" = ["*.json", "*.json.example"]
 "evaluation.fixtures" = ["*.json"]
 "schemas" = ["*.json", "*.md"]
 "schemas.examples" = ["*.json"]

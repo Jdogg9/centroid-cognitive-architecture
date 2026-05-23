@@ -89,3 +89,6 @@ tiers, deny terms, override rules, and shutdown compliance requirements.
 Holly's operations and safety-gate scenarios demonstrate the same boundary with
 synthetic telemetry: Holly may observe an unhealthy service and propose a
 restart, but the mutating action remains blocked until approval is recorded.
+## v0.4.0 Provider Adapter Boundary
+
+Model output is treated as untrusted input. Provider tool calls are normalized as proposals and routed through Centroid safety policy; no provider tool proposal executes in v0.4.0 regardless of disposition.

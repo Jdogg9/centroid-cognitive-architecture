@@ -102,20 +102,22 @@ Status: in progress.
 
 ## Phase 8: Adoption-Oriented Integration
 
-Status: planned. `v0.3.0` is complete as the Config-Driven Agent Runtime
-release. The next public releases should make Centroid easier for outside
-developers to connect to their existing model and tool ecosystems.
+Status: `v0.4.0` is complete as the Model Provider Adapter Layer release.
+Centroid now connects to model-provider ecosystems through a provider-neutral
+adapter boundary while retaining continuity, memory, routing, safety, audit,
+and action-gating authority. MCP interoperability remains planned future
+`v0.5.0` work.
 
 Near-term release sequence:
 
-- `v0.4.0`: Model Provider Adapter Layer
+- `v0.4.0`: Model Provider Adapter Layer (complete)
   - provider-neutral model interface
-  - deterministic mock-provider tests
-  - optional OpenAI adapter
-  - optional Anthropic adapter
-  - optional Ollama adapter
-  - optional vLLM/OpenAI-compatible adapter
-- `v0.5.0`: MCP Interoperability
+  - deterministic mock-provider tests and demos
+  - optional OpenAI adapter using Responses API boundaries
+  - optional Anthropic adapter using Messages API boundaries
+  - optional Ollama OpenAI-compatible profile with Centroid-owned continuity
+  - optional vLLM/OpenAI-compatible profile with declared capabilities
+- `v0.5.0`: MCP Interoperability (planned future work; not implemented in v0.4.0)
   - safety-gated tool and context boundaries
   - read-only or proposal-only Centroid MCP server capabilities first
   - approval-gated boundaries for mutating tool paths

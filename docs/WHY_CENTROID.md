@@ -57,3 +57,6 @@ For one-off stateless calls, a smaller wrapper may be enough. For production
 tool orchestration, Centroid should be treated as the architecture around state,
 timing, safety, and evaluation rather than as a replacement for all integration
 libraries.
+## v0.4.0 Provider Adapter Boundary
+
+Provider independence is an architectural benefit: Centroid can connect to different model APIs while preserving one continuity, memory, safety, and audit layer. This is a boundary claim, not a superiority claim about model quality.

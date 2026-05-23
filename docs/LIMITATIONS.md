@@ -46,3 +46,6 @@ subjective experience, or autonomous moral agency.
 - longer identity continuity fixtures
 - model-backed deliberation probes with deterministic replay traces
 - shutdown compliance integration tests
+## v0.4.0 Provider Adapter Boundary
+
+Provider adapters in v0.4.0 demonstrate deterministic contracts and mock-provider runtime integration only. They do not demonstrate live provider quality, live performance, distributed behavior, MCP execution, or tool execution.
