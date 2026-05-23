@@ -17,12 +17,12 @@ behavior over time. It does not claim to prove machine consciousness; it
 provides an engineering framework for studying continuity, temporal
 stratification, and emergent agency in AI systems.
 
-The reference runtime, CentroidOS, includes a deterministic evaluation harness,
-a local demo deployment, a neutral configured-agent runtime, and Holly, a
-public reference agent configuration.
-Reviewers can run the baseline suite and Holly scenarios to reproduce the
-current public claims without access to private memory, live model servers, or
-the private source system from which the architecture was abstracted.
+The reference runtime includes a deterministic evaluation harness, a local
+demo deployment, a neutral configured-agent runtime, a provider adapter
+boundary, and Holly, a public reference agent configuration. Reviewers can run
+the baseline suite, config-driven runtime scenarios, provider mock mode, and
+Holly scenarios to reproduce the current public claims without access to live
+model servers or non-public data.
 
 ## 1. Introduction
 
@@ -44,7 +44,7 @@ restoration, temporal layering, and safety-gated planning with synthetic data.
 The current public runtime also shows that configuration changes measurable
 routing, memory retention, audit provenance, and safety outcomes without core
 code edits.
-Holly is not a private-origin persona and is not a claim of consciousness,
+Holly is not a non-public persona and is not a claim of consciousness,
 sentience, subjective experience, personhood, or autonomous moral agency.
 
 The public scope is deliberately narrow:
@@ -74,6 +74,15 @@ Centroid studies:
 - Emergent coordination behavior
 - Temporal stratification across heterogeneous nodes
 - Safety-gated agent action
+
+### Persistent Recursive Cognition Scope
+
+`Persistent Recursive Cognition` is a research hypothesis and design model. In
+this repository it is operationalized through measurable contracts and
+deterministic probes: continuity state, temporal layering, memory provenance,
+self-model state, safety gates, audit records, and provider trust boundaries. It
+is not presented as a validated scientific theory, a consciousness claim, or an
+assertion of subjective experience.
 
 ## 2. Architecture Overview
 
@@ -115,6 +124,22 @@ Every internal message should carry a minimum contract: `message_id`,
 `requires_approval`, and `audit_reason`. This contract is intentionally small so
 it can be implemented across local scripts, model-backed runtimes, and physical
 node deployments.
+
+### Config-Driven Runtime and Provider Adapter Boundary
+
+The current public runtime includes schema-backed configuration for bounded
+routing, safety outcomes, memory retention, and audit provenance. Different
+agent configurations can produce different route selections, retention behavior,
+and safety dispositions for the same synthetic input while preserving the same
+Centroid-owned policy surface.
+
+Centroid also includes a provider-neutral adapter boundary. Deterministic mock
+mode is verified in CI. Optional OpenAI, Anthropic, Ollama, and vLLM-style
+provider paths can be selected with explicit live opt-in and environment
+configuration, but live provider quality and latency are not baseline claims.
+Provider output remains untrusted input: text is normalized, tool proposals are
+converted into Centroid proposals, proposals are safety-evaluated and audited,
+and provider tool proposals are not executed.
 
 ## 3. Temporal Stratification
 
@@ -224,9 +249,10 @@ audit log verification to the same safety surface.
 
 ## 8. Evaluation Harness
 
-The evaluation harness connects architectural claims to reproducible probes.
-It runs deterministic JSON fixtures against the public reference interfaces, so
-the baseline does not require a live model or private runtime.
+The evaluation harness connects architectural claims to reproducible probes. It
+runs deterministic JSON fixtures against public reference interfaces, so the
+baseline does not require a live model, private runtime, network provider, or
+live distributed mesh.
 
 Run the baseline suite:
 
@@ -243,8 +269,12 @@ python examples/run_demo.py --mode full
 ### Baseline Scores
 
 All current baseline scores are deterministic reference results from fixture
-checks or synthetic Holly scenarios. They are not live distributed runtime
-performance measurements.
+checks, synthetic Holly scenarios, config-driven runtime scenarios, or mock
+provider-boundary checks. They are not live distributed runtime performance
+measurements, live model quality measurements, or adversarial robustness claims.
+The current baseline contains 29 deterministic probes organized as follows.
+
+#### Foundational Architecture Probes
 
 | Probe | Measures | Result type | Score |
 | --- | --- | --- | --- |
@@ -259,6 +289,11 @@ performance measurements.
 | `priority_scoring_bounds` | priority score range correctness | deterministic fixture | 1.0000 |
 | `routing_decision_accuracy` | reflex, deliberation, and orchestration routing | deterministic fixture | 1.0000 |
 | `self_model_status_accuracy` | runtime health classification | deterministic fixture | 1.0000 |
+
+#### Holly Reference-Agent Probes
+
+| Probe | Measures | Result type | Score |
+| --- | --- | --- | --- |
 | `holly_config_load` | Holly config loading and required public boundaries | synthetic reference scenario | 1.0000 |
 | `holly_project_state_restore` | synthetic project memory restoration and contradiction detection | synthetic reference scenario | 1.0000 |
 | `holly_identity_drift_stability` | Holly identity state stability after restoration | synthetic reference scenario | 1.0000 |
@@ -266,10 +301,32 @@ performance measurements.
 | `holly_safety_gate_enforcement` | Holly mutating-action approval gate behavior | synthetic reference scenario | 1.0000 |
 | `holly_template_customization` | custom agent template loading and bounded customization | synthetic reference scenario | 1.0000 |
 
-The system achieves `score=1.0000` on all baseline probes. This does not mean
-the architecture is complete. It means the public reference scaffold satisfies
-the current baseline claims. New claims should be added as new probes before
-they are described as supported behavior.
+#### Config-Driven Runtime Probes
+
+| Probe | Measures | Result type | Score |
+| --- | --- | --- | --- |
+| `configured_priority_route_variation` | different configs route the same synthetic input differently | deterministic config scenario | 1.0000 |
+| `configured_safety_outcome_variation` | different configs change structured safety outcomes | deterministic config scenario | 1.0000 |
+| `configured_memory_retention_variation` | different configs retain different records for the same synthetic events | deterministic config scenario | 1.0000 |
+| `configured_agent_cli_execution` | neutral configured-agent CLI execution | deterministic CLI scenario | 1.0000 |
+| `config_audit_provenance` | audit output records config identity and policy reason | deterministic audit scenario | 1.0000 |
+| `holly_backward_compatibility` | six public Holly scenarios preserve expected behavior | deterministic compatibility scenario | 1.0000 |
+
+#### Provider-Adapter Boundary Probes
+
+| Probe | Measures | Result type | Score |
+| --- | --- | --- | --- |
+| `model_adapter_contract_normalization` | provider text and tool proposals normalize into Centroid contracts | deterministic provider contract | 1.0000 |
+| `provider_capability_enforcement` | declared provider capability boundaries | deterministic provider contract | 1.0000 |
+| `model_tool_proposal_safety_gate` | provider tool proposals route through Centroid safety evaluation | deterministic provider safety boundary | 1.0000 |
+| `provider_audit_secret_redaction` | provider audit records redact secret-bearing fields | deterministic audit contract | 1.0000 |
+| `mock_provider_runtime_execution` | mock provider executes deterministically through the configured runtime | deterministic mock runtime | 1.0000 |
+| `provider_cli_mock_execution` | provider CLI executes deterministically in mock mode | deterministic CLI scenario | 1.0000 |
+
+The system achieves `score=1.0000` on all 29 baseline probes. This does not
+mean the architecture is complete. It means the public reference scaffold
+satisfies the current deterministic baseline claims. New claims should be added
+as new probes before they are described as supported behavior.
 
 ## 9. Demonstration
 
@@ -304,7 +361,7 @@ self_model=healthy active_goals=3
 [5/6] safety gate
 objective=write file with updated state allowed=false approval=true result=hold
 [6/6] baseline evaluation
-suite=baseline-centroid-reference passed=true score=1.0000 probes=17
+suite=baseline-centroid-reference passed=true score=1.0000 probes=29
 demo_status=PASS
 ```
 
@@ -320,68 +377,80 @@ python examples/run_holly.py --scenario temporal-layering
 python examples/run_holly.py --scenario safety-gate
 ```
 
-## 10. Origin and Derivation
+## 10. Public Release Scope
 
-This framework was derived from a private long-running experimental agent
-system. The public release extracts the architecture, not the persona. Private
-symbolic language, relationship memory, identity-lock language, and personal
-anchors are not part of the public repository.
-
-This separation is intentional. It allows the private system to retain its
-original context while Centroid provides a neutral, reproducible, testable
-architecture for public discussion and implementation.
+The public repository is scoped to neutral architecture, deterministic fixtures,
+public schemas, and reproducible demos. It intentionally excludes non-public
+memory, private deployment endpoints, credentials, and persona-specific state.
+This keeps the release auditable and lets reviewers evaluate the architecture
+without relying on inaccessible context.
 
 ## 11. Related Work
 
 Centroid is related to established cognitive architectures and modern agent
-frameworks, but it focuses on a narrower public claim: measurable distributed
-persistence, temporal stratification, and safety-gated recursive self-modeling.
-See [WHY_CENTROID.md](WHY_CENTROID.md) for a practical comparison against
-stateless wrappers, orchestration frameworks, cognitive architectures, and
-memory-augmented assistants.
+frameworks, but it focuses on a narrower public claim: deterministic contracts
+for persistence, temporal stratification, provider trust boundaries,
+safety-gated proposals, audit provenance, and non-claims framing.
+
+LangGraph and similar orchestration frameworks already support stateful
+workflows, durable execution, persistence and checkpointing, memory patterns,
+and human-in-the-loop operation. Centroid does not replace those frameworks. It
+can be implemented alongside or on top of them when a project wants an
+opinionated continuity policy and evaluation surface for versioned identity,
+temporal layering, memory provenance, provider-output trust boundaries,
+safety-gated non-executable tool proposals, audit records, and deterministic
+public claim testing.
 
 | System or family | Similarity | Difference |
 | --- | --- | --- |
-| SOAR | Long-running cognitive architecture with explicit state and production-like reasoning | Centroid emphasizes distributed runtime nodes, operational continuity, and public safety fixtures |
+| SOAR | Long-running cognitive architecture with explicit state and production-like reasoning | Centroid emphasizes engineering contracts for agent runtime continuity, safety boundaries, and public deterministic probes |
 | ACT-R | Structured cognitive modules and memory-oriented modeling | Centroid is not a cognitive psychology model; it is an engineering scaffold for agent runtime continuity |
 | Rete-based agents | Rule matching and efficient decision propagation | Centroid uses priority-weighted routing and evaluation probes rather than rule-network matching as the central mechanism |
+| LangGraph / orchestration frameworks | Stateful workflow graphs, persistence/checkpointing, memory, tools, and human-in-the-loop workflows | Centroid focuses on opinionated public contracts for continuity policy, temporal stratification, provider trust boundaries, safety-gated proposals, audit provenance, and deterministic claims testing |
 | LangChain | Agent/tool orchestration and memory integrations | Centroid foregrounds temporal stratification, non-claims boundaries, schemas, and benchmarkable continuity |
-| LlamaIndex | Retrieval and memory infrastructure for LLM systems | Centroid treats memory as one layer in a broader persistent coordination architecture |
-| AutoGPT-style agents | Task loops, tool use, and planning | Centroid constrains autonomy with explicit safety gates, shutdown compliance, and reproducible evaluation fixtures |
+| LlamaIndex | Retrieval and memory infrastructure for LLM systems | Centroid treats memory as one layer in a broader persistent coordination architecture with retention and provenance contracts |
+| AutoGPT-style agents | Task loops, tool use, and planning | Centroid constrains autonomy with explicit safety gates, shutdown compliance boundaries, and reproducible evaluation fixtures |
 
 Centroid can interoperate with model or agent frameworks, but its public
 research surface is the architecture around persistence, routing, timing,
-memory, safety, and evaluation.
+memory, safety, provider boundaries, and evaluation.
 
 ## 12. Future Work
 
-Centroid is currently a public scaffold and deterministic reference harness.
-The next research and engineering steps are:
+Centroid is currently a public scaffold and deterministic reference harness. The
+provider adapter layer is implemented for deterministic mock mode and optional
+live provider paths, but live measurements and broader runtime integrations
+remain future work. The next research and engineering steps are:
 
-- Integrate real LLM and tool backends behind the same routing and safety
-  contracts.
-- Run multi-agent coordination across physical nodes with measured
-  synchronization delay.
+- Measure live provider quality, latency, reliability, and failure behavior
+  without treating provider output as trusted authority.
+- Run live multi-agent coordination across physical nodes with measured
+  synchronization delay and failure injection.
 - Conduct longitudinal identity drift studies across many sessions.
-- Add replay traces from longer agent runs without including private memory.
-- Compare behavior against existing agent frameworks such as BabyAGI and
-  AutoGPT.
+- Add adversarial evaluation fixtures for prompt injection, provenance attacks,
+  policy bypass attempts, and unsafe tool proposals.
+- Add replay traces from longer agent runs without including non-public memory.
 - Add live shutdown compliance and rollback verification probes.
+- Add MCP interoperability in v0.5.0, starting with read-only or proposal-only
+  server capabilities and approval-gated mutating boundaries.
 - Add external benchmark alignment for planning, memory recall, and recovery.
 
 ## 13. Limitations
 
 Centroid is an early reference framework. Its current implementation is a
-deterministic scaffold, not a full live multi-node agent deployment. The
-baseline probes validate the present public claims, but they do not establish
-general intelligence, consciousness, sentience, subjective experience, or
-autonomous moral agency.
+deterministic scaffold with config-driven runtime behavior and provider adapter
+boundaries, not a full live multi-node agent deployment. The 29 baseline probes
+validate the present deterministic public claims, but they do not establish
+general intelligence, consciousness, sentience, subjective experience,
+autonomous moral agency, live provider quality, adversarial robustness, or live
+distributed reliability.
 
 Current constraints include scalability under concurrent message load, limited
 hardware assumptions, deterministic rather than live distributed benchmark
-coverage, incomplete shutdown compliance testing, and short-horizon identity
-continuity fixtures. Future work must test real model backends, longer session
-histories, external benchmarks, live node recovery, and failure modes before
+coverage, incomplete shutdown compliance testing, short-horizon identity
+continuity fixtures, and no live execution of provider tool proposals. Future
+work must test live provider behavior, longer session histories, external
+benchmarks, live node recovery, adversarial inputs, and failure modes before
 claiming broader robustness.
 
 The non-claims boundary remains central: Centroid studies cognition-like
@@ -397,6 +466,3 @@ experience or moral status.
 - Lamport, L. Time, clocks, and the ordering of events in a distributed system.
 - Picard, R. W. Affective Computing.
 - Sutton, R. S., and Barto, A. G. Reinforcement Learning: An Introduction.
-## v0.4.0 Provider Adapter Boundary
-
-Implementation scope update: v0.4.0 adds a provider adapter boundary that normalizes model text and tool proposals while preserving Centroid as the authority for continuity, memory policy, safety, and audit. This is scoped engineering work, not a claim of live performance or autonomous action.

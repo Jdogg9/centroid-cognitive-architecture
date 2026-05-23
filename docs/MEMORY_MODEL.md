@@ -89,6 +89,15 @@ Schema: [schemas/memory_event.schema.json](../schemas/memory_event.schema.json).
 Memory persistence is not proof of consciousness, sentience, or subjective
 experience. It is an engineering mechanism for continuity, reproducibility, and
 evaluation.
-## v0.4.0 Provider Adapter Boundary
+## Provider Adapter Boundary
 
-Model providers do not independently write retained Centroid memory. Any model text considered for retention passes through the configured memory policy with provenance, sanitization, and audit context.
+Model providers do not independently write retained Centroid memory. Provider
+text is treated as untrusted input. Any model text considered for retention
+passes through Centroid's configured memory policy with provenance,
+sanitization, retention limits, and audit context.
+
+Current memory demonstrations are deterministic and policy-governed: public
+fixtures and synthetic scenarios show retention variation, redaction, and audit
+provenance under configured policies. Long-horizon compaction behavior,
+provenance robustness under adversarial input, and longitudinal identity drift
+remain future evaluation areas.

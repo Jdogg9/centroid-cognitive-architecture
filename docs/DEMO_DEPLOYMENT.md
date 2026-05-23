@@ -38,6 +38,6 @@ git and can be removed at any time.
 ## Public Boundary
 
 The demo uses neutral identifiers and telemetry-style output. It does not use
-private persona material, personal memory, live sensory artifacts, or claims of
+persona-specific material, personal memory, live sensory artifacts, or claims of
 subjective experience.
 

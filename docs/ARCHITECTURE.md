@@ -126,12 +126,12 @@ Schema: [schemas/message_event.schema.json](../schemas/message_event.schema.json
 - Represent identity as state, policy, goals, invariants, and history.
 - Treat Holly as a configurable reference agent, not as an architecture-level
   claim about personhood or subjective experience.
-- Keep private-origin framing out of public examples.
+- Keep non-public framing out of public examples.
 - Make mutating actions approval-gated, auditable, and reversible where
   practical.
 - Treat recursive self-modeling as internal state representation and consistency
   checking.
 - Tie every public architectural claim to an evaluation or benchmark target.
-## v0.4.0 Provider Adapter Boundary
+## Provider Adapter Boundary
 
 Provider adapter boundary: input/scenario -> configured Centroid runtime -> identity/memory/priority context -> selected model adapter -> normalized model response/tool proposals -> Centroid safety evaluation -> bounded memory retention -> sanitized audit -> visible output. Providers are not authoritative over Centroid state.

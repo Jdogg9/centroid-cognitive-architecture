@@ -30,6 +30,33 @@ These categories can complement Centroid. A project can use an orchestration
 framework or retrieval system behind Centroid's routing, memory, and safety
 contracts.
 
+## What does Centroid contribute beyond LangGraph or a custom agent loop?
+
+LangGraph and similar orchestration frameworks already provide durable
+execution, persistence and checkpointing, memory patterns, tool orchestration,
+and human-in-the-loop workflows. Centroid is not proposed as a replacement for
+those systems.
+
+Centroid's narrower contribution is an opinionated reference architecture and
+deterministic evaluation surface for claims that are often left implicit in
+agent loops:
+
+- versioned identity continuity and drift checks
+- retention, redaction, and provenance policy around memory
+- temporal stratification between reflex, deliberation, reconciliation, and
+  evaluation paths
+- provider-output trust boundaries where model text and tool calls are treated
+  as untrusted inputs
+- safety-gated, non-executable provider tool proposals
+- audit provenance for routing, memory, safety, and provider decisions
+- public non-claims boundaries around consciousness, personhood, and subjective
+  experience
+
+Centroid concepts can be implemented alongside or on top of an orchestration
+framework. A project might use LangGraph for durable workflow execution while
+using Centroid-style contracts to define continuity policy, provider boundaries,
+safety gates, and deterministic public claim tests.
+
 ## Holly's Role
 
 Holly is the included reference agent that makes the architecture concrete.
@@ -39,7 +66,7 @@ planning with synthetic deterministic data. `v0.3.0` extends that proof by
 showing that a different config can produce different route, memory, and safety
 outcomes without editing core runtime code.
 
-Holly is not a private-origin persona and is not a claim of machine
+Holly is not a non-public persona and is not a claim of machine
 consciousness or subjective experience.
 
 ## When Centroid Is A Good Fit
@@ -57,6 +84,6 @@ For one-off stateless calls, a smaller wrapper may be enough. For production
 tool orchestration, Centroid should be treated as the architecture around state,
 timing, safety, and evaluation rather than as a replacement for all integration
 libraries.
-## v0.4.0 Provider Adapter Boundary
+## Provider Adapter Boundary
 
-Provider independence is an architectural benefit: Centroid can connect to different model APIs while preserving one continuity, memory, safety, and audit layer. This is a boundary claim, not a superiority claim about model quality.
+Provider independence is an architectural benefit: Centroid can connect to different model APIs while preserving one continuity, memory, safety, and audit layer. This is a boundary claim, not a superiority claim about model quality or orchestration framework capability.

@@ -84,6 +84,6 @@ Valid examples live in `schemas/examples/`. Policy fixtures live in
 - Claims should map to schema fields, tests, probes, or benchmarks.
 - Timestamps use RFC 3339 / ISO 8601 date-time strings.
 - Identifiers should be stable enough for audit logs and replay traces.
-## v0.4.0 Provider Adapter Boundary
+## Provider Adapter Boundary
 
 `model_provider.schema.json` validates public-safe provider configuration examples. Provider configs reference environment variable names for credentials and use localhost examples only for local provider profiles.

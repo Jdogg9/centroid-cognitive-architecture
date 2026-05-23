@@ -1,6 +1,6 @@
 # Priority Regulation Compatibility Slot
 
-The private-origin system used broader regulation language. Public Centroid docs
+The non-public system used broader regulation language. Public Centroid docs
 use priority-weighted regulation for the same engineering function:
 
 - Priority modulation

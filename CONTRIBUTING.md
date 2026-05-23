@@ -40,7 +40,7 @@ python examples/run_demo.py --mode full
 
 - Explain what changed and why.
 - Link claims to tests, probes, benchmarks, or docs.
-- Keep private-origin framing out of public examples.
+- Keep non-public framing out of public examples.
 - Add or update evaluation fixtures for new measurable claims.
 - Preserve the non-claims boundary.
 

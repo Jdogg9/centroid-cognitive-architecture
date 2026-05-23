@@ -1,11 +1,11 @@
 # Model Providers
 
-Centroid v0.4.0 introduces a model-provider adapter layer. The adapter boundary lets the same configured Centroid runtime call interchangeable model providers while Centroid remains authoritative for identity continuity, memory retention, routing policy, safety decisions, audit provenance, and action gating.
+Centroid includes a model-provider adapter layer. The adapter boundary lets the same configured Centroid runtime call interchangeable model providers while Centroid remains authoritative for identity continuity, memory retention, routing policy, safety decisions, audit provenance, and action gating. Mock mode is deterministic and is what CI verifies.
 
 ## Supported adapters
 
 - `mock`: deterministic fixture-backed provider used by CI, public demos, and baseline evaluation.
-- `openai`: optional native OpenAI Responses API adapter. Remote MCP support is metadata only and is not executable in v0.4.0.
+- `openai`: optional native OpenAI Responses API adapter. Remote MCP support is metadata only and is not executable in the provider-adapter release line.
 - `anthropic`: optional Anthropic Messages API adapter. Text and `tool_use` blocks are normalized only.
 - `ollama`: OpenAI-compatible profile using localhost examples. Centroid owns continuity and provider-managed conversation state is declared false by default.
 - `vllm`: OpenAI-compatible profile whose capabilities come from configuration or probe results rather than deployment-wide assumptions.
@@ -14,7 +14,7 @@ Centroid v0.4.0 introduces a model-provider adapter layer. The adapter boundary 
 
 Adapters expose `generate(request) -> ModelResponse`, `capabilities() -> ModelCapabilities`, and an optional `healthcheck()` that does not perform network access by default. Provider output is untrusted model-generated content. A provider may return text and tool proposals, but it cannot directly write memory, alter identity, change policy, hide audit records, or execute tools.
 
-Every provider tool request becomes a `ModelToolProposal` with `requires_centroid_policy_evaluation=True` and `executed=False`. Centroid converts proposals into structured safety evaluations and records the result. No provider tool proposal executes in v0.4.0.
+Every provider tool request becomes a `ModelToolProposal` with `requires_centroid_policy_evaluation=True` and `executed=False`. Centroid converts proposals into structured safety evaluations and records the result. No provider tool proposal executes in the provider-adapter release line.
 
 ## Configuration
 

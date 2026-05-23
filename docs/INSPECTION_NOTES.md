@@ -27,6 +27,6 @@ Centroid. They are intentionally sanitized for public use.
   continuity terms.
 - Public docs avoid consciousness, sentience, personhood, and subjective
   experience claims.
-- Public safety is stricter than the private-origin system: mutating actions
+- Public safety is stricter than the non-public system: mutating actions
   are approval-gated by default.
 

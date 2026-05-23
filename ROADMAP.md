@@ -36,8 +36,9 @@ Status: in progress.
 - [x] Add baseline fixture
 - [x] Add memory, routing, safety, self-model, temporal, and continuity probes
 - [x] Add Holly config, continuity, temporal, safety, and template probes
-- [x] Expand baseline evaluation from 17 to 23 deterministic probes
+- [x] Expand baseline evaluation from 17 to 23 deterministic probes for v0.3.0
 - [x] Add config-driven runtime probes for routing, safety, memory, CLI, audit, and Holly compatibility
+- [x] Expand baseline evaluation to 29 deterministic probes for provider-adapter boundaries
 - [x] Add deterministic benchmark suite for latency, memory, coordination, and routing throughput
 - [x] Add identity-focused test suite
 - [x] Add deterministic distributed coordination tests for sync and failover fixtures
@@ -102,34 +103,32 @@ Status: in progress.
 
 ## Phase 8: Adoption-Oriented Integration
 
-Status: `v0.4.0` is complete as the Model Provider Adapter Layer release.
-Centroid now connects to model-provider ecosystems through a provider-neutral
-adapter boundary while retaining continuity, memory, routing, safety, audit,
-and action-gating authority. MCP interoperability remains planned future
-`v0.5.0` work.
+Status: in progress. The adopted release sequence is:
 
-Near-term release sequence:
+- `v0.3.0` complete: Config-Driven Agent Runtime.
+  - schema-backed agent configuration
+  - bounded routing, safety, memory retention, CLI, audit, and Holly
+    compatibility checks
+  - deterministic baseline expansion to 23 probes
+- `v0.4.2` publishable documentation-aligned Provider Adapter Layer release.
+  - provider-neutral adapter boundary
+  - deterministic mock-provider verification
+  - optional OpenAI, Anthropic, Ollama, and vLLM-style provider paths
+  - provider output remains untrusted
+  - provider tool proposals remain safety-evaluated and non-executable
+  - deterministic baseline expansion to 29 probes
+- `v0.5.0` planned: MCP Interoperability.
+  - read-only or proposal-only server capabilities first
+  - approval-gated mutating boundaries
+  - deterministic MCP contract fixtures and tests before broader claims
 
-- `v0.4.0`: Model Provider Adapter Layer (complete)
-  - provider-neutral model interface
-  - deterministic mock-provider tests and demos
-  - optional OpenAI adapter using Responses API boundaries
-  - optional Anthropic adapter using Messages API boundaries
-  - optional Ollama OpenAI-compatible profile with Centroid-owned continuity
-  - optional vLLM/OpenAI-compatible profile with declared capabilities
-- `v0.5.0`: MCP Interoperability (planned future work; not implemented in v0.4.0)
-  - safety-gated tool and context boundaries
-  - read-only or proposal-only Centroid MCP server capabilities first
-  - approval-gated boundaries for mutating tool paths
-  - deterministic MCP contract fixtures and tests
+Later or deferred candidates:
 
-Deferred future candidates:
-
-- live distributed mesh execution
-- model-backed measurements with deterministic replay traces
+- adversarial evaluation fixtures
+- long-horizon identity traces
+- live provider-backed measurements
+- live distributed mesh and failure injection
+- live shutdown tests
 - sensorium and runtime-health expansion
-- retrieval/RAG-backed provenance memory
-- auditable reflection traces
-- bounded forecasting and calibration
-- simulated action bridges
-- concept graphs and multimodal latent indexes
+- RAG/provenance memory
+- forecasting and concept graphs
