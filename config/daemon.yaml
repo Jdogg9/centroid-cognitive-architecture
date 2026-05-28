@@ -1,0 +1,10 @@
+tick_interval_s: 5.0
+max_cycles: null
+startup_delay_s: 0.0
+state_dir: "state/"
+coherence_graph_path: "config/coherence_graph.yaml"
+memory_store_path: "state/memory.jsonl"
+enable_sensory: true
+enable_coherence: true
+enable_forecast: true
+enable_feedback: true

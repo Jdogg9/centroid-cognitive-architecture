@@ -12,6 +12,7 @@ htmlcov/
 *.sqlite
 *.jsonl
 runtime_state/
+state/
 .env
 .env.*
 !.env.example
