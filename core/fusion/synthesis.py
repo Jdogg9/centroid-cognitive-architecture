@@ -39,7 +39,9 @@ class BridgeSynthesizer:
     """
 
     def __init__(self, ollama_host: str | None = None) -> None:
-        self._ollama_host = ollama_host or os.environ.get("OLLAMA_HOST", "")
+        self._ollama_host = ollama_host or os.environ.get("OLLAMA_HOST") or os.environ.get(
+            "CENTROID_OLLAMA_URL", ""
+        )
         self._model = os.environ.get("CENTROID_OLLAMA_MODEL", "phi4-mini:latest")
 
     def synthesize(

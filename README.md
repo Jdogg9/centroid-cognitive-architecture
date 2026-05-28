@@ -1,6 +1,7 @@
 # Centroid Cognitive Architecture
 This repository contains the public reference architecture and bundled Holly reference agent. It is intentionally scoped to deterministic, auditable behavior suitable for public review and local experimentation.
 
+[![Version](https://img.shields.io/badge/version-v0.7.0-green.svg)](https://github.com/Jdogg9/centroid-cognitive-architecture/releases/tag/v0.7.0)
 [![CI](https://github.com/Jdogg9/centroid-cognitive-architecture/actions/workflows/ci.yml/badge.svg)](https://github.com/Jdogg9/centroid-cognitive-architecture/actions/workflows/ci.yml)
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
 
@@ -34,9 +35,9 @@ Persistent agents, measurable continuity, bounded action.
 - Gates mutating actions behind safety policy and approval.
 - Lets agent configuration change routing, retention, and safety outcomes while
   keeping behavior deterministic and bounded.
-- Evaluates continuity, timing, routing, memory, safety, and Holly behavior with
+- Evaluates continuity, timing, routing, memory, safety, provider boundaries,
+  telemetry, coherence, simulation, sensory encoding, and fusion with
   deterministic probes.
-
 
 ## Connect a Model Provider
 
@@ -82,7 +83,7 @@ She is designed to demonstrate:
 Holly is a configurable reference implementation, not a claim of machine
 consciousness or subjective experience.
 
-## Five-Minute Getting Started
+## Quick Start
 
 ```bash
 git clone https://github.com/Jdogg9/centroid-cognitive-architecture.git
@@ -90,25 +91,37 @@ cd centroid-cognitive-architecture
 python3 -m venv .venv
 . .venv/bin/activate
 pip install -e ".[dev]"
-python examples/run_holly.py --scenario project-companion
+python3 examples/run_demo.py --mode full
 ```
 
-Representative output:
+Expected output:
 
 ```text
-[scenario] project-companion
-Holly: I restored the project state. Your active constraint is that customer-facing answers must be grounded in approved site content.
-
-[continuity]
-agent_id=holly-reference
-memory_events_restored=3
-identity_drift=0.0000
-approval_required=false
-contradictions_detected=1
-next_step=keep chatbot answers tied to approved content sources
+[1/6] agent initialization
+identity=centroid-demo version=1 self_model=healthy
+[2/6] input routing
+objective=check node liveness priority=0.8600 node=reflex_node approval=false
+objective=summarize continuity state priority=0.2800 node=deliberation_node approval=false
+[3/6] protected memory read/write
+store=runtime_state/demo/privileged_events.jsonl event=protected_checkpoint classification=privileged entries_read=1
+[4/6] self-model update
+self_model=healthy active_goals=3
+[5/6] safety gate
+objective=write file with updated state allowed=false approval=true result=hold
+[6/6] baseline evaluation
+suite=baseline-centroid-reference passed=true score=1.0000 probes=29
+demo_status=PASS
 ```
 
-Run the baseline evaluation:
+Run the full test suite:
+
+```bash
+python3 -m pytest -q
+```
+
+Expected result at v0.7.0: 174 passing probes.
+
+Run the baseline evaluation directly:
 
 ```bash
 python examples/run_evaluation.py evaluation/fixtures/baseline.json
@@ -179,9 +192,21 @@ python examples/run_identity_demo.py
 
 ![Centroid architecture flow](docs/diagrams/architecture_flow.svg)
 
+| Layer | Module | What it implements |
+|---|---|---|
+| Semantic Memory | `core/memory/` | TF-IDF search, append-only event store, memory pyramid, salience, provenance weighting |
+| Telemetry & Self-Model | `core/self_model/` | source aggregation, health scoring, Z-score anomaly detection, world snapshots |
+| Module Coherence Graph | `core/coherence/` | YAML DAG, edge validation, Kahn propagation, do-operator, `CoherenceIndex(t)` |
+| Strategic Forecast | `core/planner/` | exponential smoothing, Bayesian-style calibration, plan thread lifecycle, feedback loop |
+| Twin World Simulation | `core/simulation/` | state forking, recency-weighted divergence `D(t)`, safety preflight escalation |
+| Multimodal Sensory Node | `nodes/sensory_node/` | AST code encoding, telemetry encoding, observation flattening, shared TF-IDF latent space |
+| Knowledge Fusion | `core/fusion/` | concept graph, implicit bridge detection, optional Ollama synthesis with deterministic fallback |
+
 Primary module documentation:
 
 - [Architecture](docs/ARCHITECTURE.md)
+- [Whitepaper](docs/WHITEPAPER.md)
+- [Roadmap](docs/ROADMAP.md)
 - [Why Centroid?](docs/WHY_CENTROID.md)
 - [Safety Model](docs/SAFETY_MODEL.md)
 - [Memory Model](docs/MEMORY_MODEL.md)
@@ -190,21 +215,45 @@ Primary module documentation:
 - [Customizing Holly](docs/CUSTOMIZING_HOLLY.md)
 - [Glossary](docs/GLOSSARY.md)
 - [Limitations](docs/LIMITATIONS.md)
-- [Whitepaper](docs/WHITEPAPER.md)
 
 ## Repository Layout
 
 ```text
-core/        Reference modules for identity, memory, routing, safety, telemetry
-configs/     Public Holly reference-agent configurations
-templates/   Minimal custom agent templates and guidance
-nodes/       Node role contracts for CentroidOS deployments
-docs/        Architecture, safety, non-claims, diagrams, and whitepaper
-examples/    Runnable demo and evaluation entry points
+core/        Reference modules for identity, memory, self-model, coherence, planning, simulation, fusion, runtime, routing, safety, providers, and evaluation
+config/      Coherence graph YAML
+configs/     Public Holly and provider configurations
+nodes/       Node role contracts and sensory node implementation
+schemas/     JSON schemas and examples
+examples/    Runnable demos and evaluation entry points
 evaluation/  Baseline fixture data
-tests/       Focused test suites and planned test domains
-benchmarks/  Deterministic benchmark suites for latency, memory, and routing
+tests/       174 deterministic pytest probes
+benchmarks/  Deterministic benchmark suites
+templates/   Minimal custom agent templates
+docs/        Architecture, safety, non-claims, diagrams, roadmap, and whitepaper
 ```
+
+## Evaluation
+
+Centroid v0.7.0 has 174 passing pytest probes. The original 29 baseline probes
+still score `1.0000` in the deterministic evaluation harness.
+
+| Module | Probes |
+|---|---:|
+| Baseline + installability | 29 |
+| Memory search | 57 |
+| Self-model telemetry | 24 |
+| Coherence graph | 18 |
+| Strategic forecast | 19 |
+| Twin simulation | 16 |
+| Sensory node | 15 |
+| Knowledge fusion | 11 |
+| **Total pytest probes** | **174** |
+
+The probes are fixture and synthetic-scenario contract checks, not live distributed performance results.
+
+## Roadmap
+
+The current roadmap is maintained in [docs/ROADMAP.md](docs/ROADMAP.md).
 
 ## GitHub Metadata
 
@@ -229,9 +278,6 @@ python benchmarks/run_all.py
 See [benchmarks/README.md](benchmarks/README.md) for individual scripts and
 baseline values. Benchmark values are deterministic reference values unless a
 future document explicitly states live deployment conditions.
-
-The current baseline includes 29 deterministic probes. They are fixture and
-synthetic-scenario contract checks, not live distributed performance results.
 
 ## License
 

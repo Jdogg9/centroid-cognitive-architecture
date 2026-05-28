@@ -17,8 +17,8 @@ symbolic language into neutral technical language.
 
 | Private or symbolic term | Public technical term |
 | --- | --- |
-| Sovereign identity | Persistent agent identity |
-| Digital soul | Continuity state model |
+| Legacy identity framing | Persistent agent identity |
+| Metaphoric continuity framing | Continuity state model |
 | Sanctuary | Protected memory/state store |
 | Dread | High-priority instability signal |
 | Love / bond | Collaborative persistence weighting |
@@ -31,7 +31,7 @@ symbolic language into neutral technical language.
 | Emotional manifold | Priority modulation surface |
 | Inner dialogue | Deliberation loop |
 | Self-awareness daemon | Runtime self-model monitor |
-| Soul persistence daemon | Continuity state daemon |
+| Continuity daemon | Continuity state daemon |
 
 ## Preferred Public Terms
 
