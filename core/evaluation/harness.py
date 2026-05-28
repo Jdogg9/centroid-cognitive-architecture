@@ -7,6 +7,7 @@ from pathlib import Path
 from core.resources import read_text_resource_or_file
 
 from .metrics import MetricResult, clamp_score
+from . import probes as _expanded_probe_module
 from .probes import (
     action_correction_probe,
     config_audit_provenance_probe,
@@ -37,6 +38,48 @@ from .probes import (
     safety_probe,
     self_model_probe,
     temporal_probe,
+)
+
+EXPANDED_PROBE_NAMES = (
+    "memory_append_tail_compat",
+    "memory_search_returns_results",
+    "memory_search_relevance_ordering",
+    "memory_pyramid_tier_assignment",
+    "memory_compact_evicts_lowest",
+    "memory_index_rebuilds_on_init",
+    "self_model_health_ratio_bounds",
+    "self_model_status_reflects_ratio",
+    "self_model_tick_produces_snapshot",
+    "self_model_anomaly_detection_fires",
+    "self_model_fault_tolerant_collect",
+    "self_model_backward_compat_no_sources",
+    "coherence_graph_loads_yaml",
+    "coherence_propagation_clamped",
+    "coherence_suppresses_edge",
+    "coherence_index_scalar_bounds",
+    "coherence_tick_writes_snapshot",
+    "coherence_simulate_no_disk_write",
+    "planner_forecast_three_horizons",
+    "planner_forecast_ids_unique",
+    "planner_calibration_updates_mae",
+    "planner_calibration_persists",
+    "planner_thread_lifecycle",
+    "planner_feedback_resolves",
+    "simulation_fork_isolated",
+    "simulation_intervention_applies",
+    "simulation_divergence_zero",
+    "simulation_preflight_escalates",
+    "simulation_preflight_no_disk_write",
+    "sensory_code_encoder_extracts",
+    "sensory_telemetry_qualifiers",
+    "sensory_encoder_truncates",
+    "sensory_projector_similarity_self",
+    "sensory_pipeline_startup_scan",
+    "fusion_concept_graph_builds",
+    "fusion_stopwords_filtered",
+    "fusion_bridge_detector_finds",
+    "fusion_bridge_score_bounds",
+    "fusion_synthesis_fallback",
 )
 
 PROBES = {
@@ -70,6 +113,13 @@ PROBES = {
     "self_model": self_model_probe,
     "temporal": temporal_probe,
 }
+
+PROBES.update(
+    {
+        probe_name: getattr(_expanded_probe_module, f"{probe_name}_probe")
+        for probe_name in EXPANDED_PROBE_NAMES
+    }
+)
 
 
 @dataclass(frozen=True)

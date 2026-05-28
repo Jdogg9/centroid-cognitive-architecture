@@ -1,0 +1,11 @@
+{
+  "suite_name": "planner-module-regression",
+  "probes": {
+    "planner_forecast_three_horizons": [],
+    "planner_forecast_ids_unique": [],
+    "planner_calibration_updates_mae": [],
+    "planner_calibration_persists": [],
+    "planner_thread_lifecycle": [],
+    "planner_feedback_resolves": []
+  }
+}

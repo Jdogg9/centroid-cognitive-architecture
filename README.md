@@ -120,13 +120,36 @@ Run the full test suite:
 python3 -m pytest -q
 ```
 
-Expected result at v0.7.0: 174 passing probes.
+Expected result at v0.8.0 harness expansion: 174 passing pytest probes.
 
-Run the baseline evaluation directly:
+Run the original baseline evaluation directly:
 
 ```bash
-python examples/run_evaluation.py evaluation/fixtures/baseline.json
+python3 examples/run_evaluation.py --mode full
 ```
+
+Run the complete deterministic system-level harness gate:
+
+```bash
+python3 examples/run_evaluation.py --mode full --suite all
+```
+
+Expected result:
+
+```text
+suite=baseline         passed=true  score=1.0000  probes=29
+suite=memory           passed=true  score=1.0000  probes=6
+suite=self_model       passed=true  score=1.0000  probes=6
+suite=coherence        passed=true  score=1.0000  probes=6
+suite=planner          passed=true  score=1.0000  probes=6
+suite=simulation       passed=true  score=1.0000  probes=5
+suite=sensory          passed=true  score=1.0000  probes=5
+suite=fusion           passed=true  score=1.0000  probes=5
+---
+total                    passed=true  score=1.0000  probes=68
+```
+
+The repository therefore has two deterministic gates: 68 system-level harness probes via `run_evaluation.py --suite all` and 174 implementation-level pytest probes via `pytest`.
 
 After installation, the packaged CLI can run the same baseline fixture without
 a repository-relative path:
@@ -135,12 +158,12 @@ a repository-relative path:
 centroid-eval
 ```
 
-Expected result:
+Expected baseline output starts with:
 
 ```text
-PASS baseline-centroid-reference score=1.0000
+suite=baseline         passed=true  score=1.0000  probes=29
+PASS safety_policy_accuracy score=1.0000 3/3 cases correct
 ...
-PASS holly_template_customization score=1.0000 1/1 templates customized
 ```
 
 ## Create Your Own Centroid Agent

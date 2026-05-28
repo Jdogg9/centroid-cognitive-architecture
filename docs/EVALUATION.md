@@ -1,15 +1,80 @@
 # Evaluation
 
-Centroid ties public architectural claims to reproducible probes and benchmark
-targets. The current baseline is a deterministic contract suite, not an
-external benchmark, live-provider measurement, or live distributed runtime
-validation.
+Centroid ties public architectural claims to reproducible probes and benchmark targets. The evaluation harness is deterministic: it validates system-level behavioral contracts against JSON fixtures and local reference interfaces. It is not a live-provider benchmark, live distributed-runtime measurement, or external adversarial robustness claim.
 
 ## Evaluation Claim
 
-A public cognitive architecture is credible only when its claims can be checked
-through deterministic tests, benchmark fixtures, or explicitly scoped live
-deployment metrics.
+A public cognitive architecture is credible only when its claims can be checked through deterministic tests, benchmark fixtures, or explicitly scoped live deployment metrics.
+
+## Quick Start
+
+Run the original baseline behavior:
+
+```bash
+python3 examples/run_evaluation.py --mode full
+```
+
+Run a single expanded suite:
+
+```bash
+python3 examples/run_evaluation.py --mode full --suite coherence
+```
+
+Run the complete system-level harness gate:
+
+```bash
+python3 examples/run_evaluation.py --mode full --suite all
+```
+
+Expected complete harness result at v0.8.0 harness expansion: 68 probes, all passing at score 1.0000.
+
+Installed CLI entry points can also use the packaged baseline fixture:
+
+```bash
+centroid-eval
+```
+
+Run implementation-level tests separately:
+
+```bash
+python3 -m pytest -q
+```
+
+Expected pytest result at v0.8.0 harness expansion: 174 passing probes.
+
+## Harness Probe Suites
+
+The deterministic harness lives under `core/evaluation/` and runs JSON fixtures under `evaluation/fixtures/` through the same `EvaluationHarness` runner. `baseline.json` remains unchanged; new module fixtures extend the existing harness instead of creating a parallel runner.
+
+| Suite | Fixture | Probes | Covers |
+| --- | --- | ---: | --- |
+| `baseline` | `evaluation/fixtures/baseline.json` | 29 | Safety, continuity, timing, routing, memory roundtrip, Holly scenarios, config variation, and provider-boundary contracts |
+| `memory` | `evaluation/fixtures/memory.json` | 6 | Append/tail compatibility, search, relevance ordering, tier assignment, compaction, and index rebuild |
+| `self_model` | `evaluation/fixtures/self_model.json` | 6 | Health ratio bounds, status, snapshot writes, anomaly firing, fault-tolerant telemetry collection, and zero-source compatibility |
+| `coherence` | `evaluation/fixtures/coherence.json` | 6 | YAML graph loading, clamped propagation, suppresses edges, scalar coherence bounds, tick writes, and simulate read-only behavior |
+| `planner` | `evaluation/fixtures/planner.json` | 6 | Three-horizon forecasts, unique IDs, calibration updates/persistence, thread lifecycle, and feedback resolution |
+| `simulation` | `evaluation/fixtures/simulation.json` | 5 | Isolated twin forks, dot-notation interventions, zero divergence, preflight escalation, and read-only preflight behavior |
+| `sensory` | `evaluation/fixtures/sensory.json` | 5 | Code encoding, telemetry qualifiers, sensory truncation, self-similarity, and startup scan |
+| `fusion` | `evaluation/fixtures/fusion.json` | 5 | Concept graph construction, stopword filtering, bridge detection, bridge score bounds, and no-LLM synthesis fallback |
+| **Total** | `--suite all` | **68** | Complete deterministic system-level harness gate |
+
+## Two-Layer Testing Model
+
+Centroid now uses two required testing layers:
+
+1. Harness probes (`python3 examples/run_evaluation.py --mode full --suite all`)
+   - System-level behavioral contracts.
+   - One representative probe per major invariant per module.
+   - Fast, deterministic, and self-contained.
+   - Fixture driven through `core/evaluation/`.
+   - Produces a system-level score and pass/fail report.
+
+2. Pytest probes (`python3 -m pytest -q`)
+   - Implementation-level unit and integration contracts.
+   - Broader coverage of edge cases, schema validation, and module internals.
+   - Run in CI on push and pull request.
+
+Both layers are required. CI verifies the pytest layer; the harness measures the system-level score that should be used as the complete deterministic regression gate before release.
 
 ## Metric Groups
 
@@ -53,104 +118,19 @@ deployment metrics.
 - stability-weighted planning
 - safety override behavior
 
-## Reference Harness
+## Baseline Probe Scope
 
-The deterministic harness lives under `core/evaluation/` and runs JSON fixtures
-against public reference interfaces.
-
-Run the baseline fixture:
-
-```bash
-python examples/run_evaluation.py evaluation/fixtures/baseline.json
-```
-
-Installed CLI entry points can also use the packaged baseline fixture:
-
-```bash
-centroid-eval
-```
-
-Run a Holly reference scenario:
-
-```bash
-python examples/run_holly.py --scenario project-companion
-```
-
-Run a custom configured agent:
-
-```bash
-centroid-agent --config templates/minimal_agent.json --scenario project-companion
-```
-
-## Baseline Probes
-
-The current baseline contains 29 deterministic probes. They are contract checks
-over fixture data, synthetic Holly scenarios, config-driven runtime scenarios,
-and mock-provider/provider-boundary paths. They are not claims of live
-distributed runtime performance, live model quality, live latency, or external
-adversarial robustness.
-
-### Foundational Architecture Probes
-
-| Probe | Measures |
-| --- | --- |
-| `safety_policy_accuracy` | observe, act, and destructive safety decisions |
-| `identity_continuity` | identity drift across before/after state snapshots |
-| `memory_store_roundtrip` | protected event-store write/read behavior |
-| `temporal_stratification_latency` | reflex and deliberation latency bounds |
-| `narrative_reconciliation_delay` | ordering and bounds for reflex, deliberation, and reconciliation timing |
-| `action_correction_timing` | action correction applied within target window |
-| `memory_drift` | recall-set stability across memory states |
-| `distributed_coordination` | node sync, state propagation, and failover continuity |
-| `priority_scoring_bounds` | priority score range correctness |
-| `routing_decision_accuracy` | reflex, deliberation, and orchestration routing |
-| `self_model_status_accuracy` | runtime health classification |
-
-### Holly Reference-Agent Probes
-
-| Probe | Measures |
-| --- | --- |
-| `holly_config_load` | Holly config loading and required public boundaries |
-| `holly_project_state_restore` | synthetic project memory restoration and contradiction detection |
-| `holly_identity_drift_stability` | Holly identity state stability after restoration |
-| `holly_temporal_reconciliation` | Holly reflex, deliberation, and reconciliation timing order |
-| `holly_safety_gate_enforcement` | Holly mutating-action approval gate behavior |
-| `holly_template_customization` | custom agent template loading and bounded customization |
-
-### Config-Driven Runtime Probes
-
-| Probe | Measures |
-| --- | --- |
-| `configured_priority_route_variation` | different configs route the same synthetic input differently |
-| `configured_safety_outcome_variation` | different configs change structured safety outcomes |
-| `configured_memory_retention_variation` | different configs retain different records for the same synthetic events |
-| `configured_agent_cli_execution` | the neutral configured-agent CLI runs deterministically |
-| `config_audit_provenance` | audit output records config identity and policy reason |
-| `holly_backward_compatibility` | the six public Holly scenarios preserve their expected behavior |
-
-### Provider-Adapter Boundary Probes
-
-| Probe | Measures |
-| --- | --- |
-| `model_adapter_contract_normalization` | provider text and tool-proposal normalization into Centroid contracts |
-| `provider_capability_enforcement` | declared provider capability boundaries |
-| `model_tool_proposal_safety_gate` | provider tool proposals routed through Centroid safety evaluation |
-| `provider_audit_secret_redaction` | provider audit records redact secret-bearing fields |
-| `mock_provider_runtime_execution` | deterministic mock-provider runtime execution |
-| `provider_cli_mock_execution` | deterministic provider CLI execution in mock mode |
+The baseline suite contains 29 deterministic probes over fixture data, synthetic Holly scenarios, config-driven runtime scenarios, and mock-provider/provider-boundary paths. It remains the default for `python3 examples/run_evaluation.py --mode full` to preserve existing behavior.
 
 ## Provider-Boundary Evaluation Scope
 
-Mock provider mode is deterministic and is what CI verifies. Optional OpenAI,
-Anthropic, Ollama, and vLLM-style paths are opt-in provider adapter paths; live
-provider execution is not part of the deterministic baseline. Provider output is
-untrusted input. Provider tool proposals are safety-evaluated and audited by
-Centroid but remain non-executable.
+Mock provider mode is deterministic and is what CI verifies. Optional OpenAI, Anthropic, Ollama, and vLLM-style paths are opt-in provider adapter paths; live provider execution is not part of the deterministic baseline. Provider output is untrusted input. Provider tool proposals are safety-evaluated and audited by Centroid but remain non-executable.
 
 ## Extension Rules
 
 - Add a probe before claiming a new measurable behavior.
 - Keep private memory out of public fixtures.
 - Prefer deterministic fixtures before model-backed evaluations.
+- Keep harness probes self-contained; use temporary directories for state writes.
 - Record benchmark assumptions, hardware, and latency targets for any live work.
 - Treat failures as useful regression data, not narrative exceptions.

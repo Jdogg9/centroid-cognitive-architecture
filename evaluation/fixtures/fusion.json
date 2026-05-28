@@ -1,0 +1,10 @@
+{
+  "suite_name": "fusion-module-regression",
+  "probes": {
+    "fusion_concept_graph_builds": [],
+    "fusion_stopwords_filtered": [],
+    "fusion_bridge_detector_finds": [],
+    "fusion_bridge_score_bounds": [],
+    "fusion_synthesis_fallback": []
+  }
+}

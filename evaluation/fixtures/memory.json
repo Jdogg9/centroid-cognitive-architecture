@@ -1,0 +1,11 @@
+{
+  "suite_name": "memory-module-regression",
+  "probes": {
+    "memory_append_tail_compat": [],
+    "memory_search_returns_results": [],
+    "memory_search_relevance_ordering": [],
+    "memory_pyramid_tier_assignment": [],
+    "memory_compact_evicts_lowest": [],
+    "memory_index_rebuilds_on_init": []
+  }
+}

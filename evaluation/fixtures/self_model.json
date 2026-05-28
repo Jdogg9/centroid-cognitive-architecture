@@ -1,0 +1,11 @@
+{
+  "suite_name": "self_model-module-regression",
+  "probes": {
+    "self_model_health_ratio_bounds": [],
+    "self_model_status_reflects_ratio": [],
+    "self_model_tick_produces_snapshot": [],
+    "self_model_anomaly_detection_fires": [],
+    "self_model_fault_tolerant_collect": [],
+    "self_model_backward_compat_no_sources": []
+  }
+}

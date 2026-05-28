@@ -1,0 +1,10 @@
+{
+  "suite_name": "simulation-module-regression",
+  "probes": {
+    "simulation_fork_isolated": [],
+    "simulation_intervention_applies": [],
+    "simulation_divergence_zero": [],
+    "simulation_preflight_escalates": [],
+    "simulation_preflight_no_disk_write": []
+  }
+}

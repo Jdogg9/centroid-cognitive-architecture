@@ -1,0 +1,11 @@
+{
+  "suite_name": "coherence-module-regression",
+  "probes": {
+    "coherence_graph_loads_yaml": [],
+    "coherence_propagation_clamped": [],
+    "coherence_suppresses_edge": [],
+    "coherence_index_scalar_bounds": [],
+    "coherence_tick_writes_snapshot": [],
+    "coherence_simulate_no_disk_write": []
+  }
+}

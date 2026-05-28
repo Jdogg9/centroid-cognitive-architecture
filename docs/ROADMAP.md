@@ -26,11 +26,11 @@
 - Packaging update to version 0.7.0
 - 174 pytest probes passing
 
-## Phase 4 — v0.8.0 (planned)
+## Phase 4 — v0.8.0 (in progress)
 
 - Live daemon loop wiring all seven modules
-- Evaluation harness expansion (coherence, forecast, anomaly probes)
-- GitHub Actions CI (pytest on push)
+- Evaluation harness expansion ✓ COMPLETE (68 deterministic harness probes across baseline, memory, self-model, coherence, planner, simulation, sensory, and fusion suites)
+- GitHub Actions CI (pytest on push) ✓ COMPLETE
 
 ## Phase 5 — v0.9.0 (planned)
 

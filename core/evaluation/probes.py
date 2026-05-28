@@ -671,3 +671,549 @@ def _holly_project_contradiction(events: list[Event], proposed_change: str) -> b
     return any("only use approved site content" in constraint for constraint in constraints) and (
         "general model knowledge" in proposal
     )
+
+
+# ── Phase 4 expanded system-level module probes ─────────────────────────────
+
+def _probe_result(name: str, ok: bool, details: str = "") -> MetricResult:
+    return pass_at(name, 1.0 if ok else 0.0, 1.0, details)
+
+
+def _probe_exception(name: str, exc: Exception) -> MetricResult:
+    return pass_at(name, 0.0, 1.0, f"{type(exc).__name__}: {exc}")
+
+
+def memory_append_tail_compat_probe(cases: list[dict]) -> MetricResult:
+    try:
+        with TemporaryDirectory() as temp_dir:
+            store = MemoryStore(Path(temp_dir) / "events.jsonl")
+            first = Event("observation", "first continuity event", "harness")
+            second = Event("decision", "second continuity event", "harness")
+            store.append(first)
+            store.append(second)
+            tail = store.tail(limit=2)
+            ok = [event.content for event in tail] == [first.content, second.content]
+            return _probe_result("memory_append_tail_compat", ok, f"tail={len(tail)}")
+    except Exception as exc:
+        return _probe_exception("memory_append_tail_compat", exc)
+
+
+def memory_search_returns_results_probe(cases: list[dict]) -> MetricResult:
+    try:
+        with TemporaryDirectory() as temp_dir:
+            store = MemoryStore(Path(temp_dir) / "events.jsonl")
+            store.append(Event("observation", "safety router retained critical signal", "harness"))
+            results = store.search("safety router", top_k=3)
+            return _probe_result("memory_search_returns_results", bool(results), f"results={len(results)}")
+    except Exception as exc:
+        return _probe_exception("memory_search_returns_results", exc)
+
+
+def memory_search_relevance_ordering_probe(cases: list[dict]) -> MetricResult:
+    try:
+        with TemporaryDirectory() as temp_dir:
+            store = MemoryStore(Path(temp_dir) / "events.jsonl")
+            store.append(Event("observation", "router coherence bridge signal", "harness"))
+            store.append(Event("observation", "unrelated garden weather note", "harness"))
+            results = store.search("router coherence bridge", top_k=2)
+            ok = len(results) >= 2 and results[0].score >= results[-1].score
+            return _probe_result("memory_search_relevance_ordering", ok, f"scores={[r.score for r in results]}")
+    except Exception as exc:
+        return _probe_exception("memory_search_relevance_ordering", exc)
+
+
+def memory_pyramid_tier_assignment_probe(cases: list[dict]) -> MetricResult:
+    try:
+        with TemporaryDirectory() as temp_dir:
+            store = MemoryStore(Path(temp_dir) / "events.jsonl")
+            event = Event("decision", "critical decision checkpoint", "event_journal")
+            store.append(event)
+            counts = store.tier_counts()
+            ok = counts.get("active", 0) >= 1
+            return _probe_result("memory_pyramid_tier_assignment", ok, f"tiers={counts}")
+    except Exception as exc:
+        return _probe_exception("memory_pyramid_tier_assignment", exc)
+
+
+def memory_compact_evicts_lowest_probe(cases: list[dict]) -> MetricResult:
+    try:
+        from core.memory import TierCapacity
+        with TemporaryDirectory() as temp_dir:
+            store = MemoryStore(Path(temp_dir) / "events.jsonl", capacity=TierCapacity(active=1, working=0, long_term=0))
+            low = Event("observation", "plain low salience note", "sensory_stream")
+            high = Event("decision", "critical safety decision retained", "event_journal")
+            store.append(low)
+            store.append(high)
+            retained, evicted = store.compact()
+            ok = len(evicted) >= 1 and low.event_id in evicted and high.event_id in retained
+            return _probe_result("memory_compact_evicts_lowest", ok, f"retained={len(retained)} evicted={len(evicted)}")
+    except Exception as exc:
+        return _probe_exception("memory_compact_evicts_lowest", exc)
+
+
+def memory_index_rebuilds_on_init_probe(cases: list[dict]) -> MetricResult:
+    try:
+        with TemporaryDirectory() as temp_dir:
+            path = Path(temp_dir) / "events.jsonl"
+            MemoryStore(path).append(Event("observation", "rebuildable index token", "harness"))
+            rebuilt = MemoryStore(path)
+            results = rebuilt.search("rebuildable", top_k=1)
+            ok = rebuilt.index_size == 1 and bool(results)
+            return _probe_result("memory_index_rebuilds_on_init", ok, f"index_size={rebuilt.index_size}")
+    except Exception as exc:
+        return _probe_exception("memory_index_rebuilds_on_init", exc)
+
+
+class _HarnessSource:
+    def __init__(self, source_id: str, metrics: dict[str, float]) -> None:
+        self.source_id = source_id
+        self._metrics = metrics
+    def read(self) -> dict[str, float]:
+        return dict(self._metrics)
+    def set_metrics(self, metrics: dict[str, float]) -> None:
+        self._metrics = metrics
+
+
+class _HarnessFaultySource:
+    source_id = "faulty"
+    def read(self) -> dict[str, float]:
+        raise RuntimeError("synthetic failure")
+
+
+def self_model_health_ratio_bounds_probe(cases: list[dict]) -> MetricResult:
+    try:
+        from core.self_model import SelfModel
+        with TemporaryDirectory() as temp_dir:
+            sm = SelfModel(state_dir=temp_dir)
+            sm.register_source(_HarnessSource("node", {"ok": 0.7}))
+            sm.tick()
+            ok = 0.0 <= sm.health_ratio <= 1.0
+            return _probe_result("self_model_health_ratio_bounds", ok, f"ratio={sm.health_ratio:.4f}")
+    except Exception as exc:
+        return _probe_exception("self_model_health_ratio_bounds", exc)
+
+
+def self_model_status_reflects_ratio_probe(cases: list[dict]) -> MetricResult:
+    try:
+        from core.self_model import SelfModel
+        with TemporaryDirectory() as temp_dir:
+            sm = SelfModel(state_dir=temp_dir)
+            sm.register_source(_HarnessSource("node", {"ok": 1.0}))
+            sm.tick()
+            ok = sm.health_ratio >= 1.0 and sm.status == "healthy"
+            return _probe_result("self_model_status_reflects_ratio", ok, f"status={sm.status}")
+    except Exception as exc:
+        return _probe_exception("self_model_status_reflects_ratio", exc)
+
+
+def self_model_tick_produces_snapshot_probe(cases: list[dict]) -> MetricResult:
+    try:
+        from core.self_model import SelfModel
+        with TemporaryDirectory() as temp_dir:
+            sm = SelfModel(state_dir=temp_dir)
+            sm.register_source(_HarnessSource("node", {"ok": 0.9}))
+            sm.tick()
+            ok = (Path(temp_dir) / "world_snapshot.json").exists()
+            return _probe_result("self_model_tick_produces_snapshot", ok, "world_snapshot.json exists")
+    except Exception as exc:
+        return _probe_exception("self_model_tick_produces_snapshot", exc)
+
+
+def self_model_anomaly_detection_fires_probe(cases: list[dict]) -> MetricResult:
+    try:
+        from core.self_model import AnomalyDetector, AnomalyEvent
+        detector = AnomalyDetector(warn_threshold=2.0, critical_threshold=10.0, min_samples=5)
+        for value in [50.0, 51.0, 49.0, 52.0, 48.0]:
+            detector.update("router", {"latency": value})
+        events = detector.update("router", {"latency": 55.0})
+        ok = bool(events) and isinstance(events[0], AnomalyEvent)
+        return _probe_result("self_model_anomaly_detection_fires", ok, f"events={len(events)}")
+    except Exception as exc:
+        return _probe_exception("self_model_anomaly_detection_fires", exc)
+
+
+def self_model_fault_tolerant_collect_probe(cases: list[dict]) -> MetricResult:
+    try:
+        from core.self_model import SelfModel
+        with TemporaryDirectory() as temp_dir:
+            sm = SelfModel(state_dir=temp_dir)
+            sm.register_source(_HarnessSource("healthy", {"ok": 1.0}))
+            sm.register_source(_HarnessFaultySource())
+            snap = sm.tick()
+            ok = "healthy" in snap.node_health and "faulty" in snap.node_health
+            return _probe_result("self_model_fault_tolerant_collect", ok, f"nodes={sorted(snap.node_health)}")
+    except Exception as exc:
+        return _probe_exception("self_model_fault_tolerant_collect", exc)
+
+
+def self_model_backward_compat_no_sources_probe(cases: list[dict]) -> MetricResult:
+    try:
+        from core.self_model import SelfModel
+        sm = SelfModel()
+        ok = sm.health_ratio == 0.0 and sm.status == "critical"
+        return _probe_result("self_model_backward_compat_no_sources", ok, f"status={sm.status}")
+    except Exception as exc:
+        return _probe_exception("self_model_backward_compat_no_sources", exc)
+
+
+def coherence_graph_loads_yaml_probe(cases: list[dict]) -> MetricResult:
+    try:
+        from core.coherence import load_graph
+        graph = load_graph("config/coherence_graph.yaml")
+        ok = bool(graph.nodes) and bool(graph.edges)
+        return _probe_result("coherence_graph_loads_yaml", ok, f"nodes={len(graph.nodes)} edges={len(graph.edges)}")
+    except Exception as exc:
+        return _probe_exception("coherence_graph_loads_yaml", exc)
+
+
+def coherence_propagation_clamped_probe(cases: list[dict]) -> MetricResult:
+    try:
+        from core.coherence import TopologicalPropagator, load_graph
+        graph = load_graph("config/coherence_graph.yaml")
+        values = TopologicalPropagator(graph).propagate({"memory": 2.0, "router": -1.0, "planner": 0.8, "safety": 1.0})
+        ok = all(0.0 <= value <= 1.0 for value in values.values())
+        return _probe_result("coherence_propagation_clamped", ok, f"values={values}")
+    except Exception as exc:
+        return _probe_exception("coherence_propagation_clamped", exc)
+
+
+def coherence_suppresses_edge_probe(cases: list[dict]) -> MetricResult:
+    try:
+        from core.coherence import CoherenceGraphDef, EdgeDef, NodeDef, TopologicalPropagator
+        graph = CoherenceGraphDef([NodeDef("safety", ""), NodeDef("router", "")], [EdgeDef("safety", "router", "suppresses", 1.0)])
+        prop = TopologicalPropagator(graph)
+        high = prop.propagate({"safety": 1.0, "router": 0.8})["router"]
+        low = prop.propagate({"safety": 0.0, "router": 0.8})["router"]
+        ok = high < low
+        return _probe_result("coherence_suppresses_edge", ok, f"high={high} low={low}")
+    except Exception as exc:
+        return _probe_exception("coherence_suppresses_edge", exc)
+
+
+def coherence_index_scalar_bounds_probe(cases: list[dict]) -> MetricResult:
+    try:
+        from core.coherence import CoherenceIndexCalculator, TopologicalPropagator, load_graph
+        graph = load_graph("config/coherence_graph.yaml")
+        prop = TopologicalPropagator(graph)
+        report = CoherenceIndexCalculator(prop.inbound_weight_sum).compute(prop.propagate({}))
+        ok = 0.0 <= report.coherence_index <= 1.0
+        return _probe_result("coherence_index_scalar_bounds", ok, f"index={report.coherence_index:.4f}")
+    except Exception as exc:
+        return _probe_exception("coherence_index_scalar_bounds", exc)
+
+
+def coherence_tick_writes_snapshot_probe(cases: list[dict]) -> MetricResult:
+    try:
+        import time
+        from core.coherence import CoherenceGraph
+        from core.self_model import SnapshotWriter, WorldSnapshot
+        with TemporaryDirectory() as temp_dir:
+            state = Path(temp_dir) / "state"
+            writer = SnapshotWriter(state_dir=state)
+            writer.write(WorldSnapshot(time.time(), {"memory": 0.9, "router": 0.5, "planner": 0.8, "safety": 0.95, "self_model": 0.85}, {}, 0.8, 0, None))
+            cg = CoherenceGraph("config/coherence_graph.yaml", snapshot_path=state / "world_snapshot.json", snapshot_writer=writer)
+            cg.tick()
+            snap = writer.read_snapshot()
+            ok = snap is not None and snap.coherence_index is not None and 0.0 <= snap.coherence_index <= 1.0
+            return _probe_result("coherence_tick_writes_snapshot", ok, f"index={snap.coherence_index if snap else None}")
+    except Exception as exc:
+        return _probe_exception("coherence_tick_writes_snapshot", exc)
+
+
+def coherence_simulate_no_disk_write_probe(cases: list[dict]) -> MetricResult:
+    try:
+        import time
+        from core.coherence import CoherenceGraph, DoIntervention
+        from core.self_model import SnapshotWriter, WorldSnapshot
+        with TemporaryDirectory() as temp_dir:
+            state = Path(temp_dir) / "state"
+            writer = SnapshotWriter(state_dir=state)
+            writer.write(WorldSnapshot(time.time(), {"memory": 0.9, "router": 0.5, "planner": 0.8, "safety": 0.95, "self_model": 0.85}, {}, 0.8, 0, None))
+            path = state / "world_snapshot.json"
+            before = path.read_text(encoding="utf-8")
+            CoherenceGraph("config/coherence_graph.yaml", snapshot_path=path, snapshot_writer=writer).simulate(DoIntervention("safety", 0.0))
+            after = path.read_text(encoding="utf-8")
+            return _probe_result("coherence_simulate_no_disk_write", before == after, "snapshot unchanged")
+    except Exception as exc:
+        return _probe_exception("coherence_simulate_no_disk_write", exc)
+
+
+def planner_forecast_three_horizons_probe(cases: list[dict]) -> MetricResult:
+    try:
+        from core.planner import CalibrationStore, ForecastGenerator
+        with TemporaryDirectory() as temp_dir:
+            forecasts = ForecastGenerator(fields=["memory"]).generate({"memory": 0.9}, CalibrationStore(Path(temp_dir) / "cal.json"))
+            ok = {f.horizon for f in forecasts} == {"short", "medium", "long"}
+            return _probe_result("planner_forecast_three_horizons", ok, f"horizons={sorted(f.horizon for f in forecasts)}")
+    except Exception as exc:
+        return _probe_exception("planner_forecast_three_horizons", exc)
+
+
+def planner_forecast_ids_unique_probe(cases: list[dict]) -> MetricResult:
+    try:
+        from core.planner import CalibrationStore, ForecastGenerator
+        with TemporaryDirectory() as temp_dir:
+            cal = CalibrationStore(Path(temp_dir) / "cal.json")
+            fg = ForecastGenerator(fields=["memory"])
+            ids = [f.forecast_id for _ in range(2) for f in fg.generate({"memory": 0.5}, cal)]
+            ok = len(ids) == len(set(ids)) == 6
+            return _probe_result("planner_forecast_ids_unique", ok, f"ids={len(set(ids))}")
+    except Exception as exc:
+        return _probe_exception("planner_forecast_ids_unique", exc)
+
+
+def planner_calibration_updates_mae_probe(cases: list[dict]) -> MetricResult:
+    try:
+        from core.planner import CalibrationStore
+        with TemporaryDirectory() as temp_dir:
+            cal = CalibrationStore(Path(temp_dir) / "cal.json")
+            cal.update("cpu", "short", 0.8, 0.6)
+            before = cal.get("cpu", "short").mae
+            cal.update("cpu", "short", 0.5, 0.5)
+            after = cal.get("cpu", "short").mae
+            return _probe_result("planner_calibration_updates_mae", after < before, f"before={before} after={after}")
+    except Exception as exc:
+        return _probe_exception("planner_calibration_updates_mae", exc)
+
+
+def planner_calibration_persists_probe(cases: list[dict]) -> MetricResult:
+    try:
+        from core.planner import CalibrationStore
+        with TemporaryDirectory() as temp_dir:
+            path = Path(temp_dir) / "state" / "calibration.json"
+            cal = CalibrationStore(path)
+            cal.update("cpu", "short", 0.5, 0.5)
+            return _probe_result("planner_calibration_persists", path.exists(), str(path))
+    except Exception as exc:
+        return _probe_exception("planner_calibration_persists", exc)
+
+
+def planner_thread_lifecycle_probe(cases: list[dict]) -> MetricResult:
+    try:
+        from core.planner import PlanStep, PlanTree
+        with TemporaryDirectory() as temp_dir:
+            tree = PlanTree(state_path=Path(temp_dir) / "plan_tree.json")
+            thread = tree.add_thread("goal", [PlanStep("step")], 0.8)
+            active = thread.status == "active"
+            tree.complete(thread.thread_id)
+            ok = active and thread.status == "completed"
+            return _probe_result("planner_thread_lifecycle", ok, f"status={thread.status}")
+    except Exception as exc:
+        return _probe_exception("planner_thread_lifecycle", exc)
+
+
+def planner_feedback_resolves_probe(cases: list[dict]) -> MetricResult:
+    try:
+        from core.planner import CalibrationStore, ForecastFeedbackLoop, ForecastGenerator, PlanTree
+        with TemporaryDirectory() as temp_dir:
+            cal = CalibrationStore(Path(temp_dir) / "cal.json")
+            loop = ForecastFeedbackLoop(cal, PlanTree(state_path=Path(temp_dir) / "plan_tree.json"))
+            forecast = [f for f in ForecastGenerator(fields=["cpu"]).generate({"cpu": 0.8}, cal) if f.horizon == "short"][0]
+            loop.register(forecast)
+            results = loop.resolve({"cpu": 0.75})
+            ok = len(results) == 1 and results[0].forecast_id == forecast.forecast_id
+            return _probe_result("planner_feedback_resolves", ok, f"resolved={len(results)}")
+    except Exception as exc:
+        return _probe_exception("planner_feedback_resolves", exc)
+
+
+def _write_snapshot(path: Path, snapshot: dict | None = None) -> None:
+    payload = snapshot or {"timestamp": 1.0, "node_health": {"router": 0.8, "safety": 0.9}, "node_trends": {}, "system_health_ratio": 0.85, "anomaly_count": 0, "coherence_index": 0.8}
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(payload, sort_keys=True), encoding="utf-8")
+
+
+def simulation_fork_isolated_probe(cases: list[dict]) -> MetricResult:
+    try:
+        from core.simulation import TwinBuffer
+        with TemporaryDirectory() as temp_dir:
+            path = Path(temp_dir) / "world_snapshot.json"
+            _write_snapshot(path)
+            buffer = TwinBuffer(path)
+            twin = buffer.fork()
+            twin.snapshot["node_health"]["router"] = 0.0
+            ok = buffer.actual_snapshot()["node_health"]["router"] == 0.8
+            return _probe_result("simulation_fork_isolated", ok, "actual snapshot unchanged")
+    except Exception as exc:
+        return _probe_exception("simulation_fork_isolated", exc)
+
+
+def simulation_intervention_applies_probe(cases: list[dict]) -> MetricResult:
+    try:
+        from core.simulation import Intervention, InterventionApplicator, TwinBuffer
+        with TemporaryDirectory() as temp_dir:
+            path = Path(temp_dir) / "world_snapshot.json"
+            _write_snapshot(path)
+            twin = TwinBuffer(path).fork()
+            InterventionApplicator().apply(twin, Intervention("route", "node_health.router", 0.2, "set router"))
+            ok = twin.snapshot["node_health"]["router"] == 0.2
+            return _probe_result("simulation_intervention_applies", ok, "node_health.router mutated")
+    except Exception as exc:
+        return _probe_exception("simulation_intervention_applies", exc)
+
+
+def simulation_divergence_zero_probe(cases: list[dict]) -> MetricResult:
+    try:
+        from core.simulation import DivergenceCalculator
+        calc = DivergenceCalculator()
+        calc.sample("fork", {"a": 1.0, "b": 0.5}, {"a": 1.0, "b": 0.5}, 0)
+        metric = calc.compute("fork")
+        return _probe_result("simulation_divergence_zero", metric.weighted_divergence == 0.0, f"D={metric.weighted_divergence}")
+    except Exception as exc:
+        return _probe_exception("simulation_divergence_zero", exc)
+
+
+def simulation_preflight_escalates_probe(cases: list[dict]) -> MetricResult:
+    try:
+        from core.simulation import DivergenceCalculator, Intervention, InterventionApplicator, SafetyPreflight, TwinBuffer
+        with TemporaryDirectory() as temp_dir:
+            path = Path(temp_dir) / "world_snapshot.json"
+            _write_snapshot(path, {"timestamp": 1.0, "score": 0.0})
+            preflight = SafetyPreflight(TwinBuffer(path), InterventionApplicator(), DivergenceCalculator(), divergence_threshold=0.25, simulation_cycles=1)
+            verdict = preflight.evaluate(Intervention("mutate", "score", 1.0, "large change"), "allow")
+            ok = verdict.escalated and verdict.final_decision == "hold"
+            return _probe_result("simulation_preflight_escalates", ok, f"decision={verdict.final_decision} D={verdict.divergence}")
+    except Exception as exc:
+        return _probe_exception("simulation_preflight_escalates", exc)
+
+
+def simulation_preflight_no_disk_write_probe(cases: list[dict]) -> MetricResult:
+    try:
+        from core.simulation import DivergenceCalculator, Intervention, InterventionApplicator, SafetyPreflight, TwinBuffer
+        with TemporaryDirectory() as temp_dir:
+            path = Path(temp_dir) / "world_snapshot.json"
+            _write_snapshot(path, {"timestamp": 1.0, "score": 0.0})
+            before = path.read_text(encoding="utf-8")
+            SafetyPreflight(TwinBuffer(path), InterventionApplicator(), DivergenceCalculator(), simulation_cycles=1).evaluate(Intervention("mutate", "score", 0.1, "small change"), "allow")
+            after = path.read_text(encoding="utf-8")
+            return _probe_result("simulation_preflight_no_disk_write", before == after, "snapshot unchanged")
+    except Exception as exc:
+        return _probe_exception("simulation_preflight_no_disk_write", exc)
+
+
+def sensory_code_encoder_extracts_probe(cases: list[dict]) -> MetricResult:
+    try:
+        from nodes.sensory_node import CodeEncoder, PerceivedText
+        with TemporaryDirectory() as temp_dir:
+            path = Path(temp_dir) / "module.py"
+            path.write_text('"""doc"""\n\ndef sample():\n    """fn"""\n    return 1\n', encoding="utf-8")
+            perceived = CodeEncoder().encode_file(path)
+            ok = isinstance(perceived, PerceivedText) and "def sample" in perceived.content
+            return _probe_result("sensory_code_encoder_extracts", ok, "content extracted")
+    except Exception as exc:
+        return _probe_exception("sensory_code_encoder_extracts", exc)
+
+
+def sensory_telemetry_qualifiers_probe(cases: list[dict]) -> MetricResult:
+    try:
+        from nodes.sensory_node import TelemetryEncoder
+        content = TelemetryEncoder().encode("node", {"load": 0.9}).content
+        return _probe_result("sensory_telemetry_qualifiers", "(high)" in content, content)
+    except Exception as exc:
+        return _probe_exception("sensory_telemetry_qualifiers", exc)
+
+
+def sensory_encoder_truncates_probe(cases: list[dict]) -> MetricResult:
+    try:
+        from nodes.sensory_node import SensoryEncoder
+        perceived = SensoryEncoder().encode({"text": "x" * 600}, "obs")
+        ok = len(perceived.content) == 512 and perceived.content.endswith("...[truncated]")
+        return _probe_result("sensory_encoder_truncates", ok, f"len={len(perceived.content)}")
+    except Exception as exc:
+        return _probe_exception("sensory_encoder_truncates", exc)
+
+
+def sensory_projector_similarity_self_probe(cases: list[dict]) -> MetricResult:
+    try:
+        import time
+        from nodes.sensory_node import LatentProjector, PerceivedText
+        projector = LatentProjector()
+        perceived = PerceivedText("code", "shared signal", "module.py", time.time())
+        projector.add(perceived)
+        score = projector.similarity(perceived, perceived)
+        return _probe_result("sensory_projector_similarity_self", score == 1.0, f"score={score}")
+    except Exception as exc:
+        return _probe_exception("sensory_projector_similarity_self", exc)
+
+
+def sensory_pipeline_startup_scan_probe(cases: list[dict]) -> MetricResult:
+    try:
+        from nodes.sensory_node import SensoryPipeline
+        with TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir) / "core"
+            root.mkdir()
+            (root / "module.py").write_text("def sample():\n    return 1\n", encoding="utf-8")
+            results = SensoryPipeline(core_root=root).run_startup_scan()
+            return _probe_result("sensory_pipeline_startup_scan", bool(results), f"results={len(results)}")
+    except Exception as exc:
+        return _probe_exception("sensory_pipeline_startup_scan", exc)
+
+
+def _fusion_graph():
+    import time
+    from core.fusion import ConceptGraphBuilder
+    from nodes.sensory_node import PerceivedText
+    return ConceptGraphBuilder().build([
+        PerceivedText("code", "alpha bridge shared signal", "module_a", time.time()),
+        PerceivedText("code", "bridge shared beta signal", "module_b", time.time()),
+    ])
+
+
+def fusion_concept_graph_builds_probe(cases: list[dict]) -> MetricResult:
+    try:
+        graph = _fusion_graph()
+        return _probe_result("fusion_concept_graph_builds", bool(graph.nodes), f"nodes={len(graph.nodes)}")
+    except Exception as exc:
+        return _probe_exception("fusion_concept_graph_builds", exc)
+
+
+def fusion_stopwords_filtered_probe(cases: list[dict]) -> MetricResult:
+    try:
+        import time
+        from core.fusion import ConceptGraphBuilder
+        from nodes.sensory_node import PerceivedText
+        graph = ConceptGraphBuilder().build([PerceivedText("code", "the and useful useful", "module_a", time.time()), PerceivedText("code", "useful", "module_b", time.time())])
+        ok = "the" not in graph.nodes and "and" not in graph.nodes
+        return _probe_result("fusion_stopwords_filtered", ok, f"nodes={sorted(graph.nodes)}")
+    except Exception as exc:
+        return _probe_exception("fusion_stopwords_filtered", exc)
+
+
+def fusion_bridge_detector_finds_probe(cases: list[dict]) -> MetricResult:
+    try:
+        from core.fusion import BridgeDetector
+        candidates = BridgeDetector().detect(_fusion_graph())
+        return _probe_result("fusion_bridge_detector_finds", bool(candidates), f"candidates={len(candidates)}")
+    except Exception as exc:
+        return _probe_exception("fusion_bridge_detector_finds", exc)
+
+
+def fusion_bridge_score_bounds_probe(cases: list[dict]) -> MetricResult:
+    try:
+        from core.fusion import BridgeDetector
+        candidates = BridgeDetector().detect(_fusion_graph())
+        ok = bool(candidates) and all(0.0 <= candidate.bridge_score <= 1.0 for candidate in candidates)
+        return _probe_result("fusion_bridge_score_bounds", ok, f"candidates={len(candidates)}")
+    except Exception as exc:
+        return _probe_exception("fusion_bridge_score_bounds", exc)
+
+
+def fusion_synthesis_fallback_probe(cases: list[dict]) -> MetricResult:
+    try:
+        import os
+        from core.fusion import BridgeDetector, BridgeSynthesizer, SynthesisResult
+        old_ollama = os.environ.pop("OLLAMA_HOST", None)
+        old_centroid = os.environ.pop("CENTROID_OLLAMA_URL", None)
+        try:
+            graph = _fusion_graph()
+            bridge = BridgeDetector().detect(graph)[0]
+            result = BridgeSynthesizer().synthesize(bridge, graph)
+            ok = isinstance(result, SynthesisResult) and result.llm_available is False and result.synthesis_text
+            return _probe_result("fusion_synthesis_fallback", ok, f"llm={result.llm_available}")
+        finally:
+            if old_ollama is not None:
+                os.environ["OLLAMA_HOST"] = old_ollama
+            if old_centroid is not None:
+                os.environ["CENTROID_OLLAMA_URL"] = old_centroid
+    except Exception as exc:
+        return _probe_exception("fusion_synthesis_fallback", exc)

@@ -1,0 +1,10 @@
+{
+  "suite_name": "sensory-module-regression",
+  "probes": {
+    "sensory_code_encoder_extracts": [],
+    "sensory_telemetry_qualifiers": [],
+    "sensory_encoder_truncates": [],
+    "sensory_projector_similarity_self": [],
+    "sensory_pipeline_startup_scan": []
+  }
+}
