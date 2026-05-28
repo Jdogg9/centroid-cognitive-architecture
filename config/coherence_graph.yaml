@@ -1,0 +1,72 @@
+# Centroid Module Coherence Graph
+#
+# Nodes represent the five core modules whose health scores are
+# tracked via self_model/telemetry. Edges define causal influence:
+# a change in one module's health propagates to connected modules.
+#
+# Live values are read from state/world_snapshot.json (node_health
+# field) by the CoherenceGraph orchestrator.
+
+version: 1
+
+nodes:
+  - id: memory
+    description: "Semantic memory store and retrieval"
+
+  - id: router
+    description: "Action routing and dispatch"
+
+  - id: planner
+    description: "Multi-horizon plan generation"
+
+  - id: safety
+    description: "Safety gate and policy enforcement"
+
+  - id: self_model
+    description: "Telemetry aggregation and health scoring"
+
+edges:
+  # Self-model health modulates routing and planning
+  - from: self_model
+    to: router
+    type: modulates
+    weight: 0.8
+
+  - from: self_model
+    to: planner
+    type: modulates
+    weight: 0.6
+
+  # Memory quality drives planning and routing
+  - from: memory
+    to: planner
+    type: proportional
+    weight: 0.9
+
+  - from: memory
+    to: router
+    type: additive_factor
+    weight: 0.5
+
+  # Planner decisions influence routing
+  - from: planner
+    to: router
+    type: proportional
+    weight: 0.85
+
+  # Safety policy suppresses aggressive routing and modulates planning
+  - from: safety
+    to: router
+    type: suppresses
+    weight: 1.0
+
+  - from: safety
+    to: planner
+    type: modulates
+    weight: 0.7
+
+  # Router activity feeds back into self-model (operational trace)
+  - from: router
+    to: self_model
+    type: feedback
+    weight: 0.4
