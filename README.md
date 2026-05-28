@@ -1,8 +1,9 @@
 # Centroid Cognitive Architecture
+![CI](https://github.com/Jdogg9/centroid-cognitive-architecture/actions/workflows/test.yml/badge.svg)
+
 This repository contains the public reference architecture and bundled Holly reference agent. It is intentionally scoped to deterministic, auditable behavior suitable for public review and local experimentation.
 
 [![Version](https://img.shields.io/badge/version-v0.7.0-green.svg)](https://github.com/Jdogg9/centroid-cognitive-architecture/releases/tag/v0.7.0)
-[![CI](https://github.com/Jdogg9/centroid-cognitive-architecture/actions/workflows/ci.yml/badge.svg)](https://github.com/Jdogg9/centroid-cognitive-architecture/actions/workflows/ci.yml)
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
 
 Build AI agents that remember what they are doing, preserve task continuity
